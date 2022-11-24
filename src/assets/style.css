@@ -1,0 +1,383 @@
+ .bg-grey-color {
+ 	background-color: #e2e8f0;
+ }
+
+ .custom-grid {
+ 	display: grid;
+ 	grid-template-columns: auto 1fr;
+ }
+
+ .login-page,
+ .regis-page {
+ 	width: 400px;
+ 	margin: 0 auto;
+ 	border-radius: 10px;
+ 	background-color: #fff;
+ 	box-shadow: 0px 0px 10px 0px #ddd;
+ }
+
+ .leave-page {
+ 	width: 500px;
+ 	margin: 0 auto;
+ 	border-radius: 10px;
+ 	background-color: #fff;
+ 	box-shadow: 0px 0px 10px 0px #ddd;
+ }
+
+ .inp {
+ 	background-color: rgb(241, 239, 239);
+ }
+
+ /* navbar  */
+ .bg-dark-color {
+ 	background-color: #008abf;
+ }
+
+ /* form button */
+ .btn:hover {
+ 	background-color: #008abf
+ }
+
+ /* Profile */
+ label {
+ 	font-weight: 600;
+ 	color: #6e6c6c;
+ }
+
+ .hidden {
+ 	display: none;
+ }
+
+ .profile-badge {
+ 	box-shadow: 0px 1px 9px 3px #393c4380;
+ }
+
+ .form-style input {
+ 	border: 0;
+ 	height: 50px;
+ 	border-radius: 0;
+ 	border-bottom: 1px solid #ebebeb;
+ }
+
+ .form-style input:focus {
+ 	border-bottom: 1px solid #007bff;
+ 	box-shadow: none;
+ 	outline: 0;
+ 	background-color: #ebebeb;
+ }
+
+
+ /* sidebar */
+
+ * {
+
+
+ 	margin: 0;
+ 	padding: 0;
+ 	box-sizing: border-box;
+ 	text-decoration: none;
+ 	outline: none;
+ 	list-style: none;
+
+ }
+
+
+ *,
+ *::before,
+ *::after {
+ 	margin: 0;
+ 	padding: 0;
+ 	box-sizing: border-box;
+ 	text-decoration: none;
+ 	outline: none;
+ 	list-style: none;
+ }
+
+
+ :root {
+ 	--step--2: clamp(0.69rem, calc(0.58rem + 0.60vw), 1.00rem);
+ 	--step--1: clamp(0.83rem, calc(0.67rem + 0.81vw), 1.25rem);
+ 	--step-0: clamp(1.00rem, calc(0.78rem + 1.10vw), 1.56rem);
+ 	--step-1: clamp(1.20rem, calc(0.91rem + 1.47vw), 1.95rem);
+ 	--step-2: clamp(1.44rem, calc(1.05rem + 1.95vw), 2.44rem);
+ 	--step-3: clamp(1.73rem, calc(1.21rem + 2.58vw), 3.05rem);
+ 	--step-4: clamp(2.07rem, calc(1.39rem + 3.40vw), 3.82rem);
+ 	--step-5: clamp(2.49rem, calc(1.60rem + 4.45vw), 4.77rem);
+
+ 	/* / Font style /
+	
+	--ff-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	
+	/ Color style / */
+
+ 	/*
+	--color-primary:#c51350;
+	--color-secondary:#ff9a3c;
+	--color-body:#333;
+	--color-bg: #006600;
+	--color-primary-dark:#007f67;
+	--color-error:#cc3333;
+	--color-success:#4bb544;
+	--color-link:#cdcdcc;
+	--color-border:darkgrey;
+	--bs:#ffa857;
+	*/
+
+ 	--color-primary: #0575E6;
+ 	--color-secondary: #6dd5ed;
+ 	--color-primary-light: #8dc6ff;
+ 	--color-primary-dark: #021B79;
+ 	--color-error: #cc3333;
+ 	--color-success: #4bb544;
+ 	--color-link: #606470;
+ 	--color-text: #5f6769;
+ 	--color-header-dark: #393e46;
+ 	--color-background: #f5f9ee;
+ 	--color-border-sc: #ececec;
+ 	--color-border-focus: #69c2ff;
+ 	--color-border: #d3d6db;
+ 	--bs: #ffa857;
+ 	--color-button: #f8e7e7;
+ 	--color-percentage: #5f6769;
+ 	--color-header-light: #9ba6a5;
+ 	--color-border-focus: #a9d7f6;
+ 	--color-input-background: #f5f9ee;
+ 	--gradient: linear-gradient(135deg var(--color-primary), var(--color-secondary));
+
+
+ }
+
+ /* / Remove default margin / */
+ body,
+ h1,
+ h2,
+ h3,
+ h4,
+ p,
+ figure,
+ blockquote,
+ dl,
+ dd {
+ 	margin: 0;
+ }
+
+ /* / Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed / */
+
+ ul[role='list'],
+ ol[role='list'] {
+ 	list-style: none;
+ }
+
+
+ /* / Set core root defaults / */
+ html:focus-within {
+ 	scroll-behavior: smooth;
+ }
+
+ /* / Set core body defaults / */
+ body {
+ 	min-height: 100vh;
+ 	text-rendering: optimizeSpeed;
+ 	line-height: 1.5;
+ 	font-family: var(--ff-primary);
+ }
+
+
+
+ a:not([class]) {
+ 	text-decoration-skip-ink: auto;
+ }
+
+
+ img,
+ picture {
+ 	max-width: 100%;
+ 	display: block;
+ }
+
+
+ input,
+ button,
+ textarea,
+ select {
+ 	font: inherit;
+ }
+
+
+ @media (prefers-reduced-motion: reduce) {
+ 	html:focus-within {
+ 		scroll-behavior: auto;
+ 	}
+
+ 	*,
+ 	*::before,
+ 	*::after {
+ 		animation-duration: 0.01ms !important;
+ 		animation-iteration-count: 1 !important;
+ 		transition-duration: 0.01ms !important;
+ 		scroll-behavior: auto !important;
+ 	}
+ }
+
+ button {
+ 	background: transparent;
+ 	border: none;
+ 	outline: none;
+ 	cursor: pointer;
+ }
+
+
+
+ .sidebar {
+ 	width: 72px;
+ 	background: #008abf;
+ 	overflow: hidden;
+ 	transition: width .4s;
+ }
+
+ body.open .sidebar {
+ 	width: 260px;
+ }
+
+ .sidebar_inner {
+ 	width: 300px;
+ 	height: inherit;
+ 	/*height: 100%;*/
+ 	display: flex;
+ 	flex-direction: column;
+ 	padding-bottom: 1rem;
+ }
+
+
+ .sidebar_header {
+ 	display: flex;
+ 	align-items: center;
+ 	height: 72px;
+ 	background: rgba(0, 0, 0, .1);
+ 	padding: 0 1.125rem 0 0;
+ }
+
+ .sidebar_burger {
+ 	width: 72px;
+ 	height: 72px;
+ 	display: grid;
+ 	place-items: center;
+ 	color: #f9f9f9;
+ 	transition: .3s;
+ }
+
+ /*  */
+
+ .sidebar_logo {
+ 	height: 20px;
+ 	opacity: 0;
+ 	visibility: hidden;
+ 	transition: .3s;
+ }
+
+ body.open .sidebar_logo {
+ 	opacity: 1;
+ 	visibility: visible;
+ }
+
+ .sidebar_nav {
+ 	padding-bottom: 1rem;
+ 	flex: 1 1 auto;
+ }
+
+ .sidebar button {
+ 	display: flex;
+ 	align-items: center;
+ 	width: 72px;
+ 	height: 60px;
+ 	grid-gap: 2rem;
+ 	font-weight: 200;
+ 	line-height: 1;
+ 	padding: 0 1.5rem;
+ }
+
+ .sidebar button>i {
+ 	width: 24px;
+ 	height: 24px;
+ 	color: #f9f9f9;
+ }
+
+ .sidebar button>span {
+ 	color: #f9f9f9;
+ 	opacity: 0;
+ 	visibility: hidden;
+ 	transition: .2s;
+ }
+
+ @keyframes appear {
+ 	0% {
+ 		opacity: 0;
+ 		transform: translateY(10px);
+ 	}
+
+ 	100% {
+ 		opacity: 1;
+ 		transform: translate(0, 0);
+ 	}
+ }
+
+ body.open .sidebar button>span {
+ 	opacity: 1;
+ 	visibility: visible;
+ 	animation: appear .2s both;
+ }
+
+ .copy {
+ 	position: absolute;
+ 	top: 50%;
+ 	left: 50%;
+ 	transform: translate(-50%, -50%);
+ 	word-spacing: 1px;
+ 	font-weight: 300;
+ }
+
+ .copy p {
+ 	color: #f9f9f9;
+ 	font-size: var(--step-0);
+ }
+
+
+ .copy a {
+ 	color: #56ab2f;
+ 	font-size: var(--step--1);
+ }
+
+
+ /* Profile */
+
+ .card {
+ 	box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .06);
+ }
+
+ .card {
+ 	position: relative;
+ 	display: flex;
+ 	flex-direction: column;
+ 	min-width: 0;
+ 	word-wrap: break-word;
+ 	background-color: #fff;
+ 	background-clip: border-box;
+ 	border: 0 solid rgba(0, 0, 0, .125);
+ 	border-radius: .25rem;
+ }
+
+ .card-body {
+ 	flex: 1 1 auto;
+ 	min-height: 1px;
+ 	padding: 1rem;
+ }
+
+ .card-body img {
+ 	box-shadow: 0px 1px 5px 2px #decece;
+ }
+
+ .height5 {
+ 	height: 5px;
+ }
+
+ /* end profile  */
