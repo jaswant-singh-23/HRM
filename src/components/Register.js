@@ -52,13 +52,12 @@ const Register = (props) => {
       const username = formik.values.username;
       const email = formik.values.email;
       const password = formik.values.password;
-
-<<<<<<< HEAD
       AuthService.register(username, email, password).then(
         (response) => {
-            // Toast.success(response.data.message)
-           navigate("/login")
+          Toast.success(response.data.message);
+          console.log(response)
           setMessage(response.data.message);
+          navigate("/login")
           setSuccessful(true);
         },
         (error) => {
@@ -68,38 +67,17 @@ const Register = (props) => {
               error.response.data.message) ||
             error.message ||
             error.toString();
-=======
-    AuthService.register(username, email, password).then(
-      (response) => {
-        Toast.success(response.data.message);
-        console.log(response)
-        setMessage(response.data.message);
-        navigate("/login")
-        setSuccessful(true);
-      },
-      (error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
->>>>>>> 89a37a49db6eea801dfca3b27f6629615825830a
-
           setMessage(resMessage);
           setSuccessful(false);
         }
       );
     };
-    
+
   };
   return (
     <div className="bg-grey-color">
-<<<<<<< HEAD
-       <ToastContainer />
-=======
-    <ToastContainer />
->>>>>>> 89a37a49db6eea801dfca3b27f6629615825830a
+      <ToastContainer />
+      <ToastContainer />
       <div className="regis-page">
         <div className="p-4 ">
           <form onSubmit={formik.handleSubmit} ref={form}>
@@ -176,7 +154,7 @@ const Register = (props) => {
                 </div>
 
                 <div className="form-group">
-                  <button  type="submit"  onClick={Submit}
+                  <button type="submit" onClick={Submit}
                     className="btn bg-dark-color text-white btn-block"
                   >
                     <span>Sign Up</span>
