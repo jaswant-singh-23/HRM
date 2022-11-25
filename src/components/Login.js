@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Toast from "../shared/Toast";
 import AuthService from "../services/auth.service";
@@ -12,7 +12,7 @@ const validationSchema = Yup.object().shape({
     .required(" ")
     .min(6, "Username must be at least 6 characters")
     .max(20, "Username must not exceed 20 characters"),
-  email: Yup.string().required("Email is required").email("Email is invalid"),
+  // email: Yup.string().required("Email is required").email("Email is invalid"),
   password: Yup.string()
     .required(" ")
     .min(6, "Password must be at least 6 characters")
@@ -25,6 +25,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const [message, setMessage] = useState(false)
+  const [refresh, setRefresh] = useState(false);
   const [loading, setLoading] = useState("")
 
   const formik = useFormik({
@@ -43,27 +44,44 @@ const Login = () => {
 
     setMessage("");
     setLoading(true);
-    const username = formik.values.username;
-    const password = formik.values.password;
+    if (
+      formik.values.username != " " &&
+      formik.values.password != " "
+    ) {
+      const username = formik.values.username;
+      const password = formik.values.password;
 
-    AuthService.login(username, password).then((response) => {
-      // Toast.success(response.data.message),
+      AuthService.login(username, password).then((response) => {
+         
+        Toast.success(response.message)
         navigate("/profile");
-      window.location.reload();
-    },
-      (error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
+        // setMessage(response.data.message)
+         window.location.reload();
+      },
+        (error) => {
+          const resMessage =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
 
-        setLoading(false);
-        setMessage(resMessage);
-      }
-    );
+          setLoading(false);
+          setMessage(resMessage);
+        }
+      );
+    };
   };
+
+  // useEffect(() => {
+  //   async function fetchMyAPI() {
+  //     let response = await refresh;
+  //      setRefresh(response)
+  //   }
+
+  //   fetchMyAPI()
+  // }, [])
+
 
   return (
     <div className="bg-grey-color vl-cn">
@@ -91,6 +109,7 @@ const Login = () => {
                   ? formik.errors.username
                   : null}
               </div>
+
             </div>
 
             <div className="form-group">
@@ -113,20 +132,19 @@ const Login = () => {
                   : null}
               </div>
 
-
             </div>
 
             <div className="form-group">
-              <button className="btn bg-dark-color text-white btn-block">
-                {loading && (
+              <button type="sumbit" onClick={handleLogin} className="btn bg-dark-color text-white btn-block">
+                {/* {loading && (
                   <span className="spinner-border spinner-border-sm"></span>
-                )}
-                <span onClick={handleLogin}>Login</span>
+                )} */}
+                <span>Login</span>
               </button>
             </div>
-            <div className="form-group">
+            {/* <div className="form-group">
               <span>Don't have an account? <Link to="/register">Register now</Link></span>
-            </div>
+            </div> */}
 
             {message && (
               <div className="form-group">

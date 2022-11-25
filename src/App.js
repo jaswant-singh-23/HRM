@@ -19,6 +19,7 @@ import AdminDash from "./components/AdminDash";
 import Upload from "./components/Upload";
 import Leave from "./components/Leave"
 import logo from "./assets/images/logo-horizontal-white.png"
+import { ToastContainer } from "react-toastify";
 
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
@@ -51,6 +52,7 @@ const App = () => {
 
   return (
     <div>
+         <ToastContainer/>
       <nav className="navbar navbar-expand navbar-dark bg-dark-color">
         <Link to={"/"} className="navbar-brand">
           <img src={logo} alt="" width="150px" />
@@ -108,21 +110,22 @@ const App = () => {
               </Link>
             </li>
 
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <Link to={"/register"} className="nav-link">
                 Sign Up
               </Link>
-            </li>
+            </li> */}
           </div>
         )}
       </nav>
 
       <div className="container-fluid p-0">
+        <ToastContainer/>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
+          {/* <Route path="/register" element={<Register />} /> */}
           <Route path="/profile" element={<Profile />} />
           <Route path="/admin" element={<AdminDash />} />
           <Route path="/upload" element={<Upload />} />
