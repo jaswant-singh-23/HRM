@@ -54,7 +54,7 @@ const Register = (props) => {
 
     AuthService.register(username, email, password).then(
       (response) => {
-        Toast.success(response.data.message),
+        Toast.success(response.data.message);
         console.log(response)
         setMessage(response.data.message);
         navigate("/login")
@@ -75,6 +75,7 @@ const Register = (props) => {
   };
   return (
     <div className="bg-grey-color">
+    <ToastContainer />
       <div className="regis-page">
         <div className="p-4 ">
           <form onSubmit={formik.handleSubmit} ref={form}>

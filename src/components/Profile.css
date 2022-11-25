@@ -1,0 +1,15 @@
+.upload-img-inner {
+    bottom: 1px;
+    right: 7px;
+}
+.upload-img-inner i {
+    width: 40px;
+    height: 40px;
+    background: #008abf;
+}
+.upload-img-cover {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    box-shadow: 0 0 14px 0 #dddddd8f;
+}
