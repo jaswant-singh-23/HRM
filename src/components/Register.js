@@ -53,6 +53,7 @@ const Register = (props) => {
       const email = formik.values.email;
       const password = formik.values.password;
 
+<<<<<<< HEAD
       AuthService.register(username, email, password).then(
         (response) => {
             // Toast.success(response.data.message)
@@ -67,6 +68,23 @@ const Register = (props) => {
               error.response.data.message) ||
             error.message ||
             error.toString();
+=======
+    AuthService.register(username, email, password).then(
+      (response) => {
+        Toast.success(response.data.message);
+        console.log(response)
+        setMessage(response.data.message);
+        navigate("/login")
+        setSuccessful(true);
+      },
+      (error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+>>>>>>> 89a37a49db6eea801dfca3b27f6629615825830a
 
           setMessage(resMessage);
           setSuccessful(false);
@@ -77,7 +95,11 @@ const Register = (props) => {
   };
   return (
     <div className="bg-grey-color">
+<<<<<<< HEAD
        <ToastContainer />
+=======
+    <ToastContainer />
+>>>>>>> 89a37a49db6eea801dfca3b27f6629615825830a
       <div className="regis-page">
         <div className="p-4 ">
           <form onSubmit={formik.handleSubmit} ref={form}>
