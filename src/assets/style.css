@@ -384,3 +384,20 @@
  }
 
  /* end profile  */
+
+
+ .edit_button{
+	background-color: #008abf;
+    text-align: center;
+    justify-content: center;
+    margin: -7px 8rem 12px 117px;
+    padding: 5px;
+    border-radius: 5px;
+   
+}
+
+button:not(:disabled) {
+    cursor: pointer;
+    color: #fff;
+}
+	

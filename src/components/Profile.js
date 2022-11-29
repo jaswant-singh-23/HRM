@@ -93,7 +93,7 @@ const Profile = () => {
         .toUpperCase();
       setImgName(initials);
     }
-    console.log(currentUser )
+    console.log(currentUser);
   }, [currentUser]);
 
   const handleUpload = async (e) => {
@@ -139,7 +139,7 @@ const Profile = () => {
                         ) : (
                           <div className="position-relative upload-img-sec">
                             <div className="upload-img-cover rounded-circle">
-                              <div className="profileImage">{imgName}</div> 
+                              <div className="profileImage">{imgName}</div>
                             </div>
                             <div className="position-absolute upload-img-inner ">
                               <i className="fas fa-camera text-white fw-5 rounded-circle d-flex align-items-center justify-content-center"></i>
@@ -158,13 +158,15 @@ const Profile = () => {
                       <br />
                       <h4>{userField.name}</h4>
                       <p className="text-secondary mb-1">
-                       {userField.designation}
+                        {userField.designation}
                       </p>
                       {/* <p className="text-muted font-size-sm">
                         {userField.address}
                       </p> */}
                       <div>
-                        <Link to="/profile-edit">Edit Profile</Link>
+                        <Link className="edit_button" to="/edit_profile">
+                          <button>Edit Profile</button>
+                        </Link>
                       </div>
                     </div>
                   </div>
