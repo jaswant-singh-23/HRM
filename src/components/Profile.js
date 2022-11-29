@@ -1,150 +1,16 @@
-// import React from 'react'
-
-// const Profile = () => {
-//     return (
-//         <div><div className="navbar-top">
-//             <div className="title">
-//                 <h1>Profile</h1>
-//             </div>
-
-//             <ul>
-//                 <li>
-//                     <a href="#message">
-//                         <span className="icon-count">29</span>
-//                         <i className="fa fa-envelope fa-2x"></i>
-//                     </a>
-//                 </li>
-//                 <li>
-//                     <a href="#notification">
-//                         <span className="icon-count">59</span>
-//                         <i className="fa fa-bell fa-2x"></i>
-//                     </a>
-//                 </li>
-//                 <li>
-//                     <a href="#sign-out">
-//                         <i className="fa fa-sign-out-alt fa-2x"></i>
-//                     </a>
-//                 </li>
-//             </ul>
-//         </div>
-
-//             <div className="sidenav">
-//                 <div className="profile">
-//                     <img src="https://imdezcode.files.wordpress.com/2020/02/imdezcode-logo.png" alt="" width="100" height="100" />
-
-//                         <div className="name">
-//                             ImDezCode
-//                         </div>
-//                         <div className="job">
-//                             Web Developer
-//                         </div>
-//                 </div>
-
-//                 <div className="sidenav-url">
-//                     <div className="url">
-//                         <a href="#profile" className="active">Profile</a>
-//                         <hr align="center" />
-//                     </div>
-//                     <div className="url">
-//                         <a href="#settings">Settings</a>
-//                         <hr align="center" />
-//                     </div>
-//                 </div>
-//             </div>
-//             <div className="main">
-//                 <h2>IDENTITY</h2>
-//                 <div className="card">
-//                     <div className="card-body">
-//                         <i className="fa fa-pen fa-xs edit"></i>
-//                         <table>
-//                             <tbody>
-//                                 <tr>
-//                                     <td>Name</td>
-//                                     <td>:</td>
-//                                     <td>ImDezCode</td>
-//                                 </tr>
-//                                 <tr>
-//                                     <td>Email</td>
-//                                     <td>:</td>
-//                                     <td>imdezcode@gmail.com</td>
-//                                 </tr>
-//                                 <tr>
-//                                     <td>Address</td>
-//                                     <td>:</td>
-//                                     <td>Bali, Indonesia</td>
-//                                 </tr>
-//                                 <tr>
-//                                     <td>Hobbies</td>
-//                                     <td>:</td>
-//                                     <td>Diving, Reading Book</td>
-//                                 </tr>
-//                                 <tr>
-//                                     <td>Job</td>
-//                                     <td>:</td>
-//                                     <td>Web Developer</td>
-//                                 </tr>
-//                                 <tr>
-//                                     <td>Skill</td>
-//                                     <td>:</td>
-//                                     <td>PHP, HTML, CSS, Java</td>
-//                                 </tr>
-//                             </tbody>
-//                         </table>
-//                     </div>
-//                 </div>
-
-//                 <h2>SOCIAL MEDIA</h2>
-//                 <div className="card">
-//                     <div className="card-body">
-//                         <i className="fa fa-pen fa-xs edit"></i>
-//                         <div className="social-media">
-//                             <span className="fa-stack fa-sm">
-//                                 <i className="fas fa-circle fa-stack-2x"></i>
-//                                 <i className="fab fa-facebook fa-stack-1x fa-inverse"></i>
-//                             </span>
-//                             <span className="fa-stack fa-sm">
-//                                 <i className="fas fa-circle fa-stack-2x"></i>
-//                                 <i className="fab fa-twitter fa-stack-1x fa-inverse"></i>
-//                             </span>
-//                             <span className="fa-stack fa-sm">
-//                                 <i className="fas fa-circle fa-stack-2x"></i>
-//                                 <i className="fab fa-instagram fa-stack-1x fa-inverse"></i>
-//                             </span>
-//                             <span className="fa-stack fa-sm">
-//                                 <i className="fas fa-circle fa-stack-2x"></i>
-//                                 <i className="fab fa-invision fa-stack-1x fa-inverse"></i>
-//                             </span>
-//                             <span className="fa-stack fa-sm">
-//                                 <i className="fas fa-circle fa-stack-2x"></i>
-//                                 <i className="fab fa-github fa-stack-1x fa-inverse"></i>
-//                             </span>
-//                             <span className="fa-stack fa-sm">
-//                                 <i className="fas fa-circle fa-stack-2x"></i>
-//                                 <i className="fab fa-whatsapp fa-stack-1x fa-inverse"></i>
-//                             </span>
-//                             <span className="fa-stack fa-sm">
-//                                 <i className="fas fa-circle fa-stack-2x"></i>
-//                                 <i className="fab fa-snapchat fa-stack-1x fa-inverse"></i>
-//                             </span>
-//                         </div>
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-//     )
-// }
-
-// export default Profile
-
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../shared/components/Sidebar";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import "./Profile.css";
 import AmeoLogos from "../assets/images/Ameo.Logo.jpg";
+import { Link } from "react-router-dom";
+import userService from "../services/user.service";
+import { useSelector } from "react-redux";
 
 const Profile = () => {
-  const [name, setName] = useState("");
+  const [userField, serUserField] = useState({});
+  const [imgName, setImgName] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [phone, setPhone] = useState("");
@@ -152,6 +18,7 @@ const Profile = () => {
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [address, setAddress] = useState("");
   const [hobbies, setHobbies] = useState("");
+  const { user: currentUser } = useSelector((state) => state.auth);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
@@ -188,18 +55,6 @@ const Profile = () => {
     },
   });
 
-  const handleSubmit = () => {
-    console.log("---------", formik.values);
-  };
-  const previewFile = () => {};
-
-  // const [file,setFile]=useState('')
-
-  // const handleChange=(e)=>{
-  //     const data=e.target.files[0]
-  //      setFile(data)
-  // }
-
   const [image, setImage] = useState({ preview: "", raw: "" });
 
   const handleChange = (e) => {
@@ -210,6 +65,36 @@ const Profile = () => {
       });
     }
   };
+
+  /////////// get Profile Dedtails //////////
+  useEffect(() => {
+    userService
+      .getProfileDetail()
+      .then((response) => {
+        serUserField(response.data.data);
+      })
+      .catch((error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+      });
+  }, []);
+
+  useEffect(() => {
+    if (currentUser) {
+      const initials = currentUser.name
+        .split(" ")
+        .map((name) => name[0])
+        .join("")
+        .slice(0, 2)
+        .toUpperCase();
+      setImgName(initials);
+    }
+    console.log(currentUser )
+  }, [currentUser]);
 
   const handleUpload = async (e) => {
     e.preventDefault();
@@ -254,7 +139,7 @@ const Profile = () => {
                         ) : (
                           <div className="position-relative upload-img-sec">
                             <div className="upload-img-cover rounded-circle">
-                              <img src={AmeoLogos} width="100%" alt="logo" />
+                              <div className="profileImage">{imgName}</div> 
                             </div>
                             <div className="position-absolute upload-img-inner ">
                               <i className="fas fa-camera text-white fw-5 rounded-circle d-flex align-items-center justify-content-center"></i>
@@ -271,13 +156,16 @@ const Profile = () => {
                         onChange={handleChange}
                       />
                       <br />
-                      <h4>Anuj Yadav</h4>
+                      <h4>{userField.name}</h4>
                       <p className="text-secondary mb-1">
-                        Full Stack Developer
+                       {userField.designation}
                       </p>
-                      <p className="text-muted font-size-sm">
-                        Bay Area, Gorakhpur, India
-                      </p>
+                      {/* <p className="text-muted font-size-sm">
+                        {userField.address}
+                      </p> */}
+                      <div>
+                        <Link to="/profile-edit">Edit Profile</Link>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -384,9 +272,9 @@ const Profile = () => {
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
-                        stroke-width="2"
+                        strokeWidth="2"
                         stroke-linecap="round"
-                        stroke-linejoin="round"
+                        strokeLinejoin="round"
                         className="feather feather-facebook mr-2 icon-inline text-primary"
                       >
                         <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
@@ -405,14 +293,18 @@ const Profile = () => {
                     <div className="col-sm-3">
                       <h6 className="mb-0">Full Name</h6>
                     </div>
-                    <div className="col-sm-9 text-secondary">Anuj Yadav</div>
+                    <div className="col-sm-9 text-secondary">
+                      {userField.name}
+                    </div>
                   </div>
                   <hr />
                   <div className="row">
                     <div className="col-sm-3">
                       <h6 className="mb-0">Email</h6>
                     </div>
-                    <div className="col-sm-9 text-secondary">anuj@yadav.aky</div>
+                    <div className="col-sm-9 text-secondary">
+                      {userField.email}
+                    </div>
                   </div>
                   <hr />
                   <div className="row">
@@ -429,7 +321,7 @@ const Profile = () => {
                       <h6 className="mb-0">Mobile</h6>
                     </div>
                     <div className="col-sm-9 text-secondary">
-                    (+91) 9874563210
+                      {userField.phone}
                     </div>
                   </div>
                   <hr />
@@ -438,7 +330,7 @@ const Profile = () => {
                       <h6 className="mb-0">Address</h6>
                     </div>
                     <div className="col-sm-9 text-secondary">
-                      Bay Area, Gorakhpur U.P, CA
+                      {userField.address}
                     </div>
                   </div>
                   <hr />
@@ -452,7 +344,7 @@ const Profile = () => {
               </div>
 
               <div className="row gutters-sm">
-                <div className="col-sm-6 mb-3">
+                <div className="col-sm-12 mb-3">
                   <div className="card h-100">
                     <div className="card-body">
                       <h6 className="d-flex align-items-center mb-3">
@@ -514,7 +406,7 @@ const Profile = () => {
                     </div>
                   </div>
                 </div>
-                <div className="col-sm-6 mb-3">
+                {/* <div className="col-sm-6 mb-3">
                   <div className="card h-100">
                     <div className="card-body">
                       <h6 className="d-flex align-items-center mb-3">
@@ -575,7 +467,7 @@ const Profile = () => {
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>

@@ -22,7 +22,7 @@ const getAdminBoard = () => {
 };
 
 const getProfileDetail = () => {
-  return axios.post(API_URL + "profiles", username, { headers: authHeader() });
+  return axios.get(API_URL + "profile-details", { headers: authHeader() });
 };
 
 export default {

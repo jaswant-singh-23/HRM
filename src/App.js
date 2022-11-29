@@ -6,7 +6,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import "./assets/style.css";
 
-
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Home from "./components/Home";
@@ -17,9 +16,10 @@ import { clearMessage } from "./actions/message";
 import Profile from "./components/Profile";
 import AdminDash from "./components/AdminDash";
 import Upload from "./components/Upload";
-import Leave from "./components/Leave"
-import logo from "./assets/images/logo-horizontal-white.png"
+import Leave from "./components/Leave";
+import logo from "./assets/images/logo-horizontal-white.png";
 import { ToastContainer } from "react-toastify";
+import EditProfile from "./components/EditProfile";
 
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
@@ -39,7 +39,7 @@ const App = () => {
   const logOut = useCallback(() => {
     dispatch(logout());
   }, [dispatch]);
-  
+
   useEffect(() => {
     if (currentUser) {
       setShowModeratorBoard(currentUser.roles.includes("ROLE_MODERATOR"));
@@ -52,7 +52,7 @@ const App = () => {
 
   return (
     <div>
-         <ToastContainer/>
+      <ToastContainer />
       <nav className="navbar navbar-expand navbar-dark bg-dark-color">
         <Link to={"/"} className="navbar-brand">
           <img src={logo} alt="" width="150px" />
@@ -93,7 +93,7 @@ const App = () => {
           <div className="navbar-nav ml-auto">
             <li className="nav-item">
               <Link to={"/profile"} className="nav-link">
-                {currentUser.username}
+                {currentUser.name}
               </Link>
             </li>
             <li className="nav-item">
@@ -120,13 +120,14 @@ const App = () => {
       </nav>
 
       <div className="container-fluid p-0">
-        <ToastContainer/>
+        <ToastContainer />
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />
           {/* <Route path="/register" element={<Register />} /> */}
           <Route path="/profile" element={<Profile />} />
+          <Route path="/profile-edit" element={<EditProfile />} />
           <Route path="/admin" element={<AdminDash />} />
           <Route path="/upload" element={<Upload />} />
           <Route path="/leave" element={<Leave />} />

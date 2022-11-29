@@ -6,7 +6,7 @@ import {
 
 import userService from "../services/user.service";
 
-export const addProfile = () => (dispatch) => {
+/*(export const addProfile = () => (dispatch) => {
     return userService.getProfileDetail().then(
       (response) => {
         dispatch({
@@ -41,7 +41,7 @@ export const addProfile = () => (dispatch) => {
       }
     );
   };
-
+*/
 export const getProfile = () => (dispatch) => {
   return userService.getProfileDetail().then(
     (response) => {
@@ -53,7 +53,7 @@ export const getProfile = () => (dispatch) => {
         type: SET_MESSAGE,
         payload: response.data.message,
       });
-
+      console.log("---------",response.data)
       return Promise.resolve();
     },
     (error) => {
