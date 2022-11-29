@@ -164,7 +164,7 @@ const Profile = () => {
                         {userField.address}
                       </p> */}
                       <div>
-                        <Link className="edit_button" to="/edit_profile">
+                        <Link className="edit_button" to="/profile-edit">
                           <button>Edit Profile</button>
                         </Link>
                       </div>

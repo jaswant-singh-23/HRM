@@ -2,6 +2,9 @@
  	background-color: #e2e8f0;
 	height: 100vh;
  }
+ .bg-dark-color{
+	background-color: #008abf;
+ }
 
  .custom-grid {
  	display: grid;
