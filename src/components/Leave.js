@@ -1,13 +1,15 @@
 import React from "react";
+import Sidebar from "../shared/components/Sidebar";
 
 const Leave = () => {
   return (
-    <div className="bg-grey-color">
+    <div className="bg-grey-color custom-grid ">
+      <Sidebar />
       <div className="container-fluid">
-        <div className="row d-flex justify-content-center">
-          <div className="col-10 col-xs-10 col-sm-10 col-md-8 col-lg-6 col-xl-5 profile-badge p-5">
+        <div className="row d-flex justify-content-center mt-5">
+          <div className="col-10 col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-8 profile-badge bg-white p-4">
             <div>
-              <h3 className="text-center mb-5">Welcome User</h3>
+              <h3 className="text-center mb-4">Apply For Leave</h3>
             </div>
             <div className="leave-sec">
               <div className="row">
@@ -28,43 +30,33 @@ const Leave = () => {
               </div>
               <p className="">
                 <button
-                  className="btn btn-primary"
+                  className="btn bg-dark-primary"
                   type="button"
-                  data-bs-toggle="collapse"
-                  data-bs-target="#collapseExample"
+                  data-toggle="collapse"
+                  data-target="#collapseExample"
                   aria-expanded="false"
                   aria-controls="collapseExample"
                 >
                   Apply for Leave
                 </button>
               </p>
-              <div className="collapse" id="collapseExample">
+              <div className="collapse mt-3" id="collapseExample">
                 <div className="card card-body">
                   <div className="row">
-                    <div className="col-12 col-sm-6 col-md-6">
+                    <p className="text-center mb-2">No of Days</p>
+                    <div className="col-12 col-sm-12 col-md-6">
                       <div className="form-group d-flex align-items-center mb-3">
-                        <label className="fw-semibold me-2">from:-</label>
-                        <input type="text" className="form-control" />
+                        <label className="fw-semibold me-1 me-md-2">From:-</label>
+                        <input type="date" className="form-control" />
                       </div>
                     </div>
-                    <div className="col-12 col-sm-6 col-md-6">
+                    <div className="col-12 col-sm-12 col-md-6">
                       <div className="form-group d-flex align-items-center mb-3">
-                        <label className="fw-semibold me-4 me-sm-2">To:-</label>
-                        <input type="text" className="form-control" />
+                        <label className="fw-semibold me-4 me-md-2">To:-</label>
+                        <input type="date" className="form-control" />
                       </div>
                     </div>
-                    <div className="col-12 col-sm-6 col-md-6">
-                      <div className="form-group d-flex align-items-center mb-3">
-                        <label className="fw-semibold me-2">Dept:-</label>
-                        <input type="text" className="form-control" />
-                      </div>
-                    </div>
-                    <div className="col-12 col-sm-6 col-md-6">
-                      <div className="form-group d-flex align-items-center mb-3">
-                        <label className="fw-semibold me-4 me-sm-2">CC:-</label>
-                        <input type="text" className="form-control" />
-                      </div>
-                    </div>
+
                     <div className="col-12 col-md-12">
                       <div className="form-group d-flex align-items-center mb-3">
                         <label className="fw-semibold me-2">Reason:</label>
@@ -74,12 +66,26 @@ const Leave = () => {
                         ></textarea>
                       </div>
                     </div>
-                    <div className="text-center">
-                      <input
-                        type="Button"
-                        className="btn btn-primary"
-                        value="Submit"
-                      />
+                    <div className="d-flex justify-content-center aligns-items-center  text-center">
+                      <div className="text-center">
+                        <button
+                          type="Button"
+                          className="btn bg-dark-primary"
+                          data-toggle="collapse"
+                          data-target="#collapseExample1"
+                          aria-expanded="false"
+                          aria-controls="collapseExample"
+                        >Continue</button>
+                        <div className="collapse mt-3 text-left" id="collapseExample1">
+                          <div>
+                            <p className="">Dear Sir/Mam,</p>
+                            <p className="mb-2">I am <b>Ranvijay</b> From Department <b>Reactjs</b> want leave from <b>24/11/2022</b> to <b>25/11/2022</b> Because of  <b>Urgent</b>. I will look forward for Consideration and approval please.</p>
+                            <p>Thanks🙏</p>
+                            <p>With Best Regards</p>
+                            <p>Ranvijay </p>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>

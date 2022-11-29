@@ -30,13 +30,15 @@
  }
 
  /* navbar  */
- .bg-dark-color {
+ .bg-dark-primary {
  	background-color: #008abf;
+	color: #fff;
  }
 
  /* form button */
  .btn:hover {
- 	background-color: #008abf
+ 	background-color: #008abf;
+	color: #fff;
  }
 
  /* Profile */

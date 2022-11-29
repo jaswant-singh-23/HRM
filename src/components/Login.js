@@ -135,7 +135,7 @@ const Login = () => {
             </div>
 
             <div className="form-group">
-              <button type="sumbit" onClick={handleLogin} className="btn bg-dark-color text-white btn-block">
+              <button type="sumbit" onClick={handleLogin} className="btn bg-dark-primary text-white btn-block">
                 {/* {loading && (
                   <span className="spinner-border spinner-border-sm"></span>
                 )} */}
