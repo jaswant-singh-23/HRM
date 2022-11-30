@@ -45,11 +45,7 @@ const EditProfile = (props) => {
       name: '',
       email: '',
       username: '',
-      designation: '',
-      phone: '',
-      dob: '',
-      address: '',
-      hobbies: '',
+      
     },
     validationSchema,
     // validateOnChange: false,

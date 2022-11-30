@@ -55,7 +55,6 @@ const Login = () => {
          
         Toast.success(response.message)
         navigate("/profile");
-        // setMessage(response.data.message)
          window.location.reload();
       },
         (error) => {
@@ -84,13 +83,13 @@ const Login = () => {
 
 
   return (
-    <div className="bg-grey-color vl-cn">
+    <div className="bg-grey-color vl-cn h-100vh d-flex align-items-center">
       <ToastContainer />
       <div className="login-page">
         <div className="p-4">
           <form onSubmit={formik.handleSubmit} ref={form}>
             <h1 className="text-center">Login</h1>
-            <div className="form-group">
+            <div className="form-group mb-3">
               <label htmlFor="username">Username</label>
               <input
                 type="text"
@@ -112,7 +111,7 @@ const Login = () => {
 
             </div>
 
-            <div className="form-group">
+            <div className="form-group mb-3">
               <label htmlFor="password">Password</label>
               <input
                 type="password"
@@ -142,13 +141,11 @@ const Login = () => {
                 <span>Login</span>
               </button>
             </div>
-            {/* <div className="form-group">
-              <span>Don't have an account? <Link to="/register">Register now</Link></span>
-            </div> */}
+           
 
             {message && (
               <div className="form-group">
-                <div className="alert alert-danger" role="alert">
+                <div className="alert alert-danger mt-3" role="alert">
                   {message}
                 </div>
               </div>

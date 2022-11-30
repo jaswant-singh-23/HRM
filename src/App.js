@@ -52,41 +52,42 @@ const App = () => {
 
   return (
     <div>
-      <ToastContainer />
-      <nav className="navbar navbar-expand navbar-dark bg-dark-color">
-        <Link to={"/"} className="navbar-brand">
-          <img src={logo} alt="" width="150px" />
-        </Link>
-        <div className="navbar-nav mr-auto">
-          <li className="nav-item">
-            <Link to={"/home"} className="nav-link">
-              Home
-            </Link>
-          </li>
-
-          {showModeratorBoard && (
+      <nav className="navbar navbar-expand navbar-dark d-flex justify-content-between bg-dark-color">
+        <div className="d-flex">
+          <Link to={"/"} className="navbar-brand">
+            <img src={logo} alt="" width="150px" />
+          </Link>
+          <div className="navbar-nav mr-auto">
             <li className="nav-item">
-              <Link to={"/mod"} className="nav-link">
-                Moderator Board
+              <Link to={"/home"} className="nav-link">
+                Home
               </Link>
             </li>
-          )}
 
-          {showAdminBoard && (
-            <li className="nav-item">
-              <Link to={"/admin"} className="nav-link">
-                Admin Board
-              </Link>
-            </li>
-          )}
+            {showModeratorBoard && (
+              <li className="nav-item">
+                <Link to={"/mod"} className="nav-link">
+                  Moderator Board
+                </Link>
+              </li>
+            )}
 
-          {currentUser && (
-            <li className="nav-item">
-              <Link to={"/user"} className="nav-link">
-                User
-              </Link>
-            </li>
-          )}
+            {showAdminBoard && (
+              <li className="nav-item">
+                <Link to={"/admin"} className="nav-link">
+                  Admin Board
+                </Link>
+              </li>
+            )}
+
+            {currentUser && (
+              <li className="nav-item">
+                <Link to={"/user"} className="nav-link">
+                  User
+                </Link>
+              </li>
+            )}
+          </div>
         </div>
 
         {currentUser ? (
