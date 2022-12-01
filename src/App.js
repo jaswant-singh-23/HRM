@@ -21,6 +21,7 @@ import logo from "./assets/images/logo-horizontal-white.png";
 import { ToastContainer } from "react-toastify";
 import EditProfile from "./components/EditProfile";
 import { PrivateRoute } from "./shared/components/PrivateRoute";
+import InventoryControl from "./HRM/pages/InventoryControl";
 
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
@@ -165,6 +166,14 @@ const App = () => {
             element={
               <PrivateRoute>
                 <Leave />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/inventory-control"
+            element={
+              <PrivateRoute>
+                <InventoryControl />
               </PrivateRoute>
             }
           />

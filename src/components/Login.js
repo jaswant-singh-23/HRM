@@ -83,7 +83,7 @@ const Login = () => {
 
 
   return (
-    <div className="bg-grey-color vl-cn d-flex h-100vh align-items-center">
+    <div className="bg-grey-color vl-cn d-flex h-100vh align-items-center login-bg-image">
       <ToastContainer />
       <div className="login-page">
         <div className="p-4">

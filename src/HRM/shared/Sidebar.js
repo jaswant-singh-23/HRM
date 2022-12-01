@@ -3,6 +3,10 @@ import { Link, useLocation } from "react-router-dom";
 import AuthService from "../../services/auth.service";
 
 const Sidebar = () => {
+  const [showModeratorBoard, setShowModeratorBoard] = useState(false);
+  const [showAdminBoard, setShowAdminBoard] = useState(false);
+  const [currentUser, setCurrentUser] = useState(undefined);
+
   const toggleSidebar = () => document.body.classList.toggle("open");
   const router = useLocation();
   const pathname = router.pathname;
@@ -11,6 +15,12 @@ const Sidebar = () => {
 
   useEffect(() => {
     const user = AuthService.getCurrentUser();
+
+    if (user) {
+      setCurrentUser(user.roles.includes("ROLE_USER"));
+      setShowModeratorBoard(user.roles.includes("ROLE_MODERATOR"));
+      setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
+    }
   }, []);
 
   useEffect(() => {
@@ -45,7 +55,7 @@ const Sidebar = () => {
               <button type="button">
                 <i className="fa-solid fa-house" />
                 <span style={{ animationDelay: ".5s" }} title="Home">
-                  Home
+                  General
                 </span>
               </button>
             </Link>
@@ -54,8 +64,12 @@ const Sidebar = () => {
             <Link to="/profile" className="text-decoration-none">
               <button type="button">
                 <i className="fa-solid fa-user"></i>
-                <span style={{ animationDelay: ".2s" }} title="Profile">
-                  Profile
+                <span
+                  style={{ animationDelay: ".2s" }}
+                  title="Profile"
+                  className="text-nowrap"
+                >
+                  Employee Details
                 </span>
               </button>
             </Link>
@@ -75,7 +89,7 @@ const Sidebar = () => {
             </Link>
           </div>
           <div>
-            <Link className="text-decoration-none">
+            <Link to="/inventory-control" className="text-decoration-none">
               <button type="button">
                 <i className="fa-solid fa-user"></i>
                 <span
@@ -83,18 +97,49 @@ const Sidebar = () => {
                   title="Profile"
                   className="text-nowrap"
                 >
-                  Attendance Sheet
+                  Inventory Control
                 </span>
               </button>
             </Link>
           </div>
           <div>
-            {" "}
             <Link className="text-decoration-none">
               <button type="button">
                 <i className="fa-solid fa-gear"></i>
-                <span style={{ animationDelay: ".3s" }} title="Settings">
-                  Settings
+                <span
+                  style={{ animationDelay: ".3s" }}
+                  title="Settings"
+                  className="text-nowrap"
+                >
+                  Vacancy and Hiring
+                </span>
+              </button>
+            </Link>
+          </div>
+          <div>
+            <Link className="text-decoration-none">
+              <button type="button">
+                <i className="fa-solid fa-gear"></i>
+                <span
+                  style={{ animationDelay: ".3s" }}
+                  title="Settings"
+                  className="text-nowrap"
+                >
+                  Employee Welfare
+                </span>
+              </button>
+            </Link>
+          </div>
+          <div>
+            <Link className="text-decoration-none">
+              <button type="button">
+                <i className="fa-solid fa-gear"></i>
+                <span
+                  style={{ animationDelay: ".3s" }}
+                  title="Settings"
+                  className="text-nowrap"
+                >
+                  Alumni
                 </span>
               </button>
             </Link>
