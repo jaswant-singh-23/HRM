@@ -4,7 +4,7 @@ import authHeader from "./auth-header";
 const API_URL = "http://localhost:4000/api/";
 
 const user = JSON.parse(localStorage.getItem("user"));
-const username = user ? {username: user.username} : "";
+const username = user ? { username: user.username } : "";
 const getPublicContent = () => {
   return axios.get(API_URL + "all");
 };
@@ -25,10 +25,20 @@ const getProfileDetail = () => {
   return axios.get(API_URL + "profile-details", { headers: authHeader() });
 };
 
+const getLeaveDetail = () => {
+  return axios.get(API_URL + "leave-details", { headers: authHeader() });
+};
+
+const leaveApply = (data) => {
+  return axios.post(API_URL + "leave-apply", data, { headers: authHeader() });
+};
+
 export default {
   getPublicContent,
   getUserBoard,
   getModeratorBoard,
   getAdminBoard,
   getProfileDetail,
+  getLeaveDetail,
+  leaveApply,
 };

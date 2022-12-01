@@ -7,7 +7,9 @@
  .bg-dark-color{
 	background-color: #008abf;
  }
-
+ .cursor-pointer{
+	cursor: pointer;
+ }
  .custom-grid {
  	display: grid;
  	grid-template-columns: auto 1fr;
@@ -264,7 +266,7 @@
 	display: flex;
 	align-items: center;
  	height: 72px;
- 	background: rgba(0, 0, 0, .1);
+ 	/* background: rgba(0, 0, 0, .1); */
  	padding: 0 1.125rem 0 0;
  }
 
@@ -295,6 +297,9 @@
  	padding-bottom: 1rem;
  	flex: 1 1 auto;
  }
+ .sidebar_nav .nav-links.active{
+	background: rgba(0, 0, 0, .1);
+}
 
  .sidebar button {
  	display: flex;

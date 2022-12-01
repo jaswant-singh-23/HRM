@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../shared/components/Sidebar";
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import AmeoLogos from "../assets/images/Ameo.Logo.jpg";
-
-
+import { useParams } from "react-router-dom";
+import UserService from "../services/user.service";
 
 const EditProfile = (props) => {
   const [name, setName] = useState("");
@@ -14,38 +14,44 @@ const EditProfile = (props) => {
   const [designation, setDesignation] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [address, setAddress] = useState("");
-  const [hobbies, setHobbies] = useState("");
 
-
-
+  const [content, setContent] = useState([]);
+  const { id } = useParams();
 
   const validationSchema = Yup.object().shape({
-    name: Yup.string()
-      .required('Name is required'),
-    email: Yup.string()
-      .required('Email is required'),
-    username: Yup.string()
-      .required('Username is required'),
-    designation: Yup.string()
-      .required('Designation is required'),
-    phone: Yup.string()
-      .required('Phone is required'),
+    name: Yup.string().required("Name is required"),
+    email: Yup.string().required("Email is required"),
+    username: Yup.string().required("Username is required"),
+    designation: Yup.string().required("Designation is required"),
+    phone: Yup.string().required("Phone is required"),
     dob: Yup.string()
-      .required('Date of Birth is required')
-      .matches(/^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/, 'Date of Birth must be a valid date in the format YYYY-MM-DD'),
-    hobbies: Yup.string()
-      .required('Hobbies is required'),
-    address: Yup.string()
-      .required('Password is required')
+      .required("Date of Birth is required")
+      .matches(
+        /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/,
+        "Date of Birth must be a valid date in the format YYYY-MM-DD"
+      ),
+    hobbies: Yup.string().required("Hobbies is required"),
+    address: Yup.string().required("Password is required"),
   });
-
 
   const formik = useFormik({
     initialValues: {
-      name: '',
-      email: '',
-      username: '',
-      
+      name: "",
+      email: "",
+      username: "",
+      phone: "",
+      designation: "",
+      department: "",
+      doj: "",
+      dob: "",
+      CurrentCTC: "",
+      BankDetail: "",
+      PassportSizep: "",
+      SalarySlip: "",
+      PanCard: "",
+      AadhaarCard: "",
+      ExperienceLetter: "",
+      address: "",
     },
     validationSchema,
     // validateOnChange: false,
@@ -55,15 +61,36 @@ const EditProfile = (props) => {
     },
   });
 
-  const handleSubmit = () => {
-    console.log('---------', formik.values)
-  }
-  const previewFile = () => { }
+  /////// Get Profile ///////
+  useEffect(() => {
+    var profileId = { id: id };
+    UserService.getProfileDetail().then(
+      (response) => {
+        setContent(response.data.data);
+        console.log(response.data.data);
+      },
+      (error) => {
+        const _content =
+          (error.response && error.response.data) ||
+          error.message ||
+          error.toString();
+        setContent(_content);
+      }
+    );
+    formik.values.id = id;
+  }, []);
+  console.log(content);
 
+  const handleSubmit = () => {
+    console.log("---------", formik.values);
+  };
+
+  const previewFile = () => {};
 
   const [image, setImage] = useState({ preview: "", raw: "" });
 
   const handleChange = (e) => {
+    console.log("------------------", e.target)
     if (e.target.files.length) {
       setImage({
         preview: URL.createObjectURL(e.target.files[0]),
@@ -88,13 +115,12 @@ const EditProfile = (props) => {
 
   // --------------Attached --------------------
 
-  const [file, setFile] = useState('')
+  const [file, setFile] = useState("");
 
   const handleChanges = (e) => {
-    const data = e.target.files[0]
-    setFile(data)
-  }
-
+    const data = e.target.files[0];
+    setFile(data);
+  };
 
   return (
     <div className="bg-grey-color custom-grid h-100">
@@ -105,16 +131,11 @@ const EditProfile = (props) => {
             {/* <img src="https://dummyimage.com/600x400/000/">  */}
 
             <div className="profile-pic">
-            
-                <label htmlFor="upload-button">
+              <label htmlFor="upload-button">
                 {image.preview ? (
                   <div className="position-relative upload-img-sec">
                     <div className="upload-img-cover rounded-circle">
-                      <img
-                        src={image.preview}
-                        alt="dummy"
-                        width="100%"
-                      />
+                      <img src={image.preview} alt="dummy" width="100%" />
                     </div>
 
                     <div className="position-absolute upload-img-inner ">
@@ -124,8 +145,11 @@ const EditProfile = (props) => {
                 ) : (
                   <div className="position-relative upload-img-sec">
                     <div className="upload-img-cover rounded-circle">
-                    <img alt="User Pic" src="https://d30y9cdsu7xlg0.cloudfront.net/png/138926-200.png"
-                    id="profile-image1" />
+                      <img
+                        alt="User Pic"
+                        src="https://d30y9cdsu7xlg0.cloudfront.net/png/138926-200.png"
+                        id="profile-image1"
+                      />
                     </div>
                     <div className="position-absolute upload-img-inner ">
                       <i className="fas fa-camera text-white fw-5 rounded-circle d-flex align-items-center justify-content-center"></i>
@@ -136,44 +160,67 @@ const EditProfile = (props) => {
                 )}
               </label>
               <input
-              type="file"
-              id="upload-button"
-              style={{ display: "none" }}
-              onChange={handleChange}
-            />
-              <input id="profile-image-upload" className="hidden" type="file" onChange={previewFile} />
+                type="file"
+                id="upload-button"
+                style={{ display: "none" }}
+                onChange={handleChange}
+              />
+              <input
+                id="profile-image-upload"
+                className="hidden"
+                type="file"
+                onChange={previewFile}
+              />
             </div>
             <div className="user-detail">
               <form onSubmit={formik.onSubmit}>
                 <div className="row">
                   <div className="col-12 col-lg-6">
                     <div className="form-group mb-3">
-                      <label for="name">Name</label>
-                      <input type="text" className="form-control" id="name" placeholder="Enter Your Name" name="name"
-
+                      <label htmlFor="name">Name</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="name"
+                        placeholder="Enter Your Name"
+                        name="name"
                       />
                     </div>
                   </div>
 
                   <div className="col-12 col-lg-6">
                     <div className="form-group mb-3">
-                      <label for="email">Email</label>
-                      <input type="varchar" className="form-control" id="email" placeholder="Enter Email " name="email"
+                      <label htmlFor="email">Email</label>
+                      <input
+                        type="varchar"
+                        className="form-control"
+                        id="email"
+                        placeholder="Enter Email "
+                        name="email"
                       />
                     </div>
                   </div>
                   <div className="col-12 col-lg-6">
                     <div className="form-group mb-3">
-                      <label for="uname">Username</label>
-                      <input type="text" className="form-control" id="uname" placeholder="Enter UserName" name="Username"
+                      <label htmlFor="uname">Username</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="uname"
+                        placeholder="Enter UserName"
+                        name="Username"
                       />
                     </div>
                   </div>
 
                   <div className="col-12 col-lg-6">
                     <div className="form-group mb-3">
-                      <label for="Mobile">Phone </label>
-                      <input type="number" className="form-control" id="Mobile" placeholder="Enter Phone Number"
+                      <label htmlFor="Mobile">Phone </label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        id="Mobile"
+                        placeholder="Enter Phone Number"
                         name="Mobile"
                       />
                     </div>
@@ -181,114 +228,179 @@ const EditProfile = (props) => {
 
                   <div className="col-12 col-lg-6">
                     <div className="form-group mb-3">
-                      <label for="Designation">Designation</label>
-                      <select className="custom-select" id="Designation">
+                      <label htmlFor="Designation">Designation</label>
+                      <select className="form-control custom-select" id="Designation">
                         <option selected>...Choose...</option>
-                        <option value="1">Technical Lead/Engineering Lead/Team Lead</option>
-                        <option value="2">Senior Software Engineer/Senior Software Developer</option>
+                        <option value="1">
+                          Technical Lead/Engineering Lead/Team Lead
+                        </option>
+                        <option value="2">
+                          Senior Software Engineer/Senior Software Developer
+                        </option>
                         <option value="3">Junior Software Developer</option>
                         <option value="4">Intern Software Developer</option>
-                        <option value="5">Social Media Marketing Manager</option>
+                        <option value="5">
+                          Social Media Marketing Manager
+                        </option>
                         <option value="6">Software Engineer</option>
                         <option value="7">Software Developer</option>
                         <option value="8">Technical Project Manager</option>
                         <option value="9">Digital Marketing Manager</option>
                         <option value="10">Senior Manager IT</option>
                         <option value="11">Three</option>
-                      
                       </select>
                     </div>
-                    </div>
+                  </div>
                   <div className="col-12 col-lg-6">
                     <div className="form-group mb-3">
-                      <label for="department"> Department</label>
-                      <select className="custom-select" id="Designation">
+                      <label htmlFor="department"> Department</label>
+                      <select className="form-control custom-select" id="Designation">
                         <option selected>...Choose...</option>
-                        <option value="1">Marketing & Proposals Department</option>
+                        <option value="1">
+                          Marketing & Proposals Department
+                        </option>
                         <option value="2">sales Department</option>
                         <option value="3">Project Department</option>
                         <option value="4">Designing Department</option>
                         <option value="5">Finance Department</option>
-                        <option value="6">Research & Development Department</option>
-                        <option value="7">Information Technology Department</option>
+                        <option value="6">
+                          Research & Development Department
+                        </option>
+                        <option value="7">
+                          Information Technology Department
+                        </option>
                         <option value="8">Administration department</option>
-                        <option value="3">Design & Development</option>
-                        <option value="3">Front End Developer</option>
-                        <option value="3">Front-End Designer</option>
+                        <option value="9">Design & Development</option>
+                        <option value="10">Front End Developer</option>
+                        <option value="11">Front-End Designer</option>
                       </select>
                     </div>
                   </div>
                   <div className="col-12 col-lg-6">
                     <div className="form-group mb-3">
-                      <label for="DOJ">  Date of Joining</label>
-                      <input type="date" className="form-control" id="DOJ" placeholder="Enter  Date of Joining" name="doj"
+                      <label htmlFor="DOJ"> Date of Joining</label>
+                      <input
+                        type="date"
+                        className="form-control"
+                        id="DOJ"
+                        placeholder="Enter  Date of Joining"
+                        name="DOJ"
                       />
                     </div>
                   </div>
                   <div className="col-12 col-lg-6">
                     <div className="form-group mb-3">
-                      <label for="DOB"> DOB</label>
-                      <input type="date" className="form-control" id="DOB " placeholder="Enter Date Of Birth" name="DOB"
+                      <label htmlFor="DOB"> DOB</label>
+                      <input
+                        type="date"
+                        className="form-control"
+                        id="DOB "
+                        placeholder="Enter Date Of Birth"
+                        name="DOB"
                       />
                     </div>
                   </div>
                   <div className="col-12 col-lg-6">
                     <div className="form-group mb-3">
-                      <label for="CurrentCTC"> Current CTC</label>
-                      <input type="text" className="form-control" id="CurrentCTC" placeholder="Enter Current CTC" name="CurrentCTC"
+                      <label htmlFor="CurrentCTC"> Current CTC</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="CurrentCTC"
+                        placeholder="Enter Current CTC"
+                        name="CurrentCTC"
                       />
                     </div>
                   </div>
                   <div className="col-12 col-lg-6">
                     <div className="form-group mb-3">
-                      <label for="BankDetail"> Bank Detail</label>
-                      <input type="text" className="form-control" id="BankDetail " placeholder="Enter Bank Detail" name="BankDetail"
+                      <label htmlFor="BankDetail"> Bank Detail</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="BankDetail "
+                        placeholder="Enter Bank Detail"
+                        name="BankDetail"
                       />
                     </div>
                   </div>
                   <div className="col-12 col-lg-6">
                     <div className="form-group mb-3">
-                      <label for="AadhaarCard">Passport Size P</label>
-                      <input type="file" className="form-control" id="AadhaarCard" onChange={handleChanges} placeholder="Attached AAdhar Card" name="AadhaarCard"
+                      <label htmlFor="PassportSizep">Passport Size P</label>
+                      <input
+                        type="file"
+                        className="form-control"
+                        id="AadhaarCard"
+                        onChange={handleChanges}
+                        placeholder="Attached AAdhar Card"
+                        name="PassportSizep"
                       />
                     </div>
                   </div>
                   <div className="col-12 col-lg-6">
                     <div className="form-group mb-3">
-                      <label for="ExperienceLetter">Salary Slips Last 3 Months</label>
-                      <input type="file" className="form-control" id="ExperienceLetter" onChange={handleChanges} placeholder="Attached Experience Letter" name="ExperienceLetter"
+                      <label htmlFor="SalarySlip">Salary Slips Last 3 Months</label>
+                      <input
+                        type="file"
+                        className="form-control"
+                        id="ExperienceLetter"
+                        onChange={handleChanges}
+                        placeholder="Attached Experience Letter"
+                        name="SalarySlip"
                       />
                     </div>
                   </div>
                   <div className="col-12 col-lg-4">
                     <div className="form-group mb-3">
-                      <label for="PanCard"> PAN Card</label>
-                      <input type="file" className="form-control" id="PanCard" onChange={handleChanges} placeholder="Attached Pan Card" name="PanCard"
+                      <label htmlFor="PanCard"> PAN Card</label>
+                      <input
+                        type="file"
+                        className="form-control"
+                        id="PanCard"
+                        onChange={handleChanges}
+                        placeholder="Attached Pan Card"
+                        name="PanCard"
                       />
                     </div>
                   </div>
                   <div className="col-12 col-lg-4">
                     <div className="form-group mb-3">
-                      <label for="AadhaarCard"> Aadhaar Card</label>
-                      <input type="file" className="form-control" id="AadhaarCard " onChange={handleChanges} placeholder="Attached AAdhar Card" name="AadhaarCard"
+                      <label htmlFor="AadhaarCard"> Aadhaar Card</label>
+                      <input
+                        type="file"
+                        className="form-control"
+                        id="AadhaarCard "
+                        onChange={handleChanges}
+                        placeholder="Attached AAdhar Card"
+                        name="AadhaarCard"
                       />
                     </div>
                   </div>
                   <div className="col-12 col-lg-4">
                     <div className="form-group mb-3">
-                      <label for="ExperienceLetter">Experience Letter </label>
-                      <input type="file" className="form-control" id="FileInput" onChange={handleChanges} name="ExperienceLetter"
+                      <label htmlFor="ExperienceLetter">Experience Letter </label>
+                      <input
+                        type="file"
+                        className="form-control"
+                        id="FileInput"
+                        onChange={handleChanges}
+                        name="ExperienceLetter"
                       />
                     </div>
                   </div>
                   <div className="col-12 col-lg-12">
                     <div className="form-group mb-3">
-                      <label for="Address"> Address</label>
-                      <textarea type="text" className="form-control" id="Address" placeholder="Enter Address" name="Address">
-                      </textarea>
+                      <label htmlFor="Address"> Address</label>
+                      <textarea
+                        type="text"
+                        className="form-control"
+                        id="Address"
+                        placeholder="Enter Address"
+                        name="Address"
+                      ></textarea>
                     </div>
                   </div>
-                { /* <div className="col-12 col-lg-12">
+                  {/* <div className="col-12 col-lg-12">
                     <div className="form-group mb-5">
                       <label for="Address"> Hobbies</label>
                       <input type="text" className="form-control" id="Hobbies" placeholder="Enter Your Hobbies" name="Hobbies"
@@ -297,7 +409,12 @@ const EditProfile = (props) => {
                 </div> */}
                 </div>
                 <div className="text-center">
-                  <input type="Button" className="btn btn-primary" value="Update Profile" onClick={handleSubmit} />
+                  <input
+                    type="Button"
+                    className="btn bg-dark-primary"
+                    value="Update Profile"
+                    onClick={handleSubmit}
+                  />
                 </div>
               </form>
             </div>
@@ -305,7 +422,7 @@ const EditProfile = (props) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default EditProfile;

@@ -1,49 +1,100 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../shared/components/Sidebar";
-import { Modal, Form, Button } from 'react-bootstrap';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
+import userService from "../services/user.service";
+import { Modal, Form, Button } from "react-bootstrap";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import moment from "moment";
+import { ToastContainer } from "react-toastify";
+import Toast from "../shared/Toast";
 
 const Leave = () => {
   const navigate = useNavigate();
+  const [userField, setUserField] = useState({});
 
   const [addShow, setAddShow] = useState(false);
   const [fromLeave, setFromLeave] = useState();
-  const [toLeave, setToLeave] = useState()
-  const [reason, setReason] = useState()
+  const [toLeave, setToLeave] = useState();
+  const [half, setHalf] = useState();
+  const [reason, setReason] = useState();
 
   const handleAddShow = () => setAddShow(true);
   const handleAddClose = () => setAddShow(false);
-  const handleCancel = () => navigate("/home")
+  const handleCancel = () => navigate("/home");
 
   const handleFrom = (e) => {
     const fromLeave = e.target.value;
     setFromLeave(fromLeave);
-  }
+  };
   const handleTo = (e) => {
     const toLeave = e.target.value;
     setToLeave(toLeave);
-  }
+  };
 
   const handleReason = (e) => {
     const reason = e.target.value;
-    setReason(reason)
-  }
+    setReason(reason);
+  };
+  const handleHalf = (e) => {
+    const half = e.target.value;
+    setHalf(half);
+  };
+
+  //////////////// Get User Detail //////////////
+  useEffect(() => {
+    userService
+      .getProfileDetail()
+      .then((response) => {
+        setUserField(response.data.data);
+      })
+      .catch((error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+      });
+  }, []);
+
+  //////////////// Apply Leave ////////////////
+  const handleSubmit = () => {
+    const data = {
+      reason: reason,
+      name: userField.name,
+      fromDate: fromLeave,
+      toDate: toLeave,
+      department: userField.department,
+      halfDay: half,
+    };
+    console.log("---", data);
+    userService
+      .leaveApply(data)
+      .then((response) => {
+        handleCancel();
+        Toast.success(response.message);
+      })
+      .catch((error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+      });
+  };
+
   const validationSchema = Yup.object().shape({
-    name: Yup.string()
-      .required('Name is required'),
-    email: Yup.string()
-      .required('Email is required'),
-    username: Yup.string()
-      .required('Username is required'),
+    name: Yup.string().required("Name is required"),
+    email: Yup.string().required("Email is required"),
+    username: Yup.string().required("Username is required"),
   });
   const formik = useFormik({
     initialValues: {
-      name: '',
-      email: '',
-      username: '',
-
+      name: "",
+      email: "",
+      username: "",
     },
     validationSchema,
     onSubmit: (data) => {
@@ -52,9 +103,10 @@ const Leave = () => {
   });
 
   return (
-    <div className="bg-grey-color custom-grid h-100vh">
+    <div className="custom-grid h-100vh">
       <Sidebar />
-      <div className="container-fluid">
+      <div className="bg-grey-color container-fluid">
+        <ToastContainer />
         <div className="row d-flex justify-content-center mt-5">
           <div className="col-10 col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-8 profile-badge bg-white p-4">
             <div>
@@ -97,8 +149,12 @@ const Leave = () => {
 
                       <div className="col-12 col-sm-12 col-md-6">
                         <div className="form-group d-flex align-items-center flex-wrap flex-sm-nowrap mb-3">
-                          <label className="fw-semibold me-1 me-md-2">From:-</label>
-                          <input type="date" className="form-control"
+                          <label className="fw-semibold me-1 me-md-2">
+                            From<strong className="text-danger">*</strong>:-
+                          </label>
+                          <input
+                            type="date"
+                            className="form-control"
                             value={fromLeave}
                             onChange={handleFrom}
                           />
@@ -106,37 +162,22 @@ const Leave = () => {
                       </div>
                       <div className="col-12 col-sm-12 col-md-6">
                         <div className="form-group d-flex align-items-center flex-wrap flex-sm-nowrap mb-3">
-                          <label className="fw-semibold me-4 me-md-2">To:-</label>
-                          <input type="date" className="form-control"
+                          <label className="fw-semibold me-4 me-md-2">
+                            To<strong className="text-danger">*</strong>:-
+                          </label>
+                          <input
+                            type="date"
+                            className="form-control"
                             value={toLeave}
                             onChange={handleTo}
                           />
                         </div>
                       </div>
-                      <div className="col-12 col-md-12 d-flex mb-3">
-                        <div class="form-check me-3">
-                          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault" />
-                          <label class="form-check-label" for="flexCheckDefault">
-                            Ist Half
-                          </label>
-                        </div>
-                        <div class="form-check me-3">
-                          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1" />
-                          <label class="form-check-label" for="flexCheckDefault1">
-                            2nd Half
-                          </label>
-                        </div>
-                        <div class="form-check me-3">
-                          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2" />
-                          <label class="form-check-label" for="flexCheckDefault2">
-                            Full Day
-                          </label>
-                        </div>
-                      </div>
-
                       <div className="col-12 col-md-12">
                         <div className="form-group d-flex align-items-center mb-3">
-                          <label className="fw-semibold me-2">Reason:-</label>
+                          <label className="fw-semibold me-2">
+                            Reason<strong className="text-danger">*</strong>:-
+                          </label>
                           <textarea
                             type="text"
                             className="form-control"
@@ -145,16 +186,51 @@ const Leave = () => {
                           ></textarea>
                         </div>
                       </div>
-                      <div className="d-flex justify-content-around aligns-items-center  text-center">
-                        <div className="text-center ">
+                      <div className="col-12 col-md-12 d-flex mb-3">
+                        <div className="form-check me-3">
+                          <input
+                            className="form-check-input"
+                            type="radio"
+                            id="flexCheckDefault"
+                            name="half"
+                            value={"(1st-Half)"}
+                            onChange={handleHalf}
+                          />
+                          <label
+                            className="form-check-label"
+                            htmlFor="flexCheckDefault"
+                            name="isthalf"
+                          >
+                            1st half
+                          </label>
+                        </div>
+                        <div className="form-check me-3">
+                          <input
+                            className="form-check-input"
+                            type="radio"
+                            id="flexCheckDefault1"
+                            name="half"
+                            value={"(2nd-Half)"}
+                            onChange={handleHalf}
+                          />
+                          <label
+                            className="form-check-label"
+                            htmlFor="flexCheckDefault1"
+                            name="2ndhalf"
+                          >
+                            2nd half
+                          </label>
+                        </div>
+                      </div>
+                      <div className="d-flex justify-content-center aligns-items-center text-center">
+                        <div className="text-center me-3">
                           <button
                             type="Button"
-                            className="btn bg-dark-primary "
+                            className="btn bg-dark-primary"
                             onClick={handleCancel}
                           >
                             Cancel
                           </button>
-
                         </div>
                         <div className="text-center">
                           <button
@@ -164,21 +240,39 @@ const Leave = () => {
                           >
                             Continue
                           </button>
-                          <Modal centered show={addShow} onHide={handleAddClose} >
+                          <Modal
+                            centered
+                            show={addShow}
+                            onHide={handleAddClose}
+                          >
                             <Modal.Header closeButton>
                               <Modal.Title>Leave Application</Modal.Title>
                             </Modal.Header>
                             <Modal.Body>
                               <div>
                                 <p className="">Dear Sir/Mam,</p>
-                                <p className="mb-2">I am <b>Ranvijay</b> From Department <b>Reactjs</b> want leave from <b>{fromLeave}</b> to <b>{toLeave}</b> Because of  <b>{reason}</b>. I will look forward for Consideration and approval please.</p>
+                                <p className="mb-2">
+                                  I am <b>{userField.name}</b> From{" "}
+                                  <b>{userField.department}</b> Department want
+                                  leave from{" "}
+                                  <b>
+                                    {moment(fromLeave).format("DD-MMM-YYYY")}
+                                  </b>{" "}
+                                  to{" "}
+                                  <b>{moment(toLeave).format("DD-MMM-YYYY")}</b>{" "}
+                                  <b>{half}</b>. Because of <b>{reason}</b> I
+                                  will look forward for Consideration and
+                                  approval please.
+                                </p>
                                 <p>Thanks🙏</p>
                                 <p>With Best Regards</p>
-                                <p>Ranvijay </p>
                               </div>
                             </Modal.Body>
                             <Modal.Footer>
-                              <Button className=' btn-primary bg-dark-primary py-1 px-4' >
+                              <Button
+                                className=" btn-primary bg-dark-primary py-1 px-4"
+                                onClick={handleSubmit}
+                              >
                                 Submit
                               </Button>
                             </Modal.Footer>

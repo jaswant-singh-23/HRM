@@ -20,6 +20,7 @@ import Leave from "./components/Leave";
 import logo from "./assets/images/logo-horizontal-white.png";
 import { ToastContainer } from "react-toastify";
 import EditProfile from "./components/EditProfile";
+import { PrivateRoute } from "./shared/components/PrivateRoute";
 
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
@@ -52,7 +53,7 @@ const App = () => {
 
   return (
     <div>
-      <nav className="navbar navbar-expand navbar-dark d-flex justify-content-between bg-dark-color">
+      <nav className="navbar navbar-expand navbar-dark d-flex justify-content-between bg-dark-color px-2">
         <div className="d-flex">
           <Link to={"/"} className="navbar-brand">
             <img src={logo} alt="" width="150px" />
@@ -124,14 +125,49 @@ const App = () => {
         <ToastContainer />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/home" element={<Home />} />
+          <Route
+            path="/home"
+            element={
+              <PrivateRoute>
+                <Home />
+              </PrivateRoute>
+            }
+          />
           <Route path="/login" element={<Login />} />
           {/* <Route path="/register" element={<Register />} /> */}
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/profile-edit" element={<EditProfile />} />
-          <Route path="/admin" element={<AdminDash />} />
+          <Route
+            path="/profile"
+            element={
+              <PrivateRoute>
+                <Profile />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/profile-edit"
+            element={
+              <PrivateRoute>
+                <EditProfile />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <PrivateRoute>
+                <AdminDash />
+              </PrivateRoute>
+            }
+          />
           <Route path="/upload" element={<Upload />} />
-          <Route path="/leave" element={<Leave />} />
+          <Route
+            path="/leave"
+            element={
+              <PrivateRoute>
+                <Leave />
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </div>
     </div>

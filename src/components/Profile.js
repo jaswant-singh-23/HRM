@@ -115,7 +115,7 @@ const Profile = () => {
       <Sidebar />
       <div className="container-fluid">
         <div className="main-body">
-          <div className="row gutters-sm">
+          <div className="row gutters-sm mt-3">
             <div className="col-md-4 mb-3">
               <div className="card">
                 <div className="card-body">
@@ -156,15 +156,15 @@ const Profile = () => {
                         onChange={handleChange}
                       />
                       <br />
-                      <h4>{userField.name}</h4>
-                      <p className="text-secondary mb-1">
+                      <h4 className="mb-2">{userField.name}</h4>
+                      <p className="text-secondary mb-3">
                         {userField.designation}
                       </p>
                       {/* <p className="text-muted font-size-sm">
                         {userField.address}
                       </p> */}
-                      <div>
-                        <Link className="edit_button" to="/profile-edit">
+                      <div className="mb-3">
+                        <Link className="bg-dark-primary" to="/profile-edit">
                           <button>Edit Profile</button>
                         </Link>
                       </div>
@@ -293,7 +293,7 @@ const Profile = () => {
                 <div className="card-body">
                   <div className="row">
                     <div className="col-sm-3">
-                      <h6 className="mb-0">Full Name</h6>
+                      <h6 className="mb-0">Name</h6>
                     </div>
                     <div className="col-sm-9 text-secondary">
                       {userField.name}
@@ -311,10 +311,10 @@ const Profile = () => {
                   <hr />
                   <div className="row">
                     <div className="col-sm-3">
-                      <h6 className="mb-0">Phone</h6>
+                      <h6 className="mb-0">Username</h6>
                     </div>
                     <div className="col-sm-9 text-secondary">
-                      (+91) 9874563210
+                      {userField.username}
                     </div>
                   </div>
                   <hr />
@@ -329,6 +329,13 @@ const Profile = () => {
                   <hr />
                   <div className="row">
                     <div className="col-sm-3">
+                      <h6 className="mb-0">DOB</h6>
+                    </div>
+                    <div className="col-sm-9 text-secondary">04/07/1998</div>
+                  </div>
+                  <hr />
+                  <div className="row">
+                    <div className="col-sm-3">
                       <h6 className="mb-0">Address</h6>
                     </div>
                     <div className="col-sm-9 text-secondary">
@@ -338,14 +345,25 @@ const Profile = () => {
                   <hr />
                   <div className="row">
                     <div className="col-sm-3">
-                      <h6 className="mb-0">DOB</h6>
+                      <h6 className="mb-0">Department</h6>
                     </div>
-                    <div className="col-sm-9 text-secondary">04/07/1998</div>
+                    <div className="col-sm-9 text-secondary">
+                      {userField.department}
+                    </div>
+                  </div>
+                  <hr />
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <h6 className="mb-0">Date of Joining</h6>
+                    </div>
+                    <div className="col-sm-9 text-secondary">
+                      {userField.dateofjoining}
+                    </div>
                   </div>
                 </div>
               </div>
 
-              <div className="row gutters-sm">
+              <div className="row gutters-sm" style={{ display: "none" }}>
                 <div className="col-sm-12 mb-3">
                   <div className="card h-100">
                     <div className="card-body">
