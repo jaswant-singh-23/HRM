@@ -21,8 +21,12 @@ import logo from "./assets/images/logo-horizontal-white.png";
 import { ToastContainer } from "react-toastify";
 import EditProfile from "./components/EditProfile";
 import { PrivateModeratorRoute, PrivateRoute } from "./shared/components/PrivateRoute";
-import InventoryControl from "./HRM/Pages/InventoryControl"
-import LeaveManagement from "./HRM/Pages/LeaveManagement";
+import InventoryControl from "./HRM/pages/InventoryControl"
+import LeaveManagement from "./HRM/pages/LeaveManagement";
+import General from "./HRM/pages/General";
+import EmpDetails from "./HRM/pages/EmpDetails";
+import DepartmentDetail from "./HRM/pages/DepartmentDetail";
+
 
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
@@ -186,6 +190,30 @@ const App = () => {
               </PrivateModeratorRoute>
             }
           />
+          <Route
+            path="/general"
+            element={
+              <PrivateRoute>
+                <General/>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/emp-detail"
+            element={
+              <PrivateRoute>
+                <EmpDetails/>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/dep-detail"
+            element={
+              <PrivateRoute>
+                <DepartmentDetail/>
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </div>
     </div>
@@ -193,3 +221,6 @@ const App = () => {
 };
 
 export default App;
+
+
+
