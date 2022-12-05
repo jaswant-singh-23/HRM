@@ -69,7 +69,7 @@ const Profile = () => {
   /////////// get Profile Dedtails //////////
   useEffect(() => {
     userService
-      .getProfileDetail()
+      .getProfileById()
       .then((response) => {
         serUserField(response.data.data);
       })
