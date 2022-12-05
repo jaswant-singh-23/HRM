@@ -1,5 +1,5 @@
 import React from 'react'
-import Sidebar from '../shared/Sidebar'
+import Sidebar from '../Shared/Sidebar'
 
 const InventoryControl = () => {
   return (

@@ -24,6 +24,9 @@ const getAdminBoard = () => {
 const getProfileDetail = () => {
   return axios.get(API_URL + "profile-details", { headers: authHeader() });
 };
+const getProfileById = () => {
+  return axios.get(API_URL + "get-a-profile", { headers: authHeader() });
+};
 
 const getLeaveDetail = () => {
   return axios.get(API_URL + "leave-details", { headers: authHeader() });
@@ -33,12 +36,14 @@ const leaveApply = (data) => {
   return axios.post(API_URL + "leave-apply", data, { headers: authHeader() });
 };
 
+
 export default {
   getPublicContent,
   getUserBoard,
   getModeratorBoard,
   getAdminBoard,
   getProfileDetail,
+  getProfileById,
   getLeaveDetail,
   leaveApply,
 };
