@@ -400,4 +400,11 @@ button:not(:disabled) {
 	background-repeat: no-repeat;
 	background-size: cover;
 }
-	
+
+/* login */
+
+.login-bg-image{
+	background-image: url('../assets/images/login-back.jpg');
+	background-repeat: no-repeat;
+	background-size: cover;
+}

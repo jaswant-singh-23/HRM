@@ -19,7 +19,9 @@ const Home = () => {
             <Link to="/profile" className="text-white text-decoration-none">
               <div className="d-flex justify-content-center">
                 <div className="mr-4">
-                  <h3 className=""> Go to profile page</h3>
+                  <button className="btn bg-dark-primary">
+                  Go to profile page
+                  </button>
                 </div>
               </div>
             </Link>

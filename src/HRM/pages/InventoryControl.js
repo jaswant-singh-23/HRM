@@ -5,6 +5,8 @@ const InventoryControl = () => {
   return (
     <div>
       <Sidebar/>
+      <h2>Hello World</h2>
+
     </div>
   )
 }

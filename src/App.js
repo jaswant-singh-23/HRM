@@ -20,7 +20,7 @@ import Leave from "./components/Leave";
 import logo from "./assets/images/logo-horizontal-white.png";
 import { ToastContainer } from "react-toastify";
 import EditProfile from "./components/EditProfile";
-import { PrivateRoute } from "./shared/components/PrivateRoute";
+import { PrivateModeratorRoute, PrivateRoute } from "./shared/components/PrivateRoute";
 import InventoryControl from "./HRM/pages/InventoryControl";
 
 const App = () => {
@@ -66,7 +66,7 @@ const App = () => {
               </Link>
             </li>
 
-            {showModeratorBoard && (
+            {/* {showModeratorBoard && (
               <li className="nav-item">
                 <Link to={"/mod"} className="nav-link">
                   Moderator Board
@@ -88,7 +88,7 @@ const App = () => {
                   User
                 </Link>
               </li>
-            )}
+            )} */}
           </div>
         </div>
 
@@ -172,9 +172,9 @@ const App = () => {
           <Route
             path="/inventory-control"
             element={
-              <PrivateRoute>
+              <PrivateModeratorRoute>
                 <InventoryControl />
-              </PrivateRoute>
+              </PrivateModeratorRoute>
             }
           />
         </Routes>

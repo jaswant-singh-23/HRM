@@ -61,7 +61,7 @@ const Sidebar = () => {
             </Link>
           </div>
           <div className={`nav-links ${active == "profile" ? `active` : ""}`}>
-            <Link to="/profile" className="text-decoration-none">
+            <Link to="/employee-details" className="text-decoration-none">
               <button type="button">
                 <i className="fa-solid fa-user"></i>
                 <span
@@ -75,7 +75,7 @@ const Sidebar = () => {
             </Link>
           </div>
           <div className={`nav-links ${active == "leave" ? `active` : ""}`}>
-            <Link to="/leave" className="text-decoration-none">
+            <Link to="/leave-management" className="text-decoration-none">
               <button type="button">
                 <i className="fa-solid fa-layer-group"></i>
                 <span
