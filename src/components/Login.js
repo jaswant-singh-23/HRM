@@ -3,7 +3,9 @@ import { useNavigate, Link } from "react-router-dom";
 import Toast from "../shared/Toast";
 import AuthService from "../services/auth.service";
 import { useFormik } from "formik";
+import { useSelector } from "react-redux";
 import * as Yup from 'yup';
+
 import { ToastContainer } from "react-toastify"
 
 
@@ -23,9 +25,7 @@ const Login = () => {
   const form = useRef();
   const checkBtn = useRef();
   const navigate = useNavigate();
-
   const [message, setMessage] = useState(false)
-  const [refresh, setRefresh] = useState(false);
   const [loading, setLoading] = useState("")
 
   const formik = useFormik({
@@ -47,14 +47,20 @@ const Login = () => {
     if (
       formik.values.username != " " &&
       formik.values.password != " "
-    ) {
+    ){
       const username = formik.values.username;
       const password = formik.values.password;
 
       AuthService.login(username, password).then((response) => {
          
         Toast.success(response.message)
-        navigate("/profile");
+        console.log(response)
+        if(response.roles =="ROLE_USER"){
+          navigate("/profile");
+        }else if(response.roles=="ROLE_MODERATOR"){
+          navigate("/general")
+        }
+        else(navigate("/home"))
          window.location.reload();
       },
         (error) => {
@@ -69,19 +75,9 @@ const Login = () => {
           setMessage(resMessage);
         }
       );
-    };
+    }
   };
-
-  // useEffect(() => {
-  //   async function fetchMyAPI() {
-  //     let response = await refresh;
-  //      setRefresh(response)
-  //   }
-
-  //   fetchMyAPI()
-  // }, [])
-
-
+  
   return (
     <div className="bg-grey-color vl-cn d-flex h-100vh align-items-center login-bg-image">
       <ToastContainer />

@@ -44,7 +44,7 @@ const Leave = () => {
   //////////////// Get User Detail //////////////
   useEffect(() => {
     userService
-      .getProfileDetail()
+      .getProfileById()
       .then((response) => {
         setUserField(response.data.data);
       })

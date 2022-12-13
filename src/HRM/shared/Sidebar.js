@@ -51,7 +51,7 @@ const Sidebar = () => {
         </header>
         <nav className="sidebar_nav">
           <div className={`nav-links ${active == "home" ? `active` : ""}`}>
-            <Link to="/home" className="text-decoration-none">
+            <Link to="/dep-detail" className="text-decoration-none">
               <button type="button">
                 <i className="fa-solid fa-house" />
                 <span style={{ animationDelay: ".5s" }} title="Home">
@@ -61,7 +61,7 @@ const Sidebar = () => {
             </Link>
           </div>
           <div className={`nav-links ${active == "profile" ? `active` : ""}`}>
-            <Link to="/employee-details" className="text-decoration-none">
+            <Link to="/emp-details" className="text-decoration-none">
               <button type="button">
                 <i className="fa-solid fa-user"></i>
                 <span
@@ -69,7 +69,7 @@ const Sidebar = () => {
                   title="Profile"
                   className="text-nowrap"
                 >
-                  Employee Details
+                  Emp & Dep Details
                 </span>
               </button>
             </Link>
@@ -131,7 +131,7 @@ const Sidebar = () => {
             </Link>
           </div>
           <div>
-            <Link className="text-decoration-none">
+            <Link to='/alumni-detail' className="text-decoration-none">
               <button type="button">
                 <i className="fa-solid fa-gear"></i>
                 <span

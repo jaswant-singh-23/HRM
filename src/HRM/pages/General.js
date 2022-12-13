@@ -1,13 +1,12 @@
 import React from 'react'
-import Sidebar from '../shared/Sidebar'
-import EmpDetails from './EmpDetails'
+import Sidebar from '../Shared/Sidebar'
 
 const General = () => {
   return (
-    <div>
-    
-           <EmpDetails/>
-      
+    <div className='bg-grey-color custom-grid h-100'>
+      <Sidebar />
+      <h1>General section</h1>
+
     </div>
   )
 }
