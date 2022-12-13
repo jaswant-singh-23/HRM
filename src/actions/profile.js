@@ -7,7 +7,7 @@ import {
 import userService from "../services/user.service";
 
 /*(export const addProfile = () => (dispatch) => {
-    return userService.getProfileDetail().then(
+    return userService.getProfileById().then(
       (response) => {
         dispatch({
           type: GET_PROFILE_SUCCESS,
@@ -43,7 +43,7 @@ import userService from "../services/user.service";
   };
 */
 export const getProfile = () => (dispatch) => {
-  return userService.getProfileDetail().then(
+  return userService.getProfileById().then(
     (response) => {
       dispatch({
         type: GET_PROFILE_SUCCESS,

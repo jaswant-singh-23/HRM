@@ -21,11 +21,14 @@ import logo from "./assets/images/logo-horizontal-white.png";
 import { ToastContainer } from "react-toastify";
 import EditProfile from "./components/EditProfile";
 import { PrivateModeratorRoute, PrivateRoute } from "./shared/components/PrivateRoute";
-import InventoryControl from "./HRM/pages/InventoryControl"
-import LeaveManagement from "./HRM/pages/LeaveManagement";
-import General from "./HRM/pages/General";
-import EmpDetails from "./HRM/pages/EmpDetails";
-import DepartmentDetail from "./HRM/pages/DepartmentDetail";
+import InventoryControl from "./HRM/Pages/InventoryControl"
+import LeaveManagement from "./HRM/Pages/LeaveManagement";
+import General from "./HRM/Pages/General";
+import EmpDetails from "./HRM/Pages/EmpDetails";
+import DepartmentDetail from "./HRM/Pages/DepartmentDetail";
+import AlumniDetail from "./HRM/Pages/AlumniDetail";
+import ExcelJsonData from "./HRM/Pages/ExcelJsonData";
+import EditEmployee from "./HRM/Pages/EditEmployee";
 
 
 const App = () => {
@@ -71,9 +74,9 @@ const App = () => {
               </Link>
             </li>
 
-            {/* {showModeratorBoard && (
+             {showModeratorBoard && (
               <li className="nav-item">
-                <Link to={"/mod"} className="nav-link">
+                <Link to={"/profile"} className="nav-link">
                   Moderator Board
                 </Link>
               </li>
@@ -93,7 +96,7 @@ const App = () => {
                   User
                 </Link>
               </li>
-            )} */}
+            )} 
           </div>
         </div>
 
@@ -211,6 +214,30 @@ const App = () => {
             element={
               <PrivateRoute>
                 <DepartmentDetail/>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/alumni-detail"
+            element={
+              <PrivateRoute>
+                <AlumniDetail/>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/emp-details"
+            element={
+              <PrivateRoute>
+                <ExcelJsonData/>
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/edit-emp/:id"
+            element={
+              <PrivateRoute>
+                <EditEmployee/>
               </PrivateRoute>
             }
           />

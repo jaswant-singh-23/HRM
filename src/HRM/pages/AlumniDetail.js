@@ -52,7 +52,7 @@ const data = [
   },
 ];
 
-const DepartmentDetail = () => {
+const AlumniDetail = () => {
   return (
     <div className="custom-grid h-100vh">
       <Sidebar />
@@ -68,7 +68,6 @@ const DepartmentDetail = () => {
                         <tr>
                           <th scope="col">ID</th>
                           <th scope="col">Dipartment</th>
-                          <th scope="col">TL</th>
                           <th scope="col">Employee</th>
                         </tr>
                       </thead>
@@ -101,4 +100,4 @@ const DepartmentDetail = () => {
   );
 };
 
-export default DepartmentDetail;
+export default AlumniDetail;
