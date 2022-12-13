@@ -9,20 +9,29 @@ const LeaveManagement = () => {
   const [content, setContent] = useState([]);
   const [addShow, setAddShow] = useState(false);
 
+  const [rejectReason, setRejectReason] = useState();
+  
   const [openLeave, setOpenLeave] = useState({
     name: "",
     department: "",
     fromDate: "",
     toDate: "",
     reason: "",
-    halfDay: ""
+    halfDay: "",
+    username: "",
+    rejectReason: "",
   });
   const [showRejectBox, setShowRejectBox] = useState(false);
 
-  const handleAddShow = (item) => {
+  const handleRejectReason = (e) => {
+    let rejectReason = e.target.value;
+    setRejectReason(rejectReason);
+  }
+
+  const handleAddShow = (items) => {
     setOpenLeave({
-      name: item.name, id: item.id, department: item.department,
-      fromDate: item.fromDate, toDate: item.toDate, reason: item.reason, halfDay: item.halfDay,
+      name: items.name, id: items.id, department: items.department, username: items.username, rejectReason: items.rejectReason,
+      fromDate: items.fromDate, toDate: items.toDate, reason: items.reason, halfDay: items.halfDay,
     })
     setAddShow(true)
   };
@@ -32,13 +41,14 @@ const LeaveManagement = () => {
     setShowRejectBox(!showRejectBox.true)
   }
 
+  /////get leave detail/////
+
   useEffect(() => {
     userService
       .getLeaveDetail()
       .then((response) => {
         console.log(response)
         setContent(response.data.data)
-
       })
       .catch((error) => {
         const resMessage =
@@ -49,6 +59,60 @@ const LeaveManagement = () => {
           error.toString();
       });
   }, []);
+
+  /////reply leave//////
+
+  const handleApproved = (items) => {
+    const data = {
+      name: items.name,
+      username: items.username,
+      department: items.department,
+      leaveStatus: "Approved",
+      rejectReason: ""
+    }
+    userService
+      .leaveReply(data)
+      .then((response) => {
+        console.log(response)
+        setContent(response.data.data);
+      })
+      .catch((error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+      });
+  };
+
+  ///////leave reject///////
+
+  const handleRejected = (items) => {
+    const data = {
+      name: items.name,
+      username: items.username,
+      department: items.department,
+      leaveStatus: "Rejected",
+      rejectReason: rejectReason,
+    }
+
+    userService
+      .leaveReply(data)
+      .then((response) => {
+        console.log(response)
+        setContent(response.data.data);
+      })
+      .catch((error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+      });
+  };
+
   return (
     <div className="custom-grid h-100vh">
       <Sidebar />
@@ -101,7 +165,7 @@ const LeaveManagement = () => {
                     {moment(openLeave.fromDate).format("DD-MMM-YYYY")}
                   </b>{" "}
                   to{" "}
-                  <b>{moment(openLeave.toDate).format("DD-MMM-YYYY")}</b>{" "}
+                  <b>{moment(openLeave.toDate).format("DD-MMM-YYYY")}</b>
                   <b>{openLeave.halfDay}</b>. Because of <b>{openLeave.reason}</b> I
                   will look forward for Consideration and
                   approval please.
@@ -109,15 +173,15 @@ const LeaveManagement = () => {
                 <p>Thanks🙏</p>
                 <p>With Best Regards</p>
               </div>
-              <div className="mt-2 border-top Reject-leave" id="" style={{ display: showRejectBox ? 'block' : 'none' }}>
-                <textarea class="form-control mb-3 mt-3" id="exampleFormControlTextarea1" rows="3" placeholder="Reason"></textarea>
-                <Button className="btn border-0 bg-dark-primary py-1 px-4">Submit</Button>
+              <div className="mt-2 border-top" id="" style={{ display: showRejectBox ? 'block' : 'none' }}>
+                <textarea class="form-control mb-3 mt-3" value={rejectReason} onChange={handleRejectReason} id="exampleFormControlTextarea1" rows="3" placeholder="Reason"></textarea>
+                <Button className="btn border-0 bg-dark-primary py-1 px-4" onClick={() => { handleRejected(openLeave) }}>Submit</Button>
               </div>
             </div>
           </Modal.Body>
           <Modal.Footer>
             <Button className="btn border-0 bg-danger " onClick={handleRejectShow}>Reject</Button>
-            <Button className="btn border-0 bg-dark-primary py-1 px-4">Approve</Button>
+            <Button className="btn border-0 bg-dark-primary py-1 px-4" onClick={() => { handleApproved(openLeave) }}>Approve</Button>
           </Modal.Footer>
         </Modal>
       </div>
