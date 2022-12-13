@@ -196,49 +196,49 @@ const App = () => {
           <Route
             path="/general"
             element={
-              <PrivateRoute>
+              <PrivateModeratorRoute>
                 <General/>
-              </PrivateRoute>
+              </PrivateModeratorRoute>
             }
           />
           <Route
             path="/emp-detail"
             element={
-              <PrivateRoute>
+              <PrivateModeratorRoute>
                 <EmpDetails/>
-              </PrivateRoute>
+              </PrivateModeratorRoute>
             }
           />
           <Route
             path="/dep-detail"
             element={
-              <PrivateRoute>
+              <PrivateModeratorRoute>
                 <DepartmentDetail/>
-              </PrivateRoute>
+              </PrivateModeratorRoute>
             }
           />
           <Route
             path="/alumni-detail"
             element={
-              <PrivateRoute>
+              <PrivateModeratorRoute>
                 <AlumniDetail/>
-              </PrivateRoute>
+              </PrivateModeratorRoute>
             }
           />
           <Route
             path="/emp-details"
             element={
-              <PrivateRoute>
+              <PrivateModeratorRoute>
                 <ExcelJsonData/>
-              </PrivateRoute>
+              </PrivateModeratorRoute>
             }
           />
           <Route
             path="/edit-emp/:id"
             element={
-              <PrivateRoute>
+              <PrivateModeratorRoute>
                 <EditEmployee/>
-              </PrivateRoute>
+              </PrivateModeratorRoute>
             }
           />
         </Routes>

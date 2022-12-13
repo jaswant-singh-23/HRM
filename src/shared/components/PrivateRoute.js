@@ -12,7 +12,7 @@ function PrivateRoute({ children }) {
     return <Navigate to="/login" />;
   }
   // authorized so return child components
-  if (authUser) {
+  if (user) {
     return children
   }
    if (!user) {
