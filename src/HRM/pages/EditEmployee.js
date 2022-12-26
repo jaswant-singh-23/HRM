@@ -16,6 +16,7 @@ const EditEmployee = (props) => {
   const [designation, setDesignation] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [address, setAddress] = useState("");
+  const [file, setFile] = useState("");
 
   const [content, setContent] = useState([]);
   const { id } = useParams();
@@ -65,53 +66,62 @@ const EditEmployee = (props) => {
     },
   });
 
-//   /////// Get Emp ///////
-// 	useEffect(() => {
-// 		var empId = { "id": id }
-// 		AuthService.getEmpById(empId).then(
-// 			(response) => {
-// 				setContent(response.data.data);
-// 				console.log(response.data.data)
-// 			},
-// 			(error) => {
-// 				const _content =
-// 					(error.response && error.response.data) ||
-// 					error.message ||
-// 					error.toString();
-// 				setContent(_content);
-// 			}
-// 		);
-// 		formik.values.id = id
-// 	}, []);
-// 	console.log(content)
+  //   /////// Get Emp /////// 
+  // 	useEffect(() => {
+  // 		var empId = { "id": id }
+  // 		AuthService.getEmpById(empId).then(
+  // 			(response) => {
+  // 				setContent(response.data.data);
+  // 				console.log(response.data.data)
+  // 			},
+  // 			(error) => {
+  // 				const _content =
+  // 					(error.response && error.response.data) ||
+  // 					error.message ||
+  // 					error.toString();
+  // 				setContent(_content);
+  // 			}
+  // 		);
+  // 		formik.values.id = id
+  // 	}, []);
+  // 	console.log(content)
 
-// 	///////// Update Emp ////////
-	const onUpdate = async () => {
-		const data = formik.values;
-		console.log(data)
-		UserService.UpdateEmployeeDetails(data).then(
-			(response) => {
-				setContent(response.data.data);
-				Toast.success(response.data.message)
-				navigate('/emp-details');
-			},
-			(error) => {
-				const _content =
-					(error.response && error.response.data) ||
-					error.message ||
-					error.toString();
-				setContent(_content);
-			}
-		);
-	}
+  /////////// Update Emp ////////
+
+  const onUpdate = async () => {
+    const data = {
+      name: content.name,
+      email:  content.email,
+      username:  content.username,
+      phone:  content.phone,
+      designation: content.designation,
+      department:  content.department,
+      address:content.address,
+      currentCTC: content.currentCTC,
+    }
+    UserService.UpdateEmployeeDetails(data).then(
+      (response) => {
+        setContent(response.data.data);
+        // Toast.success(response.data.message)
+      },
+      (error) => {
+        const _content =
+          (error.response && error.response.data) ||
+          error.message ||
+          error.toString();
+        setContent(_content);
+      }
+    );
+  }
 
   /////// Get Profile ///////
+  
   useEffect(() => {
     var profileId = { id: id };
     UserService.getParticularProfile(profileId).then(
       (response) => {
+        console.log(response)
         setContent(response.data.data);
-        console.log(response.data.data);
       },
       (error) => {
         const _content =
@@ -125,57 +135,28 @@ const EditEmployee = (props) => {
   }, []);
   console.log(content);
 
-  const handleSubmit = () => {
-    console.log("---------", formik.values);
-  };
-
-  const previewFile = () => {};
-
-  const [image, setImage] = useState({ preview: "", raw: "" });
-
   const handleChange = (e) => {
     console.log("------------------", e.target)
     if (e.target.files.length) {
-      setImage({
+      setContent({
         preview: URL.createObjectURL(e.target.files[0]),
         raw: e.target.files[0],
       });
     }
   };
 
-  const handleUpload = async (e) => {
-    e.preventDefault();
-    const formData = new FormData();
-    formData.append("image", image.raw);
-
-    await fetch("YOUR_URL", {
-      method: "POST",
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      body: formData,
-    });
-  };
-
   // --------------Attached --------------------
-
-  const [file, setFile] = useState("");
-
-  const handleChanges = (e) => {
-    const data = e.target.files[0];
-    setFile(data);
-  };
 
   return (
     <div className="bg-grey-color custom-grid h-100">
       <Sidebar />
       <div className="container-fluid mb-5">
-      
+
         <div className="row justify-content-center mt-5">
-          <div className="col-xs-12 col-md-10 profile-badge p-5 bg-white rounded">
-          <div className="text-center mb-5">
-             <h3>Update Details</h3>
-          </div>
+          <div className="col-xs-12 col-md-8 profile-badge p-5 bg-white rounded">
+            <div className="text-center mb-5">
+              <h3>Update Details</h3>
+            </div>
             <div className="user-detail">
               <form onSubmit={formik.onSubmit}>
                 <div className="row">
@@ -250,16 +231,17 @@ const EditEmployee = (props) => {
                   <div className="col-12 col-lg-6">
                     <div className="form-group mb-3">
                       <label htmlFor="department"> Department</label>
-                        <input
-                            type="text"
-                            className="form-control"
-                            id="department"
-                            name="Department"
-                            onChange={handleChange}
-                            defaultValue={content.department}
-                        />
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="department"
+                        name="Department"
+                        onChange={handleChange}
+                        defaultValue={content.department}
+                      />
                     </div>
                   </div>
+                  
                   <div className="col-12 col-lg-6">
                     <div className="form-group mb-3">
                       <label htmlFor="DOJ"> Date of Joining</label>
@@ -301,9 +283,36 @@ const EditEmployee = (props) => {
                   </div>
                   <div className="col-12 col-lg-6">
                     <div className="form-group mb-3">
+                      <label htmlFor="PanCard"> PAN Card No</label>
+                      <input
+                        type="file"
+                        className="form-control"
+                        id="PanCard"
+                        onChange={handleChange}
+                        placeholder="Card No"
+                        name="PanCard"
+                      />
+                    </div>
+                  </div>
+                  <div className="col-12 col-lg-12">
+                    <div className="form-group mb-3">
+                      <label htmlFor="Address"> Address</label>
+                      <textarea
+                        type="text"
+                        className="form-control"
+                        id="Address"
+                        name="Address"
+                        onChange={handleChange}
+                        defaultValue={content.address}
+                      ></textarea>
+                    </div>
+                  </div>
+                  <hr></hr>
+                  <div className="col-12 col-lg-6">
+                    <div className="form-group mb-3">
                       <label htmlFor="BankDetail"> Bank Detail</label>
                       <input
-                        type="text"
+                        type="file"
                         className="form-control"
                         id="BankDetail "
                         placeholder="Enter Bank Detail"
@@ -338,20 +347,7 @@ const EditEmployee = (props) => {
                       />
                     </div>
                   </div>
-                  <div className="col-12 col-lg-4">
-                    <div className="form-group mb-3">
-                      <label htmlFor="PanCard"> PAN Card</label>
-                      <input
-                        type="file"
-                        className="form-control"
-                        id="PanCard"
-                        onChange={handleChange}
-                        placeholder="Attached Pan Card"
-                        name="PanCard"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-12 col-lg-4">
+                  <div className="col-12 col-lg-6">
                     <div className="form-group mb-3">
                       <label htmlFor="AadhaarCard"> Aadhaar Card</label>
                       <input
@@ -364,7 +360,7 @@ const EditEmployee = (props) => {
                       />
                     </div>
                   </div>
-                  <div className="col-12 col-lg-4">
+                  <div className="col-12 col-lg-12">
                     <div className="form-group mb-3">
                       <label htmlFor="ExperienceLetter">Experience Letter </label>
                       <input
@@ -374,19 +370,6 @@ const EditEmployee = (props) => {
                         onChange={handleChange}
                         name="ExperienceLetter"
                       />
-                    </div>
-                  </div>
-                  <div className="col-12 col-lg-12">
-                    <div className="form-group mb-3">
-                      <label htmlFor="Address"> Address</label>
-                      <textarea
-                        type="text"
-                        className="form-control"
-                        id="Address"
-                        name="Address"
-                        onChange={handleChange}
-                        defaultValue={content.address}
-                      ></textarea>
                     </div>
                   </div>
                 </div>
@@ -402,7 +385,7 @@ const EditEmployee = (props) => {
             </div>
           </div>
         </div>
-            </div>
+      </div>
     </div>
   );
 };

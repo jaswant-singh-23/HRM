@@ -7,17 +7,17 @@ import { useParams } from "react-router-dom";
 import UserService from "../services/user.service";
 
 const EditProfile = (props) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [phone, setPhone] = useState("");
-  const [designation, setDesignation] = useState("");
-  const [dateOfBirth, setDateOfBirth] = useState("");
-  const [address, setAddress] = useState("");
+  // const [name, setName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [username, setUsername] = useState("");
+  // const [phone, setPhone] = useState("");
+  // const [designation, setDesignation] = useState("");
+  // const [dateOfBirth, setDateOfBirth] = useState("");
+  // const [address, setAddress] = useState("");
 
   const [content, setContent] = useState([]);
-  const { id } = useParams();
-
+  const [file, setFile] = useState("");
+  const { id } = useParams()
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
     email: Yup.string().required("Email is required"),
@@ -62,9 +62,10 @@ const EditProfile = (props) => {
   });
 
   /////// Get Profile ///////
+
   useEffect(() => {
     var profileId = { id: id };
-    UserService.getProfileDetail().then(
+    UserService.getProfileById().then(
       (response) => {
         setContent(response.data.data);
         console.log(response.data.data);
@@ -81,16 +82,17 @@ const EditProfile = (props) => {
   }, []);
   console.log(content);
 
-  const handleSubmit = () => {
-    console.log("---------", formik.values);
-  };
-
-  const previewFile = () => {};
+  // const handleSubmit = () => {
+  //   console.log("---------", formik.values);
+  // };
 
   const [image, setImage] = useState({ preview: "", raw: "" });
 
   const handleChange = (e) => {
-    console.log("------------------", e.target)
+    console.log("------------------", e.target);
+    const data = e.target.files[0];
+    setFile(data);
+
     if (e.target.files.length) {
       setImage({
         preview: URL.createObjectURL(e.target.files[0]),
@@ -99,28 +101,30 @@ const EditProfile = (props) => {
     }
   };
 
-  const handleUpload = async (e) => {
-    e.preventDefault();
+  // const handleChanges = (e) => {
+  //   console.log(e.target.files);
+  //   const data = e.target.files[0];
+  //   setFile(data);
+  // };
+
+  const handleSubmit = () => {
     const formData = new FormData();
     formData.append("image", image.raw);
-
-    await fetch("YOUR_URL", {
-      method: "POST",
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-      body: formData,
-    });
+    UserService.uploadImage(formData)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+      });
   };
-
-  // --------------Attached --------------------
-
-  const [file, setFile] = useState("");
-
-  const handleChanges = (e) => {
-    const data = e.target.files[0];
-    setFile(data);
-  };
+  
+  // --------------Attached -------------------- //
 
   return (
     <div className="bg-grey-color custom-grid h-100">
@@ -128,7 +132,7 @@ const EditProfile = (props) => {
       <div className="container-fluid mb-5">
         <div className="row justify-content-center mt-5">
           <div className="col-xs-12 col-md-10 profile-badge p-5 bg-white rounded">
-            {/* <img src="https://dummyimage.com/600x400/000/">  */}
+            {/* <img src="https://dummyimage.com/600x400/000/" /> */}
 
             <div className="profile-pic">
               <label htmlFor="upload-button">
@@ -164,12 +168,6 @@ const EditProfile = (props) => {
                 id="upload-button"
                 style={{ display: "none" }}
                 onChange={handleChange}
-              />
-              <input
-                id="profile-image-upload"
-                className="hidden"
-                type="file"
-                onChange={previewFile}
               />
             </div>
             <div className="user-detail">
@@ -229,7 +227,10 @@ const EditProfile = (props) => {
                   <div className="col-12 col-lg-6">
                     <div className="form-group mb-3">
                       <label htmlFor="Designation">Designation</label>
-                      <select className="form-control custom-select" id="Designation">
+                      <select
+                        className="form-control custom-select"
+                        id="Designation"
+                      >
                         <option selected>...Choose...</option>
                         <option value="1">
                           Technical Lead/Engineering Lead/Team Lead
@@ -254,7 +255,10 @@ const EditProfile = (props) => {
                   <div className="col-12 col-lg-6">
                     <div className="form-group mb-3">
                       <label htmlFor="department"> Department</label>
-                      <select className="form-control custom-select" id="Designation">
+                      <select
+                        className="form-control custom-select"
+                        id="Designation"
+                      >
                         <option selected>...Choose...</option>
                         <option value="1">
                           Marketing & Proposals Department
@@ -324,6 +328,18 @@ const EditProfile = (props) => {
                       />
                     </div>
                   </div>
+                  <div className="col-12 col-lg-12">
+                    <div className="form-group mb-3">
+                      <label htmlFor="Address"> Address</label>
+                      <textarea
+                        type="text"
+                        className="form-control"
+                        id="Address"
+                        placeholder="Enter Address"
+                        name="Address"
+                      ></textarea>
+                    </div>
+                  </div>
                   <div className="col-12 col-lg-6">
                     <div className="form-group mb-3">
                       <label htmlFor="PassportSizep">Passport Size P</label>
@@ -331,7 +347,6 @@ const EditProfile = (props) => {
                         type="file"
                         className="form-control"
                         id="AadhaarCard"
-                        onChange={handleChanges}
                         placeholder="Attached AAdhar Card"
                         name="PassportSizep"
                       />
@@ -339,12 +354,13 @@ const EditProfile = (props) => {
                   </div>
                   <div className="col-12 col-lg-6">
                     <div className="form-group mb-3">
-                      <label htmlFor="SalarySlip">Salary Slips Last 3 Months</label>
+                      <label htmlFor="SalarySlip">
+                        Salary Slips Last 3 Months
+                      </label>
                       <input
                         type="file"
                         className="form-control"
                         id="ExperienceLetter"
-                        onChange={handleChanges}
                         placeholder="Attached Experience Letter"
                         name="SalarySlip"
                       />
@@ -357,7 +373,6 @@ const EditProfile = (props) => {
                         type="file"
                         className="form-control"
                         id="PanCard"
-                        onChange={handleChanges}
                         placeholder="Attached Pan Card"
                         name="PanCard"
                       />
@@ -370,7 +385,6 @@ const EditProfile = (props) => {
                         type="file"
                         className="form-control"
                         id="AadhaarCard "
-                        onChange={handleChanges}
                         placeholder="Attached AAdhar Card"
                         name="AadhaarCard"
                       />
@@ -378,26 +392,15 @@ const EditProfile = (props) => {
                   </div>
                   <div className="col-12 col-lg-4">
                     <div className="form-group mb-3">
-                      <label htmlFor="ExperienceLetter">Experience Letter </label>
+                      <label htmlFor="ExperienceLetter">
+                        Experience Letter{" "}
+                      </label>
                       <input
                         type="file"
                         className="form-control"
                         id="FileInput"
-                        onChange={handleChanges}
                         name="ExperienceLetter"
                       />
-                    </div>
-                  </div>
-                  <div className="col-12 col-lg-12">
-                    <div className="form-group mb-3">
-                      <label htmlFor="Address"> Address</label>
-                      <textarea
-                        type="text"
-                        className="form-control"
-                        id="Address"
-                        placeholder="Enter Address"
-                        name="Address"
-                      ></textarea>
                     </div>
                   </div>
                   {/* <div className="col-12 col-lg-12">

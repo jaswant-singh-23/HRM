@@ -32,24 +32,31 @@ const getParticularProfile = (id) => {
 const getAllProfileDetail = () => {
   return axios.get(API_URL + "all-profile-details", { headers: authHeader() });
 };
-const UpdateEmployeeDetails = () => {
-  return axios.post(API_URL + "update-employee-details", { headers: authHeader() });
+const UpdateEmployeeDetails = (data) => {
+  return axios.post(API_URL + "update-employee-details", data, { headers: authHeader() });
 };
-const deleteEmployeeAccount = () => {
-  return axios.post(API_URL + "delete-employee-account", { headers: authHeader() });
+const deleteEmployeeAccount = (data) => {
+  return axios.post(API_URL + "delete-employee-account", data, { headers: authHeader() });
 };
-
 const getLeaveDetail = () => {
   return axios.get(API_URL + "leave-details", { headers: authHeader() });
 };
-
 const leaveApply = (data) => {
   return axios.post(API_URL + "leave-apply", data, { headers: authHeader() });
 };
 const getEmpDetail = (data) => {
   return axios.get(API_URL + "departments", data, { headers: authHeader() });
 };
-
+////upload image//////
+const uploadImage = (data) => {
+  return axios.post(API_URL + "upload-user-avatar", data, { headers: authHeader() });
+};
+ const AddInventory = (data) => {
+   return axios.post(API_URL + "inventory-add", data, { headers: authHeader() });
+ };
+ const GetInventory = () => {
+   return axios.get(API_URL + "inventory-view", { headers: authHeader() });
+ };
 
 export default {
   getPublicContent,
@@ -63,5 +70,8 @@ export default {
   getEmpDetail,
   getParticularProfile,
   UpdateEmployeeDetails,
-  deleteEmployeeAccount
+  deleteEmployeeAccount,
+  uploadImage,  
+  AddInventory,
+  GetInventory,
 };

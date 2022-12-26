@@ -24,6 +24,9 @@ const login = (username, password) => {
       return response.data;
     });
 };
+const addNewUser = (data) => {
+  return axios.post(API_URL + "add-new-user", data);
+};
 
 const logout = () => {
   localStorage.removeItem("user");
@@ -36,6 +39,7 @@ const AuthService = {
   register,
   login,
   logout,
-  getCurrentUser
+  getCurrentUser,
+  addNewUser,
 };
 export default AuthService;
