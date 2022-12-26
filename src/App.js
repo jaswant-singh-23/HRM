@@ -25,10 +25,11 @@ import InventoryControl from "./HRM/Pages/InventoryControl"
 import LeaveManagement from "./HRM/Pages/LeaveManagement";
 import General from "./HRM/Pages/General";
 import EmpDetails from "./HRM/Pages/EmpDetails";
-import DepartmentDetail from "./HRM/Pages/DepartmentDetail";
 import AlumniDetail from "./HRM/Pages/AlumniDetail";
 import ExcelJsonData from "./HRM/Pages/ExcelJsonData";
 import EditEmployee from "./HRM/Pages/EditEmployee";
+import AddInventory from "./HRM/Pages/AddInventory";
+import EditInventory from "./HRM/Pages/EditInventory"
 
 
 const App = () => {
@@ -39,17 +40,15 @@ const App = () => {
   const dispatch = useDispatch();
 
   let location = useLocation();
-
   useEffect(() => {
     if (["/login", "/register"].includes(location.pathname)) {
       dispatch(clearMessage()); // clear message when changing location
     }
   }, [dispatch, location]);
-
+  
   const logOut = useCallback(() => {
     dispatch(logout());
   }, [dispatch]);
-
   useEffect(() => {
     if (currentUser) {
       setShowModeratorBoard(currentUser.roles.includes("ROLE_MODERATOR"));
@@ -99,7 +98,7 @@ const App = () => {
             )} 
           </div>
         </div>
-
+        
         {currentUser ? (
           <div className="navbar-nav ml-auto">
             <li className="nav-item">
@@ -143,7 +142,6 @@ const App = () => {
             }
           />
           <Route path="/login" element={<Login />} />
-          {/* <Route path="/register" element={<Register />} /> */}
           <Route
             path="/profile"
             element={
@@ -210,34 +208,26 @@ const App = () => {
             }
           />
           <Route
-            path="/dep-detail"
-            element={
-              <PrivateModeratorRoute>
-                <DepartmentDetail/>
-              </PrivateModeratorRoute>
-            }
-          />
-          <Route
-            path="/alumni-detail"
-            element={
-              <PrivateModeratorRoute>
-                <AlumniDetail/>
-              </PrivateModeratorRoute>
-            }
-          />
-          <Route
-            path="/emp-details"
-            element={
-              <PrivateModeratorRoute>
-                <ExcelJsonData/>
-              </PrivateModeratorRoute>
-            }
-          />
-          <Route
             path="/edit-emp/:id"
             element={
               <PrivateModeratorRoute>
                 <EditEmployee/>
+              </PrivateModeratorRoute>
+            }
+          />
+          <Route
+            path="/add-inventory"
+            element={
+              <PrivateModeratorRoute>
+                <AddInventory/>
+              </PrivateModeratorRoute>
+            }
+          />
+          <Route
+            path="/edit-inventory"
+            element={
+              <PrivateModeratorRoute>
+                <EditInventory/>
               </PrivateModeratorRoute>
             }
           />

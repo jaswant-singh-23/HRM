@@ -25,14 +25,16 @@ const Sidebar = () => {
 
   useEffect(() => {
     if (pathname) {
-      if (pathname == "/leave") {
+      if (pathname == "/general") {
+        setActive("general");
+      } else if (pathname == "/emp-detail") {
+        setActive("detail");
+      } else if (pathname == "/leave-management") {
         setActive("leave");
-      } else if (pathname == "/profile") {
-        setActive("profile");
-      } else if (pathname == "/home") {
-        setActive("home");
-      } else {
-        setActive("home");
+      } else if (pathname == "/inventory-control") {
+        setActive("inventory");
+      }else {
+        setActive("general");
       }
     }
   }, [pathname]);
@@ -50,8 +52,8 @@ const Sidebar = () => {
           <span className="text-white cursor-pointer">Menu</span>
         </header>
         <nav className="sidebar_nav">
-          <div className={`nav-links ${active == "home" ? `active` : ""}`}>
-            <Link to="/dep-detail" className="text-decoration-none">
+          <div className={`nav-links ${active == "general" ? `active` : ""}`}>
+            <Link to="/general" className="text-decoration-none">
               <button type="button">
                 <i className="fa-solid fa-house" />
                 <span style={{ animationDelay: ".5s" }} title="Home">
@@ -60,13 +62,13 @@ const Sidebar = () => {
               </button>
             </Link>
           </div>
-          <div className={`nav-links ${active == "profile" ? `active` : ""}`}>
-            <Link to="/emp-details" className="text-decoration-none">
+          <div className={`nav-links ${active == "detail" ? `active` : ""}`}>
+            <Link to="/emp-detail" className="text-decoration-none">
               <button type="button">
                 <i className="fa-solid fa-user"></i>
                 <span
                   style={{ animationDelay: ".2s" }}
-                  title="Profile"
+                  title="Details"
                   className="text-nowrap"
                 >
                   Emp & Dep Details
@@ -88,13 +90,13 @@ const Sidebar = () => {
               </button>
             </Link>
           </div>
-          <div>
+          <div  className={`nav-links ${active == "inventory" ? `active` : ""}`}>
             <Link to="/inventory-control" className="text-decoration-none">
               <button type="button">
                 <i className="fa-solid fa-user"></i>
                 <span
                   style={{ animationDelay: ".2s" }}
-                  title="Profile"
+                  title="Inventory"
                   className="text-nowrap"
                 >
                   Inventory Control
