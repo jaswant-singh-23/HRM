@@ -7,8 +7,10 @@ import UserService from "../../services/user.service";
 import Sidebar from "../Shared/Sidebar";
 import AuthService from "../../services/auth.service";
 import { Toast } from "react-bootstrap";
+import { useSelector } from "react-redux";
 
 const EditEmployee = (props) => {
+  const [imgName, setImgName] = useState("");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -21,7 +23,7 @@ const EditEmployee = (props) => {
   const [content, setContent] = useState([]);
   const { id } = useParams();
   let navigate = useNavigate();
-
+  const { user: currentUser } = useSelector((state) => state.auth);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
@@ -61,12 +63,12 @@ const EditEmployee = (props) => {
     validationSchema,
     // validateOnChange: false,
     // validateOnBlur: false,
-    onSubmit: (data) => {
+    onUpdate: (data) => {
       console.log(JSON.stringify(data, null, 2));
     },
   });
 
-  //   /////// Get Emp /////// 
+  //   /////// Get Emp ///////
   // 	useEffect(() => {
   // 		var empId = { "id": id }
   // 		AuthService.getEmpById(empId).then(
@@ -91,18 +93,20 @@ const EditEmployee = (props) => {
   const onUpdate = async () => {
     const data = {
       name: content.name,
-      email:  content.email,
-      username:  content.username,
-      phone:  content.phone,
+      email: content.email,
+      username: content.username,
+      phone: content.phone,
       designation: content.designation,
-      department:  content.department,
-      address:content.address,
+      department: content.department,
+      dob: content.dob,
+      doj: content.doj,
+      address: content.address,
       currentCTC: content.currentCTC,
-    }
+    };
     UserService.UpdateEmployeeDetails(data).then(
       (response) => {
         setContent(response.data.data);
-        // Toast.success(response.data.message)
+        Toast.success(response.data.message)
       },
       (error) => {
         const _content =
@@ -112,15 +116,15 @@ const EditEmployee = (props) => {
         setContent(_content);
       }
     );
-  }
+  };
 
   /////// Get Profile ///////
-  
+
   useEffect(() => {
     var profileId = { id: id };
     UserService.getParticularProfile(profileId).then(
       (response) => {
-        console.log(response)
+        console.log(response);
         setContent(response.data.data);
       },
       (error) => {
@@ -135,10 +139,45 @@ const EditEmployee = (props) => {
   }, []);
   console.log(content);
 
+
+
+  useEffect(() => {
+    if (currentUser) {
+      const initials = currentUser.name
+        .split(" ")
+        .map((name) => name[0])
+        .join("")
+        .slice(0, 2)
+        .toUpperCase();
+      setImgName(initials);
+    }
+    console.log(currentUser);
+  }, [currentUser]);
+
+
+
   const handleChange = (e) => {
-    console.log("------------------", e.target)
+    console.log("------------------", e.target);
+    const data = e.target.files[0];
+    setContent(data);
+
     if (e.target.files.length) {
       setContent({
+        preview: URL.createObjectURL(e.target.files[0]),
+        raw: e.target.files[0],
+      });
+    }
+  };
+
+  const [image, setImage] = useState({ preview: "", raw: "" });
+
+  const handleUpload = (e) => {
+    console.log("------------------", e.target);
+    const data = e.target.files[0];
+    setFile(data);
+
+    if (e.target.files.length) {
+      setImage({
         preview: URL.createObjectURL(e.target.files[0]),
         raw: e.target.files[0],
       });
@@ -151,14 +190,47 @@ const EditEmployee = (props) => {
     <div className="bg-grey-color custom-grid h-100">
       <Sidebar />
       <div className="container-fluid mb-5">
-
         <div className="row justify-content-center mt-5">
-          <div className="col-xs-12 col-md-8 profile-badge p-5 bg-white rounded">
-            <div className="text-center mb-5">
+          <div className="col-xs-12 col-md-10 profile-badge p-5 bg-white rounded">
+          <div className="card">
+          <div className="card-body">
+            <div className="d-grid align-items-center text-center update_profile">
+              <div>
+                <label htmlFor="upload-button">
+                  {image.preview ? (
+                    <div className="position-relative upload-img-sec">
+                      <div className="upload-img-cover rounded-circle">
+                        <img
+                          src={image.preview}
+                          alt="dummy"
+                          width="100%"
+                          height="100%"
+                        />
+                      </div>
+
+                      <div className="position-absolute upload-img-inner ">
+                        <i className="fas fa-camera text-white fw-5 rounded-circle d-flex align-items-center justify-content-center"></i>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="position-relative upload-img-sec">
+                      <div className="upload-img-cover rounded-circle">
+                        <img src={content.avatar} />
+                        <div className="profileImage">{imgName}</div>
+                      </div>
+                    </div>
+                  )}
+                </label>
+              </div>
+              <div className="text-center mb-5">
               <h3>Update Details</h3>
+              </div>
             </div>
-            <div className="user-detail">
-              <form onSubmit={formik.onSubmit}>
+          </div>
+        </div>
+           
+            <div className="user-detail mt-4">
+              <form onSubmit={onUpdate}>
                 <div className="row">
                   <div className="col-12 col-lg-6">
                     <div className="form-group mb-3">
@@ -194,6 +266,7 @@ const EditEmployee = (props) => {
                         type="text"
                         className="form-control"
                         id="uname"
+                        readOnly={true}
                         name="Username"
                         onChange={handleChange}
                         defaultValue={content.username}
@@ -241,7 +314,7 @@ const EditEmployee = (props) => {
                       />
                     </div>
                   </div>
-                  
+
                   <div className="col-12 col-lg-6">
                     <div className="form-group mb-3">
                       <label htmlFor="DOJ"> Date of Joining</label>
@@ -307,8 +380,8 @@ const EditEmployee = (props) => {
                       ></textarea>
                     </div>
                   </div>
-                  <hr></hr>
-                  <div className="col-12 col-lg-6">
+
+                  {/* <div className="col-12 col-lg-6">
                     <div className="form-group mb-3">
                       <label htmlFor="BankDetail"> Bank Detail</label>
                       <input
@@ -371,7 +444,7 @@ const EditEmployee = (props) => {
                         name="ExperienceLetter"
                       />
                     </div>
-                  </div>
+                  </div>  */}
                 </div>
                 <div className="text-center">
                   <input

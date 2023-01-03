@@ -118,7 +118,7 @@ const LeaveManagement = () => {
       <Sidebar />
       <div className="bg-grey-color container-fluid ">
         <div className="text-center py-4">
-          <span className=" ">HR Leave Section</span>
+          <h2 className=" ">HR Leave Section</h2>
         </div>
         <table className="table table-hover bg-white ">
           <thead>

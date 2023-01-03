@@ -423,3 +423,9 @@ button:not(:disabled) {
 		max-height: 60vh;
 		overflow: auto;
 	}
+
+/* edit-profile */
+
+.update_profile{
+	grid-template-columns: auto 1fr;
+}

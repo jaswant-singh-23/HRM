@@ -21,16 +21,16 @@ const validationSchema = Yup.object().shape({
 //     itemName: req.body.itemName,
 
 const AddInventory = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const form = useRef();
-  const [message, setMessage] = useState("")
-  const [error, setError] = useState()
-  const [itemName, setItemName] = useState([])
-
+  const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
+  const [itemName, setItemName] = useState([]);
+  
   const handleChange = (e) => {
     const value = e.target.value;
     const checked = e.target.checked;
-    console.log(value, checked)
+    console.log(value , checked);
     if (checked) {
       setItemName([...itemName, value])
     }
@@ -47,9 +47,10 @@ const AddInventory = () => {
       console.log(JSON.stringify(data, null, 2));
     },
   });
+  
   const handleUpload = (e) => {
     e.preventDefault();
-    console.log(itemName)
+    console.log(itemName);
     // if (
     //   formik.values.username != " " && 
     //   formik.values.email != " " &&
@@ -59,10 +60,10 @@ const AddInventory = () => {
     //   const email = formik.values.email;
     //   const totalItems = formik.values.number;
     const data = formik.values;
-    console.log(data)
+    console.log(data);
     userService.AddInventory(data).then((response) => {
       console.log(response)
-      setMessage(response.data.message)
+      setMessage(response.data.data)
       navigate("/inventory-control")
     },
       (error) => {
@@ -72,12 +73,12 @@ const AddInventory = () => {
             error.response.data.message) ||
           error.message ||
           error.toString();
-        setError(resMessage);
+          setMessage(resMessage.message);
       }
     );
   };
   return (
-    <div className="bg-grey-color d-flex align-items-center  ">
+    <div className="bg-grey-color d-flex align-items-center">
       <Sidebar />
       <div className="inventory-page">
         <div className="p-4">
@@ -216,12 +217,12 @@ const AddInventory = () => {
                   {message}
                 </div>
               </div>
-            ) && (
-                <div className="form-group">
-                  <div className="alert alert-danger mt-3" role="alert">
-                    {error}
-                  </div>
+            ) &&(
+              <div className="form-group">
+                <div className="alert alert-danger mt-3" role="alert">
+                {message}
                 </div>
+              </div>
               )
             }
           </form>

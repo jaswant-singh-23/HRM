@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom';
+import { useNavigate , useParams ,useLocation } from 'react-router-dom';
 import Sidebar from '../Shared/Sidebar';
 import EditIcon from "../../assets/images/edit-icon.png"
 import TrashIcon from "../../assets/images/trash.png"
@@ -7,8 +7,10 @@ import { Link } from "react-router-dom"
 import userService from '../../services/user.service';
 
 const InventoryControl = () => {
+  const { data } = useParams();
 
   const navigate = useNavigate();
+  const location = useLocation();
   const [content, setContent] = useState([]);
   useEffect(() => {
     userService
@@ -26,6 +28,26 @@ const InventoryControl = () => {
           error.toString();
       });
   }, []);
+
+  // On Delete////
+  
+  const handleDelete = (data) => {
+    const itemId = { id: data };
+    // alert(data)
+    console.log(itemId)
+    userService.DeleteInventory(itemId).then((response) => {
+      // setContent(response.data.data) 
+      console.log(response)
+      window.location.reload();
+      // }
+    }, (error) => {
+      const _content =
+        (error.response && error.response.data) ||
+        error.message ||
+        error.toString();
+      setContent(_content);
+    })
+  }
   return (
     <div className='custom-grid h-100vh'>
       <Sidebar />
@@ -50,7 +72,7 @@ const InventoryControl = () => {
             {
               content != null &&
               content.map((data, i) => (
-                <tr>
+                <tr key={i}>
                   <th scope="row" className="border-end-1 border-start-0 border-1 text-center px-3">{i + 1}</th>
                   <td className="border-end-1 border-1 text-center">{data.itemName + " , "}</td>
                   <td className="border-end-1 border-1 text-center">{data.totalItems}</td>
@@ -58,13 +80,13 @@ const InventoryControl = () => {
                   <td className="border-end-1 border-1 text-center">{data.username}</td>
                   <td className="border-end-1 border-1 text-center">
                     <div className="d-flex align-items-center justify-content-center">
-                      <Link to="/edit-inventory" className="text-light text-decoration-none" >
+                      <Link to={"/edit-inventory/"+ data.username} className="text-light text-decoration-none" >
                         <span className="me-1">
                           <img src={EditIcon} width="17px" alt="edit-image" />
                         </span>
                       </Link>
                       <span className="ms-2 cursor-pointer mb-4" >
-                        <img src={TrashIcon} alt="" width="16px" />
+                        <img src={TrashIcon} onClick={()=>{handleDelete(data.username)}} alt="" width="16px" />
                       </span>
                     </div>
                   </td>

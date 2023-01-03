@@ -33,7 +33,13 @@ const Sidebar = () => {
         setActive("leave");
       } else if (pathname == "/inventory-control") {
         setActive("inventory");
-      }else {
+      } else if (pathname == "/emp-details") {
+        setActive("empDetails");
+      } else if (pathname == "/vacancy-hiring") {
+        setActive("vacancyHiring");
+      } else if (pathname == "/alumni-detail") {
+        setActive("alumniDetail");
+      } else {
         setActive("general");
       }
     }
@@ -49,7 +55,9 @@ const Sidebar = () => {
           >
             <i className="fa-solid fa-bars burger-icon"></i>
           </button>
-          <span className="text-white cursor-pointer">Menu</span>
+          <Link to="/">
+            <span className="text-white cursor-pointer">Menu</span>
+          </Link>
         </header>
         <nav className="sidebar_nav">
           <div className={`nav-links ${active == "general" ? `active` : ""}`}>
@@ -62,8 +70,10 @@ const Sidebar = () => {
               </button>
             </Link>
           </div>
-          <div className={`nav-links ${active == "detail" ? `active` : ""}`}>
-            <Link to="/emp-detail" className="text-decoration-none">
+          <div
+            className={`nav-links ${active == "empDetails" ? `active` : ""}`}
+          >
+            <Link to="/emp-details" className="text-decoration-none">
               <button type="button">
                 <i className="fa-solid fa-user"></i>
                 <span
@@ -90,7 +100,7 @@ const Sidebar = () => {
               </button>
             </Link>
           </div>
-          <div  className={`nav-links ${active == "inventory" ? `active` : ""}`}>
+          <div className={`nav-links ${active == "inventory" ? `active` : ""}`}>
             <Link to="/inventory-control" className="text-decoration-none">
               <button type="button">
                 <i className="fa-solid fa-user"></i>
@@ -104,13 +114,15 @@ const Sidebar = () => {
               </button>
             </Link>
           </div>
-          <div>
-            <Link className="text-decoration-none">
+          <div
+            className={`nav-links ${active == "vacancyHiring" ? `active` : ""}`}
+          >
+            <Link to="/vacancy-hiring" className="text-decoration-none">
               <button type="button">
                 <i className="fa-solid fa-gear"></i>
                 <span
                   style={{ animationDelay: ".3s" }}
-                  title="Settings"
+                  title="Vacancy"
                   className="text-nowrap"
                 >
                   Vacancy and Hiring
@@ -118,8 +130,8 @@ const Sidebar = () => {
               </button>
             </Link>
           </div>
-          <div>
-            <Link className="text-decoration-none">
+          {/*<div className={`nav-links ${active == "vacancy" ? `active` : ""}`}>
+            <Link to="/welfare" className="text-decoration-none">
               <button type="button">
                 <i className="fa-solid fa-gear"></i>
                 <span
@@ -131,9 +143,11 @@ const Sidebar = () => {
                 </span>
               </button>
             </Link>
-          </div>
-          <div>
-            <Link to='/alumni-detail' className="text-decoration-none">
+          </div>*/}
+          <div
+            className={`nav-links ${active == "alumniDetail" ? `active` : ""}`}
+          >
+            <Link to="/alumni-detail" className="text-decoration-none">
               <button type="button">
                 <i className="fa-solid fa-gear"></i>
                 <span
