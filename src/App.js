@@ -30,6 +30,7 @@ import ExcelJsonData from "./HRM/Pages/ExcelJsonData";
 import EditEmployee from "./HRM/Pages/EditEmployee";
 import AddInventory from "./HRM/Pages/AddInventory";
 import EditInventory from "./HRM/Pages/EditInventory"
+import VacancyHiring from "./HRM/Pages/VacancyHiring";
 
 
 const App = () => {
@@ -224,10 +225,34 @@ const App = () => {
             }
           />
           <Route
-            path="/edit-inventory"
+            path="/edit-inventory/:id"
             element={
               <PrivateModeratorRoute>
                 <EditInventory/>
+              </PrivateModeratorRoute>
+            }
+          />
+          <Route
+            path="/emp-details"
+            element={
+              <PrivateModeratorRoute>
+                <ExcelJsonData/>
+              </PrivateModeratorRoute>
+            }
+          />
+          <Route
+            path="/alumni-detail"
+            element={
+              <PrivateModeratorRoute>
+                <AlumniDetail/>
+              </PrivateModeratorRoute>
+            }
+          />
+          <Route
+            path="/vacancy-hiring"
+            element={
+              <PrivateModeratorRoute>
+                <VacancyHiring/>
               </PrivateModeratorRoute>
             }
           />

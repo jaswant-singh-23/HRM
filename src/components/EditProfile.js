@@ -4,20 +4,24 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import AmeoLogos from "../assets/images/Ameo.Logo.jpg";
 import { useParams } from "react-router-dom";
-import UserService from "../services/user.service";
+import userService from "../services/user.service";
+import { useSelector } from "react-redux";
+
 
 const EditProfile = (props) => {
-  // const [name, setName] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [username, setUsername] = useState("");
-  // const [phone, setPhone] = useState("");
-  // const [designation, setDesignation] = useState("");
-  // const [dateOfBirth, setDateOfBirth] = useState("");
-  // const [address, setAddress] = useState("");
-
-  const [content, setContent] = useState([]);
+  const [userField, serUserField] = useState({});
+  const [imgName, setImgName] = useState("");
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [phone, setPhone] = useState("");
+  const [designation, setDesignation] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [currentCTC, setCurrentCTC] = useState("");
+  const [address, setAddress] = useState("");
+  const [hobbies, setHobbies] = useState("");
   const [file, setFile] = useState("");
-  const { id } = useParams()
+  const { user: currentUser } = useSelector((state) => state.auth);
+
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
     email: Yup.string().required("Email is required"),
@@ -30,7 +34,7 @@ const EditProfile = (props) => {
         /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/,
         "Date of Birth must be a valid date in the format YYYY-MM-DD"
       ),
-    hobbies: Yup.string().required("Hobbies is required"),
+    currentCTC: Yup.string().required("CurrentCTC is required"),
     address: Yup.string().required("Password is required"),
   });
 
@@ -39,19 +43,12 @@ const EditProfile = (props) => {
       name: "",
       email: "",
       username: "",
-      phone: "",
       designation: "",
-      department: "",
-      doj: "",
+      phone: "",
       dob: "",
-      CurrentCTC: "",
-      BankDetail: "",
-      PassportSizep: "",
-      SalarySlip: "",
-      PanCard: "",
-      AadhaarCard: "",
-      ExperienceLetter: "",
+      doj: "",
       address: "",
+      currentCTC: "",
     },
     validationSchema,
     // validateOnChange: false,
@@ -61,30 +58,38 @@ const EditProfile = (props) => {
     },
   });
 
+
   /////// Get Profile ///////
 
   useEffect(() => {
-    var profileId = { id: id };
-    UserService.getProfileById().then(
-      (response) => {
-        setContent(response.data.data);
-        console.log(response.data.data);
-      },
-      (error) => {
-        const _content =
-          (error.response && error.response.data) ||
+    userService
+      .getProfileById()
+      .then((response) => {
+        serUserField(response.data.data);
+      })
+      .catch((error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
           error.message ||
           error.toString();
-        setContent(_content);
-      }
-    );
-    formik.values.id = id;
+      });
   }, []);
-  console.log(content);
 
-  // const handleSubmit = () => {
-  //   console.log("---------", formik.values);
-  // };
+  useEffect(() => {
+    if (currentUser) {
+      const initials = currentUser.name
+        .split(" ")
+        .map((name) => name[0])
+        .join("")
+        .slice(0, 2)
+        .toUpperCase();
+      setImgName(initials);
+    }
+    console.log(currentUser);
+  }, [currentUser]);
+
 
   const [image, setImage] = useState({ preview: "", raw: "" });
 
@@ -110,7 +115,7 @@ const EditProfile = (props) => {
   const handleSubmit = () => {
     const formData = new FormData();
     formData.append("image", image.raw);
-    UserService.uploadImage(formData)
+    userService.uploadImage(formData)
       .then((response) => {
         console.log(response);
       })
@@ -182,6 +187,7 @@ const EditProfile = (props) => {
                         id="name"
                         placeholder="Enter Your Name"
                         name="name"
+                        defaultValue={userField.name}
                       />
                     </div>
                   </div>
@@ -195,6 +201,7 @@ const EditProfile = (props) => {
                         id="email"
                         placeholder="Enter Email "
                         name="email"
+                        defaultValue={userField.email}
                       />
                     </div>
                   </div>
@@ -207,6 +214,7 @@ const EditProfile = (props) => {
                         id="uname"
                         placeholder="Enter UserName"
                         name="Username"
+                        defaultValue={userField.username}
                       />
                     </div>
                   </div>
@@ -220,6 +228,7 @@ const EditProfile = (props) => {
                         id="Mobile"
                         placeholder="Enter Phone Number"
                         name="Mobile"
+                        defaultValue={userField.phone}
                       />
                     </div>
                   </div>
@@ -289,6 +298,7 @@ const EditProfile = (props) => {
                         id="DOJ"
                         placeholder="Enter  Date of Joining"
                         name="DOJ"
+                        defaultValue={userField.doj}
                       />
                     </div>
                   </div>
@@ -301,6 +311,7 @@ const EditProfile = (props) => {
                         id="DOB "
                         placeholder="Enter Date Of Birth"
                         name="DOB"
+                        defaultValue={userField.dob}
                       />
                     </div>
                   </div>
@@ -313,6 +324,7 @@ const EditProfile = (props) => {
                         id="CurrentCTC"
                         placeholder="Enter Current CTC"
                         name="CurrentCTC"
+                        defaultValue={userField.currentCTC}
                       />
                     </div>
                   </div>
@@ -337,6 +349,7 @@ const EditProfile = (props) => {
                         id="Address"
                         placeholder="Enter Address"
                         name="Address"
+                        defaultValue={userField.address}
                       ></textarea>
                     </div>
                   </div>

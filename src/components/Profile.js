@@ -18,6 +18,15 @@ const Profile = () => {
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [address, setAddress] = useState("");
   const [hobbies, setHobbies] = useState("");
+  const [file, setFile] = useState("");
+  const [upload, setUpload] = useState(false);
+
+  const uploadButton = () => {
+    setUpload(!upload.true)
+
+  }
+
+
   const { user: currentUser } = useSelector((state) => state.auth);
 
   const validationSchema = Yup.object().shape({
@@ -45,7 +54,7 @@ const Profile = () => {
       phone: "",
       dob: "",
       address: "",
-      hobbies: "",
+      avatar: "",
     },
     validationSchema,
     // validateOnChange: false,
@@ -58,12 +67,34 @@ const Profile = () => {
   const [image, setImage] = useState({ preview: "", raw: "" });
 
   const handleChange = (e) => {
+    console.log("------------------", e.target);
+    const data = e.target.files[0];
+    setFile(data);
+
     if (e.target.files.length) {
       setImage({
         preview: URL.createObjectURL(e.target.files[0]),
         raw: e.target.files[0],
       });
     }
+  };
+
+  const handleSubmit = () => {
+    const formData = new FormData();
+    formData.append("image", image.raw);
+    userService
+      .uploadImage(formData)
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+      });
   };
 
   /////////// get Profile Dedtails //////////
@@ -129,6 +160,7 @@ const Profile = () => {
                                 src={image.preview}
                                 alt="dummy"
                                 width="100%"
+                                height="100%"
                               />
                             </div>
 
@@ -139,12 +171,12 @@ const Profile = () => {
                         ) : (
                           <div className="position-relative upload-img-sec">
                             <div className="upload-img-cover rounded-circle">
+                              <img src={userField.avatar} />
                               <div className="profileImage">{imgName}</div>
                             </div>
-                            <div className="position-absolute upload-img-inner ">
+                            <div className="position-absolute upload-img-inner " onClick={uploadButton}>
                               <i className="fas fa-camera text-white fw-5 rounded-circle d-flex align-items-center justify-content-center"></i>
                             </div>
-
                             <h5 className="text-center"></h5>
                           </div>
                         )}
@@ -163,11 +195,19 @@ const Profile = () => {
                       {/* <p className="text-muted font-size-sm">
                         {userField.address}
                       </p> */}
-                      <div className="mb-3">
+                      <div className="text-center" style={{display:upload ? "block" : "none"}}>
+                        <input
+                          type="Button"
+                          className="btn bg-dark-primary"
+                          value="Upload"
+                          onClick={handleSubmit}
+                        />
+                      </div>
+                      {/* <div className="mb-3">
                         <Link className="bg-dark-primary" to="/profile-edit">
                           <button>Edit Profile</button>
                         </Link>
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </div>
