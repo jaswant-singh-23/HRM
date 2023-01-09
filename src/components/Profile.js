@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import { useDispatch } from "react-redux";
 import Sidebar from "../shared/components/Sidebar";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -7,9 +8,11 @@ import AmeoLogos from "../assets/images/Ameo.Logo.jpg";
 import { Link } from "react-router-dom";
 import userService from "../services/user.service";
 import { useSelector } from "react-redux";
+import { Modal, Form, Button } from "react-bootstrap";
+import { logout } from "../actions/auth";
 
 const Profile = () => {
-  const [userField, serUserField] = useState({});
+  const [userField, setUserField] = useState({});
   const [imgName, setImgName] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -20,13 +23,28 @@ const Profile = () => {
   const [hobbies, setHobbies] = useState("");
   const [file, setFile] = useState("");
   const [upload, setUpload] = useState(false);
+  const [addShow, setAddShow] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setnewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewpassword] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleCurrentPassword = (e) => {
+    const currentPassword = e.target.value;
+    setCurrentPassword(currentPassword)
+  }
+  const handleNewPassword = (e) => {
+    const newPassword = e.target.value;
+    setnewPassword(newPassword)
+  }
+  const handleConfirmNewPasword = (e) => {
+    const confirmNewPassword = e.target.value;
+    setConfirmNewpassword(confirmNewPassword)
+  }
 
   const uploadButton = () => {
     setUpload(!upload.true)
-
   }
-
-
   const { user: currentUser } = useSelector((state) => state.auth);
 
   const validationSchema = Yup.object().shape({
@@ -64,7 +82,14 @@ const Profile = () => {
     },
   });
 
+
   const [image, setImage] = useState({ preview: "", raw: "" });
+
+  const dispatch = useDispatch();
+
+  const logOut = useCallback(() => {
+    dispatch(logout());
+  }, [dispatch]);
 
   const handleChange = (e) => {
     console.log("------------------", e.target);
@@ -80,6 +105,7 @@ const Profile = () => {
   };
 
   const handleSubmit = () => {
+    setUpload(!upload)
     const formData = new FormData();
     formData.append("image", image.raw);
     userService
@@ -102,7 +128,7 @@ const Profile = () => {
     userService
       .getProfileById()
       .then((response) => {
-        serUserField(response.data.data);
+        setUserField(response.data.data);
       })
       .catch((error) => {
         const resMessage =
@@ -140,6 +166,36 @@ const Profile = () => {
       body: formData,
     });
   };
+  const handlePassword = () => {
+    setAddShow(true)
+  }
+  const handleAddClose = () => {
+    setAddShow(false)
+  }
+  /////Update Password///
+
+  const UpdatePassword = () => {
+    const data = {
+      username: userField.username,
+      oldPass: currentPassword,
+      newPass: newPassword,
+      confirmNewPassword: confirmNewPassword,
+    }
+    console.log(data);
+    userService.updatePassword(data)
+      .then((response) => {
+        setMessage(response.data.message)
+      })
+      .catch((error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+      });
+  };
+  
 
   return (
     <div className="bg-grey-color custom-grid h-100">
@@ -195,7 +251,7 @@ const Profile = () => {
                       {/* <p className="text-muted font-size-sm">
                         {userField.address}
                       </p> */}
-                      <div className="text-center" style={{display:upload ? "block" : "none"}}>
+                      <div className="text-center" style={{ display: upload ? "block" : "none" }}>
                         <input
                           type="Button"
                           className="btn bg-dark-primary"
@@ -209,6 +265,74 @@ const Profile = () => {
                         </Link>
                       </div> */}
                     </div>
+                    <div className="profile-setting position-absolute  d-flex align-items-center justify-content-center" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" >
+                      <i class="fa-solid fa-ellipsis-vertical text-white fw-5 rounded-circle"></i>
+                    </div>
+                    {/* <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                      <a class="dropdown-item" href="#"> <i class="fa-solid fa-gear"></i> Setting</a>
+                    </div> */}
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                      <a class="dropdown-item" href="#" onClick={handlePassword}><i class="fa-solid fa-key"></i> Change Password</a>
+                      <a class="dropdown-item" href="#"><i class="fa-solid fa-user"></i> Edit profile</a>
+                      <a class="dropdown-item" href="/login" onClick={logOut}><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                    </div>
+                    <Modal
+                      centered
+                      show={addShow}
+                      onHide={handleAddClose}
+                    >
+                      <Modal.Header closeButton>
+                        <Modal.Title>Update Password</Modal.Title>
+                      </Modal.Header>
+                      <Modal.Body>
+                        <div className="form-group mb-3">
+                          <label htmlFor="username">Current Password</label>
+                          <input
+                            type="password"
+                            name="currentPassword"
+                            className={
+                              'form-control'
+                            }
+                            onChange={handleCurrentPassword}
+                            value={currentPassword}
+                          />
+                        </div>
+
+                        <div className="form-group mb-3">
+                          <label htmlFor="username">New Password</label>
+                          <input
+                            type="password"
+                            name="newPassword"
+                            className={
+                              'form-control'
+                            }
+                            onChange={handleNewPassword}
+                            value={newPassword}
+                          />
+                        </div>
+
+                        <div className="form-group mb-3">
+                          <label htmlFor="username">Confirm New Password</label>
+                          <input
+                            type="password"
+                            name="confirmNewPassword"
+                            className={
+                              'form-control'
+                            }
+                            onChange={handleConfirmNewPasword}
+                            value={confirmNewPassword}
+                          />
+                        </div>
+                      </Modal.Body>
+                      <Modal.Footer>
+                        <Button
+                          className=" btn-primary bg-dark-primary py-1 px-4"
+                          onClick={UpdatePassword}
+                        >
+                          Save
+                        </Button>
+                      </Modal.Footer>
+                    </Modal>
                   </div>
                 </div>
               </div>

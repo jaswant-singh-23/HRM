@@ -20,8 +20,11 @@ import Leave from "./components/Leave";
 import logo from "./assets/images/logo-horizontal-white.png";
 import { ToastContainer } from "react-toastify";
 import EditProfile from "./components/EditProfile";
-import { PrivateModeratorRoute, PrivateRoute } from "./shared/components/PrivateRoute";
-import InventoryControl from "./HRM/Pages/InventoryControl"
+import {
+  PrivateModeratorRoute,
+  PrivateRoute,
+} from "./shared/components/PrivateRoute";
+import InventoryControl from "./HRM/Pages/InventoryControl";
 import LeaveManagement from "./HRM/Pages/LeaveManagement";
 import General from "./HRM/Pages/General";
 import EmpDetails from "./HRM/Pages/EmpDetails";
@@ -29,9 +32,8 @@ import AlumniDetail from "./HRM/Pages/AlumniDetail";
 import ExcelJsonData from "./HRM/Pages/ExcelJsonData";
 import EditEmployee from "./HRM/Pages/EditEmployee";
 import AddInventory from "./HRM/Pages/AddInventory";
-import EditInventory from "./HRM/Pages/EditInventory"
+import EditInventory from "./HRM/Pages/EditInventory";
 import VacancyHiring from "./HRM/Pages/VacancyHiring";
-
 
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
@@ -46,7 +48,7 @@ const App = () => {
       dispatch(clearMessage()); // clear message when changing location
     }
   }, [dispatch, location]);
-  
+
   const logOut = useCallback(() => {
     dispatch(logout());
   }, [dispatch]);
@@ -74,7 +76,7 @@ const App = () => {
               </Link>
             </li>
 
-             {showModeratorBoard && (
+            {showModeratorBoard && (
               <li className="nav-item">
                 <Link to={"/profile"} className="nav-link">
                   Moderator Board
@@ -96,38 +98,44 @@ const App = () => {
                   User
                 </Link>
               </li>
-            )} 
+            )}
           </div>
         </div>
-        
-        {currentUser ? (
-          <div className="navbar-nav ml-auto">
-            <li className="nav-item">
-              <Link to={"/profile"} className="nav-link">
-                {currentUser.name}
-              </Link>
-            </li>
-            <li className="nav-item">
-              <a href="/login" className="nav-link" onClick={logOut}>
-                LogOut
-              </a>
-            </li>
-          </div>
-        ) : (
-          <div className="navbar-nav ml-auto">
-            <li className="nav-item">
-              <Link to={"/login"} className="nav-link">
-                Login
-              </Link>
-            </li>
+        <div className="d-flex align-items-center">
+          {currentUser && (
+            <div className="mx-2">
+              <i class="fa-solid fa-bell text-white cursor-pointer fs-5 "></i>
+            </div>
+          )}
+          {currentUser ? (
+            <div className="navbar-nav ml-auto">
+              <li className="nav-item">
+                <Link to={"/profile"} className="nav-link">
+                  {currentUser.name}
+                </Link>
+              </li>
+              <li className="nav-item">
+                <a href="/login" className="nav-link" onClick={logOut}>
+                  LogOut
+                </a>
+              </li>
+            </div>
+          ) : (
+            <div className="navbar-nav ml-auto">
+              <li className="nav-item">
+                <Link to={"/login"} className="nav-link">
+                  Login
+                </Link>
+              </li>
 
-            {/* <li className="nav-item">
+              {/* <li className="nav-item">
               <Link to={"/register"} className="nav-link">
                 Sign Up
               </Link>
             </li> */}
-          </div>
-        )}
+            </div>
+          )}
+        </div>
       </nav>
 
       <div className="container-fluid p-0">
@@ -184,7 +192,7 @@ const App = () => {
               </PrivateModeratorRoute>
             }
           />
-        <Route
+          <Route
             path="/leave-management"
             element={
               <PrivateModeratorRoute>
@@ -196,7 +204,7 @@ const App = () => {
             path="/general"
             element={
               <PrivateModeratorRoute>
-                <General/>
+                <General />
               </PrivateModeratorRoute>
             }
           />
@@ -204,7 +212,7 @@ const App = () => {
             path="/emp-detail"
             element={
               <PrivateModeratorRoute>
-                <EmpDetails/>
+                <EmpDetails />
               </PrivateModeratorRoute>
             }
           />
@@ -212,7 +220,7 @@ const App = () => {
             path="/edit-emp/:id"
             element={
               <PrivateModeratorRoute>
-                <EditEmployee/>
+                <EditEmployee />
               </PrivateModeratorRoute>
             }
           />
@@ -220,7 +228,7 @@ const App = () => {
             path="/add-inventory"
             element={
               <PrivateModeratorRoute>
-                <AddInventory/>
+                <AddInventory />
               </PrivateModeratorRoute>
             }
           />
@@ -228,7 +236,7 @@ const App = () => {
             path="/edit-inventory/:id"
             element={
               <PrivateModeratorRoute>
-                <EditInventory/>
+                <EditInventory />
               </PrivateModeratorRoute>
             }
           />
@@ -236,7 +244,7 @@ const App = () => {
             path="/emp-details"
             element={
               <PrivateModeratorRoute>
-                <ExcelJsonData/>
+                <ExcelJsonData />
               </PrivateModeratorRoute>
             }
           />
@@ -244,7 +252,7 @@ const App = () => {
             path="/alumni-detail"
             element={
               <PrivateModeratorRoute>
-                <AlumniDetail/>
+                <AlumniDetail />
               </PrivateModeratorRoute>
             }
           />
@@ -252,7 +260,7 @@ const App = () => {
             path="/vacancy-hiring"
             element={
               <PrivateModeratorRoute>
-                <VacancyHiring/>
+                <VacancyHiring />
               </PrivateModeratorRoute>
             }
           />
@@ -263,6 +271,3 @@ const App = () => {
 };
 
 export default App;
-
-
-

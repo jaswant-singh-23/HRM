@@ -6,7 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import UserService from "../../services/user.service";
 import Sidebar from "../Shared/Sidebar";
 import AuthService from "../../services/auth.service";
-import { Toast } from "react-bootstrap";
+import Toast from "../Shared/Toast";
 import { useSelector } from "react-redux";
 
 const EditEmployee = (props) => {
@@ -16,7 +16,10 @@ const EditEmployee = (props) => {
   const [username, setUsername] = useState("");
   const [phone, setPhone] = useState("");
   const [designation, setDesignation] = useState("");
-  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [department, setDepartment] = useState("");
+  const [dateofbirth, setDateOfBirth] = useState("");
+  const [dateofjoining, setDateOfJoining] = useState("");
+  const [currentCTC, setCurrentCTC] = useState("");
   const [address, setAddress] = useState("");
   const [file, setFile] = useState("");
 
@@ -24,21 +27,29 @@ const EditEmployee = (props) => {
   const { id } = useParams();
   let navigate = useNavigate();
   const { user: currentUser } = useSelector((state) => state.auth);
+  const [users, setUsers] = useState([]);
 
   const validationSchema = Yup.object().shape({
     name: Yup.string().required("Name is required"),
     email: Yup.string().required("Email is required"),
     username: Yup.string().required("Username is required"),
     designation: Yup.string().required("Designation is required"),
+    department: Yup.string().required("Department is required"),
     phone: Yup.string().required("Phone is required"),
-    dob: Yup.string()
+    currentCTC: Yup.string().required("CurrentCTC is required"),
+    dateofbirth: Yup.string()
       .required("Date of Birth is required")
       .matches(
         /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/,
         "Date of Birth must be a valid date in the format YYYY-MM-DD"
       ),
-    hobbies: Yup.string().required("Hobbies is required"),
-    address: Yup.string().required("Password is required"),
+    dateofjoining: Yup.string()
+      .required("Date of Joining is required")
+      .matches(
+        /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/,
+        "Date of Joining must be a valid date in the format YYYY-MM-DD"
+      ),
+    address: Yup.string().required("address is required"),
   });
 
   const formik = useFormik({
@@ -49,15 +60,9 @@ const EditEmployee = (props) => {
       phone: "",
       designation: "",
       department: "",
-      doj: "",
-      dob: "",
-      CurrentCTC: "",
-      BankDetail: "",
-      PassportSizep: "",
-      SalarySlip: "",
-      PanCard: "",
-      AadhaarCard: "",
-      ExperienceLetter: "",
+      dateofjoining: "",
+      dateofbirth: "",
+      currentCTC: "",
       address: "",
     },
     validationSchema,
@@ -92,21 +97,22 @@ const EditEmployee = (props) => {
 
   const onUpdate = async () => {
     const data = {
-      name: content.name,
-      email: content.email,
-      username: content.username,
-      phone: content.phone,
-      designation: content.designation,
-      department: content.department,
-      dob: content.dob,
-      doj: content.doj,
-      address: content.address,
-      currentCTC: content.currentCTC,
+      name: name ? name : content.name,
+      email: email ? email : content.email,
+      username: username ? username : content.username,
+      phone: phone ? phone : content.phone,
+      designation: designation ? designation : content.designation,
+      department: department ? department : content.department,
+      dateofbirth: dateofbirth ? dateofbirth : content.dateofbirth,
+      currentCTC: currentCTC ? currentCTC : content.currentCTC,
+      dateofjoining: dateofjoining ? dateofjoining : content.dateofjoining,
+      address: address ? address : content.address,
     };
+    console.log(data);
     UserService.UpdateEmployeeDetails(data).then(
       (response) => {
-        setContent(response.data.data);
-        Toast.success(response.data.message)
+        Toast.success(response.data.message);
+        navigate("/emp-details")
       },
       (error) => {
         const _content =
@@ -119,12 +125,10 @@ const EditEmployee = (props) => {
   };
 
   /////// Get Profile ///////
-
-  useEffect(() => {
+  const getContent = () => {
     var profileId = { id: id };
     UserService.getParticularProfile(profileId).then(
       (response) => {
-        console.log(response);
         setContent(response.data.data);
       },
       (error) => {
@@ -136,25 +140,20 @@ const EditEmployee = (props) => {
       }
     );
     formik.values.id = id;
+  };
+  useEffect(() => {
+    getContent();
   }, []);
-  console.log(content);
-
-
 
   useEffect(() => {
-    if (currentUser) {
-      const initials = currentUser.name
-        .split(" ")
-        .map((name) => name[0])
-        .join("")
-        .slice(0, 2)
-        .toUpperCase();
-      setImgName(initials);
-    }
-    console.log(currentUser);
-  }, [currentUser]);
-
-
+    const initials = currentUser.name
+      .split(" ")
+      .map((name) => name[0])
+      .join("")
+      .slice(0, 2)
+      .toUpperCase();
+    setImgName(initials);
+  }, []);
 
   const handleChange = (e) => {
     console.log("------------------", e.target);
@@ -192,45 +191,45 @@ const EditEmployee = (props) => {
       <div className="container-fluid mb-5">
         <div className="row justify-content-center mt-5">
           <div className="col-xs-12 col-md-10 profile-badge p-5 bg-white rounded">
-          <div className="card">
-          <div className="card-body">
-            <div className="d-grid align-items-center text-center update_profile">
-              <div>
-                <label htmlFor="upload-button">
-                  {image.preview ? (
-                    <div className="position-relative upload-img-sec">
-                      <div className="upload-img-cover rounded-circle">
-                        <img
-                          src={image.preview}
-                          alt="dummy"
-                          width="100%"
-                          height="100%"
-                        />
-                      </div>
+            <div className="card">
+              <div className="card-body">
+                <div className="d-grid align-items-center text-center update_profile">
+                  <div>
+                    <label htmlFor="upload-button">
+                      {image.preview ? (
+                        <div className="position-relative upload-img-sec">
+                          <div className="upload-img-cover rounded-circle">
+                            <img
+                              src={image.preview}
+                              alt="dummy"
+                              width="100%"
+                              height="100%"
+                            />
+                          </div>
 
-                      <div className="position-absolute upload-img-inner ">
-                        <i className="fas fa-camera text-white fw-5 rounded-circle d-flex align-items-center justify-content-center"></i>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="position-relative upload-img-sec">
-                      <div className="upload-img-cover rounded-circle">
-                        <img src={content.avatar} />
-                        <div className="profileImage">{imgName}</div>
-                      </div>
-                    </div>
-                  )}
-                </label>
-              </div>
-              <div className="text-center mb-5">
-              <h3>Update Details</h3>
+                          <div className="position-absolute upload-img-inner ">
+                            <i className="fas fa-camera text-white fw-5 rounded-circle d-flex align-items-center justify-content-center"></i>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="position-relative upload-img-sec">
+                          <div className="upload-img-cover rounded-circle">
+                            <img src={content.avatar} />
+                            <div className="profileImage">{imgName}</div>
+                          </div>
+                        </div>
+                      )}
+                    </label>
+                  </div>
+                  <div className="text-center mb-5">
+                    <h3>Update Details</h3>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-           
+
             <div className="user-detail mt-4">
-              <form onSubmit={onUpdate}>
+              <form onSubmit={formik.handleSubmit}>
                 <div className="row">
                   <div className="col-12 col-lg-6">
                     <div className="form-group mb-3">
@@ -240,7 +239,9 @@ const EditEmployee = (props) => {
                         className="form-control"
                         id="name"
                         name="name"
-                        onChange={handleChange}
+                        onChange={(e) => {
+                          setName(e.target.value);
+                        }}
                         defaultValue={content.name}
                       />
                     </div>
@@ -254,7 +255,9 @@ const EditEmployee = (props) => {
                         className="form-control"
                         id="email"
                         name="email"
-                        onChange={handleChange}
+                        onChange={(e) => {
+                          setEmail(e.target.value);
+                        }}
                         defaultValue={content.email}
                       />
                     </div>
@@ -267,8 +270,10 @@ const EditEmployee = (props) => {
                         className="form-control"
                         id="uname"
                         readOnly={true}
-                        name="Username"
-                        onChange={handleChange}
+                        name="username"
+                        onChange={(e) => {
+                          setUsername(e.target.value);
+                        }}
                         defaultValue={content.username}
                       />
                     </div>
@@ -280,9 +285,11 @@ const EditEmployee = (props) => {
                       <input
                         type="number"
                         className="form-control"
-                        id="Mobile"
-                        name="Mobile"
-                        onChange={handleChange}
+                        id="phone"
+                        name="phone"
+                        onChange={(e) => {
+                          setPhone(e.target.value);
+                        }}
                         defaultValue={content.phone}
                       />
                     </div>
@@ -295,8 +302,10 @@ const EditEmployee = (props) => {
                         type="text"
                         className="form-control"
                         id="designation"
-                        name="Designation"
-                        onChange={handleChange}
+                        name="designation"
+                        onChange={(e) => {
+                          setDesignation(e.target.value);
+                        }}
                         defaultValue={content.designation}
                       />
                     </div>
@@ -308,8 +317,10 @@ const EditEmployee = (props) => {
                         type="text"
                         className="form-control"
                         id="department"
-                        name="Department"
-                        onChange={handleChange}
+                        name="department"
+                        onChange={(e) => {
+                          setDepartment(e.target.value);
+                        }}
                         defaultValue={content.department}
                       />
                     </div>
@@ -321,10 +332,12 @@ const EditEmployee = (props) => {
                       <input
                         type="date"
                         className="form-control"
-                        id="DOJ"
-                        name="DOJ"
-                        onChange={handleChange}
-                        defaultValue={content.doj}
+                        id="dateofjoining"
+                        name="dateofjoining"
+                        onChange={(e) => {
+                          setDateOfJoining(e.target.value);
+                        }}
+                        defaultValue={content.dateofjoining}
                       />
                     </div>
                   </div>
@@ -334,10 +347,12 @@ const EditEmployee = (props) => {
                       <input
                         type="date"
                         className="form-control"
-                        id="DOB "
-                        name="DOB"
-                        onChange={handleChange}
-                        defaultValue={content.dob}
+                        id="dateofbirth "
+                        name="dateofbirth"
+                        onChange={(e) => {
+                          setDateOfBirth(e.target.value);
+                        }}
+                        defaultValue={content.dateofbirth}
                       />
                     </div>
                   </div>
@@ -347,35 +362,26 @@ const EditEmployee = (props) => {
                       <input
                         type="text"
                         className="form-control"
-                        id="CurrentCTC"
-                        name="CurrentCTC"
-                        onChange={handleChange}
+                        id="currentCTC"
+                        name="currentCTC"
+                        onChange={(e) => {
+                          setCurrentCTC(e.target.value);
+                        }}
                         defaultValue={content.currentCTC}
                       />
                     </div>
                   </div>
                   <div className="col-12 col-lg-6">
                     <div className="form-group mb-3">
-                      <label htmlFor="PanCard"> PAN Card No</label>
-                      <input
-                        type="file"
-                        className="form-control"
-                        id="PanCard"
-                        onChange={handleChange}
-                        placeholder="Card No"
-                        name="PanCard"
-                      />
-                    </div>
-                  </div>
-                  <div className="col-12 col-lg-12">
-                    <div className="form-group mb-3">
                       <label htmlFor="Address"> Address</label>
                       <textarea
                         type="text"
                         className="form-control"
-                        id="Address"
-                        name="Address"
-                        onChange={handleChange}
+                        id="address"
+                        name="address"
+                        onChange={(e) => {
+                          setAddress(e.target.value);
+                        }}
                         defaultValue={content.address}
                       ></textarea>
                     </div>
@@ -451,7 +457,7 @@ const EditEmployee = (props) => {
                     type="Button"
                     className="btn bg-dark-primary"
                     value="Update Profile"
-                    onClick={onUpdate}
+                    onClick={() => onUpdate(content.username)}
                   />
                 </div>
               </form>

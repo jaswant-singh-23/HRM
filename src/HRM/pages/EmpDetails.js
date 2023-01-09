@@ -14,17 +14,17 @@ import Toast from "../Shared/Toast";
 import AuthService from "../../services/auth.service";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
-import {deleteEmployeeAccount} from '../../services/user.service'
-
+import { deleteEmployeeAccount } from "../../services/user.service";
+import swal from "sweetalert";
 
 /////////////// Single Entry ////////////
 
-
-
 const EmpDetails = ({ excelData, fileName }) => {
+  const navigate = useNavigate();
 
-  const [detail , setDetail] = useState(false);
+  const [detail, setDetail] = useState(false);
   const [content, setContent] = useState([]);
+  const [depNames, setDepNames] = useState([]);
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
@@ -32,199 +32,76 @@ const EmpDetails = ({ excelData, fileName }) => {
   const [phone, setPhone] = useState("");
   const [designation, setDesignation] = useState("");
   const [department, setDepartment] = useState("");
-  const [dob, setDob] = useState("");
-  const [doj, setDoj] = useState("");
+  const [dateofbirth, setDob] = useState("");
+  const [dateofjoining, setDoj] = useState("");
   const [currentCTC, setCurrentCTC] = useState("");
   const [address, setAddress] = useState("");
+  const [departmentName, setDepartmentName] = useState("");
 
   const handleName = (e) => {
     const name = e.target.value;
     setName(name);
-  }
+  };
   const handleEmail = (e) => {
     const email = e.target.value;
     setEmail(email);
-  }
+  };
   const handleUserName = (e) => {
     const username = e.target.value;
     setUsername(username);
-  }
+  };
   const handlePassword = (e) => {
     const password = e.target.value;
     setPassword(password);
-  }
+  };
   const handlePhone = (e) => {
     const phone = e.target.value;
     setPhone(phone);
-  }
+  };
   const handleDesignation = (e) => {
     const designation = e.target.value;
     setDesignation(designation);
-  }
+  };
   const handleDepartment = (e) => {
     const department = e.target.value;
     setDepartment(department);
-  }
+  };
   const handleDOJ = (e) => {
-    const doj = e.target.value;
-    setDoj(doj);
-  }
+    const dateofjoining = e.target.value;
+    setDoj(dateofjoining);
+  };
   const handleDOB = (e) => {
-    const dob = e.target.value;
-    setDob(dob);
-  }
+    const dateofbirth = e.target.value;
+    setDob(dateofbirth);
+  };
   const handleCurrentCTC = (e) => {
     const currentCTC = e.target.value;
     setCurrentCTC(currentCTC);
-  }
+  };
   const handleAddress = (e) => {
     const address = e.target.value;
     setAddress(address);
-  }
+  };
 
   const handleEntry = () => {
     const data = {
       name: name,
-      email:  email,
+      email: email,
       username: username,
-      password:  password,
-      phone:  phone,
+      password: password,
+      phone: phone,
       designation: designation,
       department: department,
-      dob: dob,
-      doj: doj,
+      dateofbirth: dateofbirth,
+      dateofjoining: dateofjoining,
       currentCTC: currentCTC,
       address: address,
     };
     AuthService.register(data)
-    .then((response) => {
-      console.log(response);
-      // setContent(response.data.data);
-    })
-    .catch((error) => {
-      const resMessage =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-    });
-
-  }
-
-
- 
-  
-
-  const handleAngular = () => {
-    setDetail(!detail.true);
-    userService
-      .getEmpDetail()
       .then((response) => {
         console.log(response);
-        setContent(response.data.data.angular);
-      })
-      .catch((error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-      });
-  };
-  const handleSale = () => {
-    setDetail(!detail.true);
-    userService
-      .getEmpDetail()
-      .then((response) => {
-        console.log(response);
-        setContent(response.data.data.marketing);
-      })
-      .catch((error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-      });
-  };
-  const handlePython = () => {
-    setDetail(!detail.true);
-    userService
-      .getEmpDetail()
-      .then((response) => {
-        console.log(response);
-        setContent(response.data.data.python);
-      })
-      .catch((error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-      });
-  };
-  const handleReactjs = () => {
-    setDetail(!detail.true);
-    userService
-      .getEmpDetail()
-      .then((response) => {
-        console.log(response);
-        setContent(response.data.data.reactjs);
-      })
-      .catch((error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-      });
-  };
-  const handleDataentry = () => {
-    setDetail(!detail.true);
-    userService
-      .getEmpDetail()
-      .then((response) => {
-        console.log(response);
-        setContent(response.data.data.dataentry);
-      })
-      .catch((error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-      });
-  };
-  const handleDesigner = () => {
-    setDetail(!detail.true);
-    userService
-      .getEmpDetail()
-      .then((response) => {
-        console.log(response);
-        setContent(response.data.data.designer);
-      })
-      .catch((error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-      });
-  };
-  const handleDotNet = () => {
-    setDetail(!detail.true);
-    userService
-      .getEmpDetail()
-      .then((response) => {
-        console.log(response);
-        setContent(response.data.data.dotnet);
+        Toast.success(response.data.message);
+        navigate("/");
       })
       .catch((error) => {
         const resMessage =
@@ -236,7 +113,43 @@ const EmpDetails = ({ excelData, fileName }) => {
       });
   };
 
-  const navigate = useNavigate();
+  /////////////////////////////// Get Department Names //////////////////////////////////
+
+  useEffect(() => {
+    userService
+      .getDepartmentNames()
+      .then((response) => {
+        setDepNames(response.data.data);
+      })
+      .catch((error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+      });
+  }, []);
+
+  const handleDepartmentData = (deptname) => {
+    setDepartmentName(deptname);
+    const department = { department: deptname };
+    setDetail(!detail.true);
+    userService
+      .getParticularDepartment(department)
+      .then((response) => {
+        console.log(response);
+        setContent(response.data.data);
+      })
+      .catch((error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+      });
+  };
 
   const [show, setShow] = useState(false);
 
@@ -255,7 +168,7 @@ const EmpDetails = ({ excelData, fileName }) => {
     AuthService.addNewUser(formData).then(
       (response) => {
         console.log(response);
-        window.location.reload();
+        // window.location.reload();
       },
       (error) => {
         const _content =
@@ -267,6 +180,9 @@ const EmpDetails = ({ excelData, fileName }) => {
     );
     bulkhandleAddUpload();
   };
+
+
+  //////////////////////// Excel File Download ///////////////////////////
 
   const fileType =
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
@@ -280,51 +196,39 @@ const EmpDetails = ({ excelData, fileName }) => {
     FileSaver.saveAs(data, fileName + fileExtension);
   };
 
-  /////// Get Quizs ///////
-  useEffect(() => {
-    userService.getAllProfileDetail().then(
-      (response) => {
-        setContent(response.data.data);
-      },
-      (error) => {
-        const _content =
-          (error.response && error.response.data) ||
-          error.message ||
-          error.toString();
-        setContent(_content);
-      }
-    );
-  }, []);
-
   //////// Delete  ////////
   const handleDelete = (data) => {
-    const itemId = { id: data };
-    console.log(itemId);
-    userService.deleteEmployeeAccount(itemId).then(
-      (response) => {
-        console.log(response);
-        Toast.success(response.data.message);
-        // window.location.reload();
-      },
-      (error) => {
-        const _content =
-          (error.response && error.response.data) ||
-          error.message ||
-          error.toString();
-        setContent(_content);
+    swal({
+      title: "Are you sure?",
+      text: "you want to delete your account?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        const itemId = { id: data };
+        console.log(itemId);
+        userService.deleteEmployeeAccount(itemId).then(
+          (response) => {
+            console.log(response);
+            swal("Poof! Your account is deleted successsfully", {
+              icon: "success",
+            });
+            handleDepartmentData(departmentName);
+          },
+          (error) => {
+            const _content =
+              (error.response && error.response.data) ||
+              error.message ||
+              error.toString();
+            setContent(_content);
+          }
+        );
       }
-    );
+    });
   };
 
-  // ////////////// Excel Sheet handle ///////////////
-  // const [addFile, setAddFile] = useState({
-  //   file: "",
-  // });
-
-  // const handleSheet = (e) => {
-  //   const content = e.target.value;
-  //   setAddFile({ ...addFile, content: file });
-  // };
+  //////////////// Excel Sheet handle ///////////////
 
   const [file, setFile] = useState({ preview: "", raw: "" });
 
@@ -340,27 +244,6 @@ const EmpDetails = ({ excelData, fileName }) => {
       });
     }
   };
-
-////////////// Single value /////////////////////
-
-// const [user, setUser] = useState({
-//   name: '',
-//   email:  '',
-//   username:  '',
-//   phone:  '',
-//   designation: '',
-//   department:  '',
-//   dob: '',
-//   doj: '',
-//   currentCTC: '',
-//   address: '',
-// });
-
-
-// const onValueChange = (e) => {
-//   setUser({...user, [e.target.name]: e.target.value})
-// }
-
 
   return (
     <div className="custom-grid h-100vh">
@@ -399,55 +282,18 @@ const EmpDetails = ({ excelData, fileName }) => {
                         className="dropdown-menu"
                         aria-labelledby="dropdownMenuLink"
                       >
-                        <a
-                          className="dropdown-item"
-                          href="#"
-                          onClick={handleAngular}
-                        >
-                          Angular
-                        </a>
-                        <a
-                          className="dropdown-item"
-                          href="#"
-                          onClick={handleSale}
-                        >
-                          Marketing
-                        </a>
-                        <a
-                          className="dropdown-item"
-                          href="#"
-                          onClick={handlePython}
-                        >
-                          Python
-                        </a>
-                        <a
-                          className="dropdown-item"
-                          href="#"
-                          onClick={handleReactjs}
-                        >
-                          React Js
-                        </a>
-                        <a
-                          className="dropdown-item"
-                          href="#"
-                          onClick={handleDataentry}
-                        >
-                          Dataentry
-                        </a>
-                        <a
-                          className="dropdown-item"
-                          href="#"
-                          onClick={handleDesigner}
-                        >
-                          Designer
-                        </a>
-                        <a
-                          className="dropdown-item"
-                          href="#"
-                          onClick={handleDotNet}
-                        >
-                          Dot Net
-                        </a>
+                        {depNames.map((dep, i) => (
+                          <a
+                            key={i}
+                            className="dropdown-item"
+                            href="#"
+                            onClick={() => {
+                              handleDepartmentData(dep._id.department);
+                            }}
+                          >
+                            {dep._id.department}
+                          </a>
+                        ))}
                       </div>
                     </div>
                     <p className="">
@@ -464,7 +310,7 @@ const EmpDetails = ({ excelData, fileName }) => {
                     </p>
                   </div>
                   <div className="collapse mt-3" id="collapseExample">
-                    <div className="d-flex justify-content-center aligns-items-center text-center">
+                    <div className="d-flex justify-content-end aligns-items-center text-center">
                       <div className="text-center me-3">
                         <Link>
                           <Button
@@ -508,9 +354,9 @@ const EmpDetails = ({ excelData, fileName }) => {
                                     name="name"
                                     type="text"
                                     value={name}
-                                    onChange={ handleName}
+                                    onChange={handleName}
                                     placeholder="Enter Employee Name"
-                                    autoFocus
+                                    autoComplete="off"
                                   />
                                 </div>
                                 <div className="px-2 mb-3 w-50 d-inline-block">
@@ -518,37 +364,40 @@ const EmpDetails = ({ excelData, fileName }) => {
                                     Email
                                   </Form.Label>
                                   <Form.Control
-                                  value={email}  
-                                  onChange={handleEmail}  
+                                    value={email}
+                                    onChange={handleEmail}
                                     type="email"
                                     name="email"
                                     placeholder="Enter Email"
-                                    autoFocus
+                                    autoComplete="off"
                                   />
                                 </div>
                                 <div className="px-2 mb-3 w-50 d-inline-block">
                                   <Form.Label className="fw-h7 mb-1">
-                                    User Name
+                                    Username
                                   </Form.Label>
-                                  <Form.Control
+                                  <input
                                     name="username"
                                     value={username}
-                                    onChange={handleUserName}  
+                                    className="form-control"
+                                    onChange={handleUserName}
                                     type="text"
-                                    placeholder="Enter User Name"
-                                    autoFocus
+                                    placeholder="Enter Username"
+                                    autoComplete="off"
                                   />
                                 </div>
                                 <div className="px-2 mb-3 w-50 d-inline-block">
                                   <Form.Label className="fw-h7 mb-1">
                                     Password
                                   </Form.Label>
-                                  <Form.Control
-                                  value={password}  
-                                  onChange={handlePassword} 
-                                    name="password" 
+                                  <input
+                                    onChange={handlePassword}
+                                    className="form-control"
+                                    value={password}
+                                    name="password"
                                     type="password"
-                                    placeholder="Enter Password"                              
+                                    placeholder="Enter Password"
+                                    autoComplete="off"
                                   />
                                 </div>
                                 <div className="px-2 mb-3 w-50 d-inline-block">
@@ -556,12 +405,12 @@ const EmpDetails = ({ excelData, fileName }) => {
                                     Phone
                                   </Form.Label>
                                   <Form.Control
-                                  value={phone}  
-                                  onChange={handlePhone}  
+                                    value={phone}
+                                    onChange={handlePhone}
                                     name="phone"
                                     type="number"
                                     placeholder="Enter Phone Number"
-                                    autoFocus
+                                    autoComplete="off"
                                   />
                                 </div>
                                 <div className="px-2 mb-3 w-50 d-inline-block">
@@ -571,10 +420,10 @@ const EmpDetails = ({ excelData, fileName }) => {
                                   <Form.Control
                                     name="designation"
                                     value={designation}
-                                    onChange={handleDesignation}  
+                                    onChange={handleDesignation}
                                     type="text"
                                     placeholder="Enter Designation"
-                                    autoFocus
+                                    autoComplete="off"
                                   />
                                 </div>
                                 <div className="px-2 mb-3 w-50 d-inline-block">
@@ -584,10 +433,10 @@ const EmpDetails = ({ excelData, fileName }) => {
                                   <Form.Control
                                     name="department"
                                     value={department}
-                                    onChange={handleDepartment}  
+                                    onChange={handleDepartment}
                                     type="text"
                                     placeholder="Enter Department Name"
-                                    autoFocus
+                                    autoComplete="off"
                                   />
                                 </div>
                                 <div className="px-2 mb-3 w-50 d-inline-block">
@@ -595,27 +444,28 @@ const EmpDetails = ({ excelData, fileName }) => {
                                     Date of Joining
                                   </Form.Label>
                                   <Form.Control
-                                    name="doj"
-                                    value={doj}
-                                    onChange={handleDOJ}  
+                                    name="dateofjoining"
+                                    value={dateofjoining}
+                                    onChange={handleDOJ}
                                     type="date"
                                     placeholder="Enter Date of Joining"
                                     autoFocus
+                                    autoComplete="off"
                                   />
                                 </div>
                                 <div className="px-2 mb-3 w-50 d-inline-block">
-                                <Form.Label className="fw-h7 mb-1">
-                                  Date of Birth
-                                </Form.Label>
-                                <Form.Control
-                                  name="dob"
-                                  value={dob}
-                                  onChange={handleDOB}  
-                                  type="date"
-                                  placeholder="Enter Date of Birth"
-                                  autoFocus
-                                />
-                              </div>
+                                  <Form.Label className="fw-h7 mb-1">
+                                    Date of Birth
+                                  </Form.Label>
+                                  <Form.Control
+                                    name="dateofbirth"
+                                    value={dateofbirth}
+                                    onChange={handleDOB}
+                                    type="date"
+                                    placeholder="Enter Date of Birth"
+                                    autoComplete="off"
+                                  />
+                                </div>
                                 <div className="px-2 mb-3 w-50 d-inline-block">
                                   <Form.Label className="fw-h7 mb-1">
                                     Current CTC
@@ -623,10 +473,10 @@ const EmpDetails = ({ excelData, fileName }) => {
                                   <Form.Control
                                     name="currentCTC"
                                     value={currentCTC}
-                                    onChange={handleCurrentCTC}  
+                                    onChange={handleCurrentCTC}
                                     type="number"
                                     placeholder="Enter Current CTC"
-                                    autoFocus
+                                    autoComplete="off"
                                   />
                                 </div>
                                 <div className="px-2 mb-3">
@@ -636,10 +486,10 @@ const EmpDetails = ({ excelData, fileName }) => {
                                   <Form.Control
                                     name="address"
                                     value={address}
-                                    onChange={handleAddress}  
+                                    onChange={handleAddress}
                                     type="address"
                                     placeholder="Enter Address"
-                                    autoFocus
+                                    autoComplete="off"
                                   />
                                 </div>
                               </Form.Group>
@@ -650,7 +500,7 @@ const EmpDetails = ({ excelData, fileName }) => {
                               className="btn bg-dark-primary"
                               type="button"
                               variant="primary"
-                              onClick={ handleEntry}
+                              onClick={handleEntry}
                             >
                               Save Changes
                             </button>
@@ -674,13 +524,13 @@ const EmpDetails = ({ excelData, fileName }) => {
                     scope="col"
                     className="border-end-1 border-1 border-start-0 border-top-0 text-center px-3"
                   >
-                    #
+                    Id
                   </th>
                   <th className="border-end-1 border-1 border-start-0 border-top-0 text-center">
                     Name
                   </th>
                   <th className="border-end-1 border-1 border-start-0 border-top-0 text-center">
-                    Department
+                    Designation
                   </th>
                   <th className="border-end-1 border-1 border-start-0 border-top-0 text-center">
                     Action

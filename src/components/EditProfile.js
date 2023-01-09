@@ -15,7 +15,8 @@ const EditProfile = (props) => {
   const [username, setUsername] = useState("");
   const [phone, setPhone] = useState("");
   const [designation, setDesignation] = useState("");
-  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [dateofbirth, setDateOfBirth] = useState("");
+  const [dateofjoining, setDateOfJoining] = useState("");
   const [currentCTC, setCurrentCTC] = useState("");
   const [address, setAddress] = useState("");
   const [hobbies, setHobbies] = useState("");
@@ -28,8 +29,14 @@ const EditProfile = (props) => {
     username: Yup.string().required("Username is required"),
     designation: Yup.string().required("Designation is required"),
     phone: Yup.string().required("Phone is required"),
-    dob: Yup.string()
+    dateofbirth: Yup.string()
       .required("Date of Birth is required")
+      .matches(
+        /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/,
+        "Date of Birth must be a valid date in the format YYYY-MM-DD"
+      ),
+      dateofjoining: Yup.string()
+      .required("Date of Joining is required")
       .matches(
         /^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/,
         "Date of Birth must be a valid date in the format YYYY-MM-DD"
@@ -45,8 +52,8 @@ const EditProfile = (props) => {
       username: "",
       designation: "",
       phone: "",
-      dob: "",
-      doj: "",
+      dateofbirth: "",
+      dateofjoining: "",
       address: "",
       currentCTC: "",
     },
@@ -295,10 +302,10 @@ const EditProfile = (props) => {
                       <input
                         type="date"
                         className="form-control"
-                        id="DOJ"
+                        id="dateofjoining"
                         placeholder="Enter  Date of Joining"
-                        name="DOJ"
-                        defaultValue={userField.doj}
+                        name="dateofjoining"
+                        defaultValue={userField.dateofjoining}
                       />
                     </div>
                   </div>
@@ -308,10 +315,10 @@ const EditProfile = (props) => {
                       <input
                         type="date"
                         className="form-control"
-                        id="DOB "
+                        id="dateofbirth "
                         placeholder="Enter Date Of Birth"
-                        name="DOB"
-                        defaultValue={userField.dob}
+                        name="dateofbirth"
+                        defaultValue={userField.dateofbirth}
                       />
                     </div>
                   </div>

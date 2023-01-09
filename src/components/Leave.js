@@ -145,7 +145,7 @@ const Leave = () => {
                 <div className="card card-body">
                   <form onSubmit={formik.onSubmit}>
                     <div className="row">
-                      <p className="text-center mb-2">No of Days</p>
+                      <h5 className="text-center mb-2">No. of Days</h5>
 
                       <div className="col-12 col-sm-12 col-md-6">
                         <div className="form-group d-flex align-items-center flex-wrap flex-sm-nowrap mb-3">
