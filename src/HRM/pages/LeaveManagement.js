@@ -120,10 +120,10 @@ const LeaveManagement = () => {
         <div className="text-center py-4">
           <h2 className=" ">HR Leave Section</h2>
         </div>
-        <table className="table table-hover bg-white ">
-          <thead>
+        <table className="table table-hover bg-white table table-striped">
+          <thead className="bg-dark-primary">
             <tr>
-              <th scope="col" className="border-end-1 border-1 border-start-0 border-top-0 text-center px-3">#</th>
+              <th scope="col" className="border-end-1 border-1 border-start-0 border-top-0 text-center px-3">Id</th>
               <th className="border-end-1 border-1 border-start-0 border-top-0 text-center">Name</th>
               <th className="border-end-1 border-1 border-start-0 border-top-0 text-center">Department</th>
               <th className="border-end-1 border-1 border-start-0 border-top-0 text-center">View Leave</th>

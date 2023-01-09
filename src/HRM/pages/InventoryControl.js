@@ -53,11 +53,11 @@ const InventoryControl = () => {
       <Sidebar />
       <div className="bg-grey-color container-fluid ">
         <div className="text-center py-4">
-          <span className=" ">Inventory Control</span>
+          <h2>Inventory Control</h2>
         </div>
         <button className="btn bg-dark-primary mb-2" type="Button" variant="contained" onClick={() => navigate("/add-inventory")}>Add New Inventory</button>
-        <table className="table table-hover bg-white ">
-          <thead>
+        <table className="table table-hover bg-white table table-striped">
+          <thead className="bg-dark-primary">
             <tr>
               <th scope="col" className="border-end-1 border-1 border-start-0 border-top-0 text-center px-3">Sr.No</th>
               <th className="border-end-1 border-1 border-start-0 border-top-0 text-center">Items Name</th>

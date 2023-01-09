@@ -27,16 +27,22 @@ const getProfileById = () => {
 };
 ////// hr //////
 export const getParticularProfile = (id) => {
-  return axios.post(API_URL + "get-particular-profile", id, { headers: authHeader() });
+  return axios.post(API_URL + "get-particular-profile", id, {
+    headers: authHeader(),
+  });
 };
 export const getAllProfileDetail = async () => {
   return axios.get(API_URL + "all-profile-details", { headers: authHeader() });
 };
 const UpdateEmployeeDetails = (data) => {
-  return axios.post(API_URL + "update-employee-details", data, { headers: authHeader() });
+  return axios.post(API_URL + "update-employee-details", data, {
+    headers: authHeader(),
+  });
 };
 const deleteEmployeeAccount = (data) => {
-  return axios.post(API_URL + "delete-employee-account", data, { headers: authHeader() });
+  return axios.post(API_URL + "delete-employee-account", data, {
+    headers: authHeader(),
+  });
 };
 const getLeaveDetail = () => {
   return axios.get(API_URL + "leave-details", { headers: authHeader() });
@@ -44,15 +50,46 @@ const getLeaveDetail = () => {
 const leaveApply = (data) => {
   return axios.post(API_URL + "leave-apply", data, { headers: authHeader() });
 };
+
+const leaveReply = (data) => {
+  return axios.post(API_URL + "leave-reply", data, { headers: authHeader() });
+};
+
 const getEmpDetail = () => {
   return axios.get(API_URL + "departments", { headers: authHeader() });
 };
+
+
+const getDepartmentNames = () => {
+  return axios.get(API_URL + "department-names", { headers: authHeader() });
+};
+const getParticularDepartment = (data) => {
+  return axios.post(API_URL + "get-particular-department", data, {
+    headers: authHeader(),
+  });
+};
 ////upload image//////
 const uploadImage = (data) => {
-  return axios.post(API_URL + "upload-user-avatar", data, { headers: authHeader() });
+  return axios.post(API_URL + "upload-user-avatar", data, {
+    headers: authHeader(),
+  });
 };
+
+////////////////////////// alumni /////////////////
+
 export const AlumniView = () => {
   return axios.get(API_URL + "alumni-view", { headers: authHeader() });
+};
+
+const AlumniDeleteAccount = (data) => {
+  return axios.post(API_URL + "alumni-delete-employee-account", data, {
+    headers: authHeader(),
+  });
+};
+const AlumniRestoreAccount = (data) => {
+  return axios.post(API_URL + "alumni-restore-employee-account", data, {
+    headers: authHeader(),
+  });
 };
 
 ////// Inventory ////////
@@ -64,15 +101,31 @@ const GetInventory = () => {
 };
 
 const GetInventoryById = (id) => {
-  return axios.post(API_URL + "inventory-view-by-id", id,{ headers: authHeader() });
+  return axios.post(API_URL + "inventory-view-by-id", id, {
+    headers: authHeader(),
+  });
 };
 const UpdateInventory = (data) => {
-  return axios.post(API_URL + "inventory-edit", data,{ headers: authHeader() });
+  return axios.post(API_URL + "inventory-edit", data, {
+    headers: authHeader(),
+  });
 };
 const DeleteInventory = (data) => {
-  return axios.post(API_URL + "inventory-delete",data,{ headers: authHeader() });
+  return axios.post(API_URL + "inventory-delete", data, {
+    headers: authHeader(),
+  });
 };
 
+/////////////////////General /////////////////
+
+const generalDepartment = () => {
+  return axios.get(API_URL + "general-department", { headers: authHeader() });
+};
+
+/////update password/////
+const updatePassword = (data) => {
+  return axios.post(API_URL + "user-password-update",data, { headers: authHeader() });
+};
 
 export default {
   getPublicContent,
@@ -87,10 +140,17 @@ export default {
   getParticularProfile,
   UpdateEmployeeDetails,
   deleteEmployeeAccount,
-  uploadImage,  
+  uploadImage,
   AddInventory,
   GetInventory,
   GetInventoryById,
   UpdateInventory,
   DeleteInventory,
+  generalDepartment,
+  getDepartmentNames,
+  getParticularDepartment,
+  AlumniDeleteAccount,
+  AlumniRestoreAccount,
+  leaveReply,
+  updatePassword,
 };

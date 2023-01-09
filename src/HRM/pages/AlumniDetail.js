@@ -1,19 +1,112 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../Shared/Sidebar";
 import { AlumniView } from "../../services/user.service";
+import { Link } from "react-router-dom";
+import EditIcon from "../../assets/images/edit-icon.png";
+import TrashIcon from "../../assets/images/trash.png";
+import userService from "../../services/user.service";
+import Toast from "../Shared/Toast";
+import RestoreIcon from "../../assets/images/restore.png";
+import swal from "sweetalert";
+import { useLocation } from "react-router-dom";
 
 const AlumniDetail = () => {
-  const [users, setUsers] = useState([]);
+  // const [users, setUsers] = useState([]);
+  const [content, setContent] = useState([]);
+
+  // useEffect(() => {
+  //   getAllUsers();
+  // }, []);
+
+  // const getAllUsers = async () => {
+  //   let response = await AlumniView();
+  //   setUsers(response.data.data);
+  //   console.log("===========", response);
+  // };
+
 
   useEffect(() => {
-    getAllUsers();
+    userService
+    .AlumniView()
+    .then((response) => {
+      console.log(response)
+      setContent(response.data.data)
+      })
+      .catch((error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+      });
   }, []);
 
-  const getAllUsers = async () => {
-    let response = await AlumniView();
-    setUsers(response.data.data);
-    console.log("===========", response);
+  const handleDelete = (data) => {
+    swal({
+      title: "Are you sure?",
+      text: "you want to delete your account?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        const itemId = { id: data };
+        console.log(itemId);
+        userService.AlumniDeleteAccount(itemId).then(
+          (response) => {
+            console.log(response);
+            swal("Poof! Your account is deleted successsfully", {
+              icon: "success",
+            });
+            // window.location.reload();
+          },
+          (error) => {
+            const _content =
+              (error.response && error.response.data) ||
+              error.message ||
+              error.toString();
+            setContent(_content);
+          }
+        );
+      }
+    });
   };
+  const handleRestore = (data) => {
+    swal({
+      title: "Are you sure?",
+      text: "you want to restore your account?",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        const itemId = { id: data };
+        console.log(itemId);
+        userService.AlumniRestoreAccount(itemId).then(
+          (response) => {
+            console.log(response);
+            swal("Poof! Your account is restored successsfully", {
+              icon: "success",
+            });
+            // Toast.success(response.data.message);
+            window.location.reload();
+          },
+          (error) => {
+            const _content =
+              (error.response && error.response.data) ||
+              error.message ||
+              error.toString();
+            setContent(_content);
+          }
+        );
+      }
+    });
+  };
+
+  // const ConfirmBox =()=>{
+
+  // }
 
   return (
     <div className="custom-grid h-100vh">
@@ -40,10 +133,13 @@ const AlumniDetail = () => {
                           <th scope="col" className=" text-center">
                             Department
                           </th>
+                          <th scope="col" className=" text-center">
+                            Action
+                          </th>
                         </tr>
                       </thead>
                       <tbody>
-                        {users.map((item, i) => (
+                        {content.map((item, i) => (
                           <tr key={i}>
                             <td className="border-end-1 border-1 text-center">
                               {" "}
@@ -54,6 +150,35 @@ const AlumniDetail = () => {
                             </td>
                             <td className="border-end-1 border-1 text-center">
                               {item.department}
+                            </td>
+                            <td className="border-end-1 border-1 text-center">
+                              <div className="d-flex align-items-center justify-content-center">
+                                <Link
+                                  to={"/alumni-detail"}
+                                  className="text-light text-decoration-none"
+                                >
+                                  <span className="ms-2 cursor-pointer d-flex">
+                                    <img
+                                      src={RestoreIcon}
+                                      onClick={() => {
+                                        handleRestore(item.username);
+                                      }}
+                                      alt=""
+                                      width="25px"
+                                    />
+                                  </span>
+                                </Link>
+                                <span className="ms-2 cursor-pointer preview">
+                                  <img
+                                    src={TrashIcon}
+                                    onClick={() => {
+                                      handleDelete(item.username);
+                                    }}
+                                    alt=""
+                                    width="16px"
+                                  />
+                                </span>
+                              </div>
                             </td>
                           </tr>
                         ))}
