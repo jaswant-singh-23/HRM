@@ -34,6 +34,7 @@ import EditEmployee from "./HRM/Pages/EditEmployee";
 import AddInventory from "./HRM/Pages/AddInventory";
 import EditInventory from "./HRM/Pages/EditInventory";
 import VacancyHiring from "./HRM/Pages/VacancyHiring";
+import UpdateVacancy from "./HRM/Pages/UpdateVacancy"
 
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
@@ -70,13 +71,13 @@ const App = () => {
             <img src={logo} alt="" width="150px" />
           </Link>
           <div className="navbar-nav mr-auto">
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <Link to={"/home"} className="nav-link">
                 Home
               </Link>
-            </li>
+            </li> */}
 
-            {showModeratorBoard && (
+            {/* {showModeratorBoard && (
               <li className="nav-item">
                 <Link to={"/profile"} className="nav-link">
                   Moderator Board
@@ -98,7 +99,7 @@ const App = () => {
                   User
                 </Link>
               </li>
-            )}
+            )} */}
           </div>
         </div>
         <div className="d-flex align-items-center">
@@ -261,6 +262,14 @@ const App = () => {
             element={
               <PrivateModeratorRoute>
                 <VacancyHiring />
+              </PrivateModeratorRoute>
+            }
+          />
+          <Route
+            path="/update-vacancy"
+            element={
+              <PrivateModeratorRoute>
+                <UpdateVacancy />
               </PrivateModeratorRoute>
             }
           />

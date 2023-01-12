@@ -75,12 +75,11 @@ const uploadImage = (data) => {
   });
 };
 
-////////////////////////// alumni /////////////////
+///////// alumni //////////
 
-export const AlumniView = () => {
+const AlumniView = () => {
   return axios.get(API_URL + "alumni-view", { headers: authHeader() });
 };
-
 const AlumniDeleteAccount = (data) => {
   return axios.post(API_URL + "alumni-delete-employee-account", data, {
     headers: authHeader(),
@@ -126,6 +125,13 @@ const generalDepartment = () => {
 const updatePassword = (data) => {
   return axios.post(API_URL + "user-password-update",data, { headers: authHeader() });
 };
+//////vacancy & hiring//////
+const updateVacancy = (data) => {
+  return axios.post(API_URL + "new-vacancy-hiring",data, { headers: authHeader() });
+};
+const GetVacancy = () => {
+  return axios.get(API_URL + "vacancy-details", { headers: authHeader() });
+};
 
 export default {
   getPublicContent,
@@ -153,4 +159,7 @@ export default {
   AlumniRestoreAccount,
   leaveReply,
   updatePassword,
+  AlumniView,
+  updateVacancy,
+  GetVacancy,
 };

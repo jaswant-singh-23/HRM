@@ -10,7 +10,7 @@ const LeaveManagement = () => {
   const [addShow, setAddShow] = useState(false);
 
   const [rejectReason, setRejectReason] = useState();
-  
+
   const [openLeave, setOpenLeave] = useState({
     name: "",
     department: "",
@@ -130,7 +130,7 @@ const LeaveManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {
+            {content &&
               content.map((items, i) =>
               (
                 <tr key={i} >
@@ -174,7 +174,7 @@ const LeaveManagement = () => {
                 <p>With Best Regards</p>
               </div>
               <div className="mt-2 border-top" id="" style={{ display: showRejectBox ? 'block' : 'none' }}>
-                <textarea class="form-control mb-3 mt-3" value={rejectReason} onChange={handleRejectReason} id="exampleFormControlTextarea1" rows="3" placeholder="Reason"></textarea>
+                <textarea className="form-control mb-3 mt-3" value={rejectReason} onChange={handleRejectReason} id="exampleFormControlTextarea1" rows="3" placeholder="Reason"></textarea>
                 <Button className="btn border-0 bg-dark-primary py-1 px-4" onClick={() => { handleRejected(openLeave) }}>Submit</Button>
               </div>
             </div>

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../Shared/Sidebar";
-import { AlumniView } from "../../services/user.service";
 import { Link } from "react-router-dom";
 import EditIcon from "../../assets/images/edit-icon.png";
 import TrashIcon from "../../assets/images/trash.png";
@@ -27,10 +26,10 @@ const AlumniDetail = () => {
 
   useEffect(() => {
     userService
-    .AlumniView()
-    .then((response) => {
-      console.log(response)
-      setContent(response.data.data)
+      .AlumniView()
+      .then((response) => {
+        console.log(response)
+        setContent(response.data.data)
       })
       .catch((error) => {
         const resMessage =
@@ -139,49 +138,56 @@ const AlumniDetail = () => {
                         </tr>
                       </thead>
                       <tbody>
+                        {(content == null || content.length <= 0) && (
+                          <tr><td colSpan={4}>
+                            <div className="text-center"><p>Records not yet</p></div>
+                          </td>
+                          </tr>
+                        )}
+                        
                         {content.map((item, i) => (
-                          <tr key={i}>
-                            <td className="border-end-1 border-1 text-center">
-                              {" "}
-                              {i + 1}
-                            </td>
-                            <td className="border-end-1 border-1 text-center">
-                              {item.name}
-                            </td>
-                            <td className="border-end-1 border-1 text-center">
-                              {item.department}
-                            </td>
-                            <td className="border-end-1 border-1 text-center">
-                              <div className="d-flex align-items-center justify-content-center">
-                                <Link
-                                  to={"/alumni-detail"}
-                                  className="text-light text-decoration-none"
-                                >
-                                  <span className="ms-2 cursor-pointer d-flex">
+                            <tr key={i}>
+                              <td className="border-end-1 border-1 text-center">
+                                {" "}
+                                {i + 1}
+                              </td>
+                              <td className="border-end-1 border-1 text-center">
+                                {item.name}
+                              </td>
+                              <td className="border-end-1 border-1 text-center">
+                                {item.department}
+                              </td>
+                              <td className="border-end-1 border-1 text-center">
+                                <div className="d-flex align-items-center justify-content-center">
+                                  <Link
+                                    to={"/alumni-detail"}
+                                    className="text-light text-decoration-none"
+                                  >
+                                    <span className="ms-2 cursor-pointer d-flex">
+                                      <img
+                                        src={RestoreIcon}
+                                        onClick={() => {
+                                          handleRestore(item.username);
+                                        }}
+                                        alt=""
+                                        width="25px"
+                                      />
+                                    </span>
+                                  </Link>
+                                  <span className="ms-2 cursor-pointer preview">
                                     <img
-                                      src={RestoreIcon}
+                                      src={TrashIcon}
                                       onClick={() => {
-                                        handleRestore(item.username);
+                                        handleDelete(item.username);
                                       }}
                                       alt=""
-                                      width="25px"
+                                      width="16px"
                                     />
                                   </span>
-                                </Link>
-                                <span className="ms-2 cursor-pointer preview">
-                                  <img
-                                    src={TrashIcon}
-                                    onClick={() => {
-                                      handleDelete(item.username);
-                                    }}
-                                    alt=""
-                                    width="16px"
-                                  />
-                                </span>
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
                       </tbody>
                     </table>
                   </div>
