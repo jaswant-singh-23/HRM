@@ -25,7 +25,7 @@ const General = () => {
   }, []);
 
   ////////////// Count Employee ////////////////////
-
+  
   const [total, setTotal] = useState(0);
 
   useEffect(() => {
@@ -50,7 +50,7 @@ const General = () => {
                       <thead className="bg-dark-primary">
                         <tr>
                           <th scope="col"
-                            className="border-end-1 border-1 border-start-0 border-top-0 text-center px-3">Id</th>
+                            className="border-end-1 border-1 border-start-0 border-top-0 text-center px-3">#</th>
                           <th className="border-end-1 border-1 border-start-0 border-top-0 text-center">Department</th>
                           <th className="border-end-1 border-1 border-start-0 border-top-0 text-center">Employee Count</th>
 
@@ -68,8 +68,8 @@ const General = () => {
                         }
                         <tr>
                            <th className="border-end-1 border-1 text-center"></th>
-                           <th className="border-end-1 border-1 text-center">Total Employee ➡️</th>
-                           <th className="border-end-1 border-1 text-center">No.of Employee = [{total}]</th>
+                           <th className="border-end-1 border-1 text-center">Total Employee</th>
+                           <th className="border-end-1 border-1 text-center">{total}</th>
                         </tr>
                       </tbody>
                     </table>

@@ -4,8 +4,8 @@ import Sidebar from "../shared/components/Sidebar";
 
 const Home = () => {
   return (
-    <div className="bg-grey-color custom-grid h-100vh">
-      <Sidebar />
+    <div className="bg-grey-color h-100vh">
+      
       <div className="home-page bg-img position-relative h-100">
         <div className="d-flex justify-content-center">
           <h1 className="text-white text-center mt-5">
@@ -19,9 +19,7 @@ const Home = () => {
             <Link to="/profile" className="text-white text-decoration-none">
               <div className="d-flex justify-content-center">
                 <div className="mr-4">
-                  <button className="btn bg-dark-primary">
-                  Go to profile page
-                  </button>
+                 
                 </div>
               </div>
             </Link>

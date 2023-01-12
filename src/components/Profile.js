@@ -195,13 +195,18 @@ const Profile = () => {
           error.toString();
       });
   };
-  
+
 
   return (
     <div className="bg-grey-color custom-grid h-100">
       <Sidebar />
       <div className="container-fluid">
         <div className="main-body">
+          <div className="col-10 col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-12 profile-badge bg-white p-2 mt-3">
+            <h3 className="text-center mb-2">
+              Welcome User : {userField.name}{" "}
+            </h3>
+          </div>
           <div className="row gutters-sm mt-3">
             <div className="col-md-4 mb-3">
               <div className="card">
@@ -268,13 +273,13 @@ const Profile = () => {
                     <div className="profile-setting position-absolute  d-flex align-items-center justify-content-center" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" >
                       <i class="fa-solid fa-ellipsis-vertical text-white fw-5 rounded-circle"></i>
                     </div>
-                    {/* <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                      <a class="dropdown-item" href="#"> <i class="fa-solid fa-gear"></i> Setting</a>
+                    {/* <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                      <a className="dropdown-item" href="#"> <i className="fa-solid fa-gear"></i> Setting</a>
                     </div> */}
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                      <a class="dropdown-item" href="#" onClick={handlePassword}><i class="fa-solid fa-key"></i> Change Password</a>
-                      <a class="dropdown-item" href="#"><i class="fa-solid fa-user"></i> Edit profile</a>
-                      <a class="dropdown-item" href="/login" onClick={logOut}><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+                    <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                      <a className="dropdown-item" href="#" onClick={handlePassword}><i className="fa-solid fa-key"></i> Change Password</a>
+                      <a className="dropdown-item" href="#"><i className="fa-solid fa-user"></i> Edit profile</a>
+                      <a className="dropdown-item" href="/login" onClick={logOut}><i className="fa-solid fa-right-from-bracket"></i> Logout</a>
                     </div>
                     <Modal
                       centered
@@ -336,6 +341,7 @@ const Profile = () => {
                   </div>
                 </div>
               </div>
+
               <div className="card mt-3">
                 <ul className="list-group list-group-flush">
                   <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">

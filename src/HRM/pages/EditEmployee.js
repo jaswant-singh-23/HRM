@@ -6,6 +6,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import UserService from "../../services/user.service";
 import Sidebar from "../Shared/Sidebar";
 import AuthService from "../../services/auth.service";
+import moment from "moment";
 import Toast from "../Shared/Toast";
 import { useSelector } from "react-redux";
 
@@ -125,24 +126,21 @@ const EditEmployee = (props) => {
   };
 
   /////// Get Profile ///////
-  const getContent = () => {
-    var profileId = { id: id };
-    UserService.getParticularProfile(profileId).then(
-      (response) => {
-        setContent(response.data.data);
-      },
-      (error) => {
-        const _content =
-          (error.response && error.response.data) ||
-          error.message ||
-          error.toString();
-        setContent(_content);
-      }
-    );
-    formik.values.id = id;
-  };
   useEffect(() => {
-    getContent();
+      var profileId = { id: id };
+      UserService.getParticularProfile(profileId).then(
+        (response) => {
+          setContent(response.data.data);
+        },
+        (error) => {
+          const _content =
+            (error.response && error.response.data) ||
+            error.message ||
+            error.toString();
+          setContent(_content);
+        }
+      );
+      formik.values.id = id;
   }, []);
 
   useEffect(() => {
@@ -337,7 +335,7 @@ const EditEmployee = (props) => {
                         onChange={(e) => {
                           setDateOfJoining(e.target.value);
                         }}
-                        defaultValue={content.dateofjoining}
+                        defaultValue={moment(content.dateofjoining).format("YYYY-DD-MM")}
                       />
                     </div>
                   </div>
@@ -352,7 +350,7 @@ const EditEmployee = (props) => {
                         onChange={(e) => {
                           setDateOfBirth(e.target.value);
                         }}
-                        defaultValue={content.dateofbirth}
+                        defaultValue={moment(content.dateofbirth).format("YYYY-DD-MM")}
                       />
                     </div>
                   </div>

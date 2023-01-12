@@ -440,7 +440,7 @@ button:not(:disabled) {
 }
 
 
-profile-setting {
+.profile-setting {
 	border-radius: 17px;
 	width: 35px;
 	height: 35px;

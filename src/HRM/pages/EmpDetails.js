@@ -101,7 +101,7 @@ const EmpDetails = ({ excelData, fileName }) => {
       .then((response) => {
         console.log(response);
         Toast.success(response.data.message);
-        navigate("/");
+        navigate("/general");
       })
       .catch((error) => {
         const resMessage =
@@ -152,7 +152,6 @@ const EmpDetails = ({ excelData, fileName }) => {
   };
 
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -502,7 +501,7 @@ const EmpDetails = ({ excelData, fileName }) => {
                               variant="primary"
                               onClick={handleEntry}
                             >
-                              Save Changes
+                              Submit
                             </button>
                           </Modal.Footer>
                         </Modal>

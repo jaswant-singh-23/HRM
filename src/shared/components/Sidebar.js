@@ -69,21 +69,7 @@ const Sidebar = () => {
                   title="Leave Management"
                   className="text-nowrap"
                 >
-                  Leave Management
-                </span>
-              </button>
-            </Link>
-          </div>
-          <div>
-            <Link className="text-decoration-none">
-              <button type="button">
-                <i className="fa-solid fa-user"></i>
-                <span
-                  style={{ animationDelay: ".2s" }}
-                  title="Profile"
-                  className="text-nowrap"
-                >
-                  Attendance Sheet
+                  Leave
                 </span>
               </button>
             </Link>

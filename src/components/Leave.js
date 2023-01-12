@@ -119,13 +119,13 @@ const Leave = () => {
                     <p className="mb-0 me-3 text-nowrap">
                       Total Leave Available:-
                     </p>
-                    <p className="mb-0 border rounded py-1 px-2">10</p>
+                    <p className="mb-0 border rounded py-1 px-2">{userField.totalPendingLeaves}</p>
                   </div>
                 </div>
                 <div className="col-12 col-md-6 mb-3">
                   <div className="d-flex align-items-center">
                     <p className="mb-0 me-3">Leave Taken:-</p>
-                    <p className="mb-0 border rounded py-1 px-2">2</p>
+                    <p className="mb-0 border rounded py-1 px-2">{userField.leaveTaken}</p>
                   </div>
                 </div>
               </div>

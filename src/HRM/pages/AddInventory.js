@@ -26,11 +26,10 @@ const AddInventory = () => {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const [itemName, setItemName] = useState([]);
-  
+
   const handleChange = (e) => {
     const value = e.target.value;
     const checked = e.target.checked;
-    console.log(value , checked);
     if (checked) {
       setItemName([...itemName, value])
     }
@@ -47,7 +46,7 @@ const AddInventory = () => {
       console.log(JSON.stringify(data, null, 2));
     },
   });
-  
+
   const handleUpload = (e) => {
     e.preventDefault();
     console.log(itemName);
@@ -73,7 +72,7 @@ const AddInventory = () => {
             error.response.data.message) ||
           error.message ||
           error.toString();
-          setMessage(resMessage.message);
+        setMessage(resMessage.message);
       }
     );
   };
@@ -160,8 +159,8 @@ const AddInventory = () => {
                   }
                   onChange={formik.handleChange}
                   value="keyboard"
-                  type="checkbox" id="check1" name="itemName" />
-                <label className="form-check-label">Keyboard</label>
+                  type="checkbox" id="keyboard" name="itemName" />
+                <label htmlFor="keyboard" className="form-check-label">Keyboard</label>
               </div>
 
               <div className="form-check">
@@ -173,8 +172,8 @@ const AddInventory = () => {
                   }
                   onChange={formik.handleChange}
                   value="mouse"
-                  type="checkbox" id="check1" name="itemName" />
-                <label className="form-check-label">Mouse</label>
+                  type="checkbox" id="mouse" name="itemName" />
+                <label htmlFor="mouse" className="form-check-label">Mouse</label>
               </div>
 
               <div className="form-check">
@@ -187,8 +186,8 @@ const AddInventory = () => {
                   }
                   onChange={formik.handleChange}
                   value="headphone"
-                  type="checkbox" id="check1" name="itemName" />
-                <label className="form-check-label">Headphone</label>
+                  type="checkbox" id="headphone" name="itemName" />
+                <label htmlFor="headphone" className="form-check-label">Headphone</label>
               </div>
 
               <div className="form-check">
@@ -200,8 +199,8 @@ const AddInventory = () => {
                   }
                   onChange={formik.handleChange}
                   value="window10"
-                  type="checkbox" id="check1" name="itemName" />
-                <label className="form-check-label">Window10</label>
+                  type="checkbox" id="window10" name="itemName" />
+                <label htmlFor="window10" className="form-check-label">Window10</label>
               </div>
             </div>
 
@@ -217,12 +216,12 @@ const AddInventory = () => {
                   {message}
                 </div>
               </div>
-            ) &&(
-              <div className="form-group">
-                <div className="alert alert-danger mt-3" role="alert">
-                {message}
+            ) && (
+                <div className="form-group">
+                  <div className="alert alert-danger mt-3" role="alert">
+                    {message}
+                  </div>
                 </div>
-              </div>
               )
             }
           </form>
