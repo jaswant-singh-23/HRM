@@ -73,7 +73,8 @@ const Leave = () => {
       .leaveApply(data)
       .then((response) => {
         handleCancel();
-        Toast.success(response.message);
+        Toast.success(response.data.message);
+        setAddShow(false)
       })
       .catch((error) => {
         const resMessage =

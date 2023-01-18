@@ -17,6 +17,7 @@ import Button from "react-bootstrap/Button";
 import { deleteEmployeeAccount } from "../../services/user.service";
 import swal from "sweetalert";
 
+
 /////////////// Single Entry ////////////
 
 const EmpDetails = ({ excelData, fileName }) => {
@@ -223,6 +224,8 @@ const EmpDetails = ({ excelData, fileName }) => {
             setContent(_content);
           }
         );
+      } else {
+        swal("Your imaginary file is safe!");
       }
     });
   };
@@ -249,7 +252,7 @@ const EmpDetails = ({ excelData, fileName }) => {
       <Sidebar />
       <div className="bg-grey-color container-fluid">
         <div className="row d-flex justify-content-center mt-5">
-          <div className="col-10 col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-8 profile-badge bg-white p-4">
+          <div className="col-10 col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-9 profile-badge bg-white p-4">
             <div>
               <h3 className="text-center mb-4">Welcome to Hr Department</h3>
             </div>
@@ -513,7 +516,7 @@ const EmpDetails = ({ excelData, fileName }) => {
             </div>
           </div>
           <div
-            className="col-10 col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-8 profile-badge bg-white p-4 mt-5"
+            className="col-10 col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-9 profile-badge bg-white p-4 mt-5"
             style={{ display: detail ? "block" : "none" }}
           >
             <table className="table table-hover table-striped ">
@@ -575,8 +578,7 @@ const EmpDetails = ({ excelData, fileName }) => {
             </table>
           </div>
         </div>
-      </div>
-      <form>
+        <form>
         <Modal
           show={bulkShow}
           onHide={bulkhandleAddUpload}
@@ -613,6 +615,7 @@ const EmpDetails = ({ excelData, fileName }) => {
           </Modal.Footer>
         </Modal>
       </form>
+      </div>  
     </div>
   );
 };

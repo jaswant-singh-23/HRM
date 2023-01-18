@@ -38,7 +38,7 @@ const General = () => {
       <Sidebar />
       <div className="bg-grey-color container-fluid">
         <div className="row d-flex justify-content-center mt-5">
-          <div className="col-10 col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-8 profile-badge bg-white p-4">
+          <div className="col-10 col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-9 profile-badge bg-white p-4">
             <div>
               <h3 className="text-center mb-4">Welcome to Hr Department</h3>
             </div>
@@ -50,7 +50,7 @@ const General = () => {
                       <thead className="bg-dark-primary">
                         <tr>
                           <th scope="col"
-                            className="border-end-1 border-1 border-start-0 border-top-0 text-center px-3">#</th>
+                            className="border-end-1 border-1 border-start-0 border-top-0 text-center px-3">Id</th>
                           <th className="border-end-1 border-1 border-start-0 border-top-0 text-center">Department</th>
                           <th className="border-end-1 border-1 border-start-0 border-top-0 text-center">Employee Count</th>
 
