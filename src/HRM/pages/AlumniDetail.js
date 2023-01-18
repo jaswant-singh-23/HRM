@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../Shared/Sidebar";
 import { Link } from "react-router-dom";
-import EditIcon from "../../assets/images/edit-icon.png";
+// import EditIcon from "../../assets/images/edit-icon.png";
 import TrashIcon from "../../assets/images/trash.png";
 import userService from "../../services/user.service";
-import Toast from "../Shared/Toast";
+// import Toast from "../Shared/Toast";
 import RestoreIcon from "../../assets/images/restore.png";
 import swal from "sweetalert";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 
 const AlumniDetail = () => {
   // const [users, setUsers] = useState([]);
@@ -44,7 +44,7 @@ const AlumniDetail = () => {
   const handleDelete = (data) => {
     swal({
       title: "Are you sure?",
-      text: "you want to delete your account?",
+      text: "you want to delete your account permanently ?",
       icon: "warning",
       buttons: true,
       dangerMode: true,
@@ -58,7 +58,7 @@ const AlumniDetail = () => {
             swal("Poof! Your account is deleted successsfully", {
               icon: "success",
             });
-            // window.location.reload();
+            window.location.reload();
           },
           (error) => {
             const _content =
@@ -69,6 +69,9 @@ const AlumniDetail = () => {
           }
         );
       }
+      else {
+        swal("Your imaginary file is safe!");
+      }
     });
   };
   const handleRestore = (data) => {
@@ -78,8 +81,8 @@ const AlumniDetail = () => {
       icon: "warning",
       buttons: true,
       dangerMode: true,
-    }).then((willDelete) => {
-      if (willDelete) {
+    }).then((willRestore) => {
+      if (willRestore) {
         const itemId = { id: data };
         console.log(itemId);
         userService.AlumniRestoreAccount(itemId).then(
@@ -103,16 +106,12 @@ const AlumniDetail = () => {
     });
   };
 
-  // const ConfirmBox =()=>{
-
-  // }
-
   return (
     <div className="custom-grid h-100vh">
       <Sidebar />
       <div className="bg-grey-color container-fluid">
         <div className="row d-flex justify-content-center mt-5">
-          <div className="col-10 col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-8 profile-badge bg-white p-4">
+          <div className="col-10 col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-9 profile-badge bg-white p-4">
             <div>
               <h3 className="text-center mb-4">Alumni Details</h3>
             </div>
@@ -123,16 +122,16 @@ const AlumniDetail = () => {
                     <table className="table table-striped">
                       <thead className="bg-dark-primary">
                         <tr>
-                          <th scope="col" className=" text-center">
-                            ID
+                          <th scope="col" className="border-end-1 border-1 border-start-0 border-top-0 text-center">
+                            Id
                           </th>
-                          <th scope="col" className=" text-center">
+                          <th scope="col" className="border-end-1 border-1 border-start-0 border-top-0 text-center">
                             Alumni Name
                           </th>
-                          <th scope="col" className=" text-center">
+                          <th scope="col" className="border-end-1 border-1 border-start-0 border-top-0 text-center">
                             Department
                           </th>
-                          <th scope="col" className=" text-center">
+                          <th scope="col" className="border-end-1 border-1 border-start-0 border-top-0 text-center">
                             Action
                           </th>
                         </tr>
@@ -148,7 +147,6 @@ const AlumniDetail = () => {
                         {content.map((item, i) => (
                             <tr key={i}>
                               <td className="border-end-1 border-1 text-center">
-                                {" "}
                                 {i + 1}
                               </td>
                               <td className="border-end-1 border-1 text-center">

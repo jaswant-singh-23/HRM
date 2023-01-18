@@ -4,6 +4,7 @@ import Sidebar from '../Shared/Sidebar';
 import { useFormik } from "formik";
 import * as Yup from 'yup';
 import userService from "../../services/user.service";
+import Select from "react-select";
 
 const validationSchema = Yup.object().shape({
   username: Yup.string()
@@ -19,37 +20,43 @@ const validationSchema = Yup.object().shape({
 // username,
 //   totalItems: req.body.totalItems,
 //     itemName: req.body.itemName,
-
+const optionList = [
+  { value: "keyboard", label: "keyboard" },
+  { value: "mouse", label: "mouse" },
+  { value: "headphone", label: "headphone" },
+  { value: "window10", label: "window10" },
+];
 const AddInventory = () => {
   const navigate = useNavigate();
   const form = useRef();
   const [message, setMessage] = useState("");
-  const [error, setError] = useState("");
-  const [itemName, setItemName] = useState([]);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [totalItems, setTotalItems] = useState("");
+  const [itemName, setItemName] = useState();
+  // const [selectedOptions, setSelectedOptions] = useState();
 
-  const handleChange = (e) => {
-    const value = e.target.value;
-    const checked = e.target.checked;
-    if (checked) {
-      setItemName([...itemName, value])
-    }
+
+  const handleUsername = (e) => {
+    const username = e.target.value;
+    setUsername(username)
   }
-  const formik = useFormik({
-    initialValues: {
-      username: "",
-      email: "",
-      totalItems: "",
-      itemName: [],
-    },
-    validationSchema,
-    onSubmit: (data) => {
-      console.log(JSON.stringify(data, null, 2));
-    },
-  });
+  const handleEmail = (e) => {
+    const email = e.target.value;
+    setEmail(email)
+  }
+  const handleTotalItems = (e) => {
+    const totalItems = e.target.value;
+    setTotalItems(totalItems)
+  }
+  const handleSelect = (data) => {
+    setItemName(data);
+  }
 
   const handleUpload = (e) => {
     e.preventDefault();
-    console.log(itemName);
+
+    // console.log(itemName);
     // if (
     //   formik.values.username != " " && 
     //   formik.values.email != " " &&
@@ -58,8 +65,13 @@ const AddInventory = () => {
     //   const username = formik.values.username;
     //   const email = formik.values.email;
     //   const totalItems = formik.values.number;
-    const data = formik.values;
-    console.log(data);
+    const data = {
+      username: username,
+      email :email,
+      totalItems:totalItems,
+      itemName:itemName,
+    };
+    console.log(username, email, totalItems, itemName);
     userService.AddInventory(data).then((response) => {
       console.log(response)
       setMessage(response.data.data)
@@ -81,7 +93,7 @@ const AddInventory = () => {
       <Sidebar />
       <div className="inventory-page">
         <div className="p-4">
-          <form onSubmit={formik.handleSubmit} ref={form}>
+          <form ref={form}>
             <h1 className="text-center">Add Inventory</h1>
 
             <div className="form-group mb-3">
@@ -90,19 +102,12 @@ const AddInventory = () => {
                 type="text"
                 name="username"
                 className={
-                  'form-control' +
-                  (formik.errors.username && formik.touched.username
-                    ? ' is-invalid'
-                    : '')
+                  'form-control'
                 }
-                onChange={formik.handleChange}
-                value={formik.values.username}
+                onChange={handleUsername}
+                value={username}
               />
-              <div className="invalid-feedback">
-                {formik.errors.username && formik.touched.username
-                  ? formik.errors.username
-                  : null}
-              </div>
+
             </div>
 
             <div className="form-group mb-3">
@@ -111,19 +116,11 @@ const AddInventory = () => {
                 type="text"
                 name="email"
                 className={
-                  'form-control' +
-                  (formik.errors.email && formik.touched.email
-                    ? ' is-invalid'
-                    : '')
+                  'form-control'
                 }
-                onChange={formik.handleChange}
-                value={formik.values.email}
+                onChange={handleEmail}
+                value={email}
               />
-              <div className="invalid-feedback">
-                {formik.errors.email && formik.touched.email
-                  ? formik.errors.email
-                  : null}
-              </div>
             </div>
 
             <div className="form-group mb-3">
@@ -132,23 +129,15 @@ const AddInventory = () => {
                 type="number"
                 name="totalItems"
                 className={
-                  'form-control' +
-                  (formik.errors.totalItems && formik.touched.totalItems
-                    ? ' is-invalid'
-                    : '')
+                  'form-control'
                 }
-                onChange={formik.handleChange}
-                value={formik.values.totalItems}
+                onChange={handleTotalItems}
+                value={totalItems}
               />
-              <div className="invalid-feedback">
-                {formik.errors.totalItems && formik.touched.totalItems
-                  ? formik.errors.totalItems
-                  : null}
-              </div>
             </div>
 
             <label htmlFor="password">Items Name</label>
-            <div className="d-flex justify-content-between">
+             {/* <div className="d-flex justify-content-between">
               <div className="form-check">
                 <input
                   className=
@@ -202,21 +191,33 @@ const AddInventory = () => {
                   type="checkbox" id="window10" name="itemName" />
                 <label htmlFor="window10" className="form-check-label">Window10</label>
               </div>
-            </div>
+            </div>  */}
 
+            <div className="dropdown-container">
+              <Select
+                options={optionList}
+                placeholder="Select Items"
+                value={itemName}
+                onChange={handleSelect}
+                isSearchable={true}
+                isMulti
+              />
+            </div>
+            
             <div className="form-group">
               <button type="sumbit" onClick={handleUpload} className="btn bg-dark-primary text-white btn-block mt-2">
                 <span>Upload</span>
               </button>
             </div>
-
-            {message && (
-              <div className="form-group">
-                <div className="alert alert-danger mt-3" role="alert">
-                  {message}
+              
+            {
+              message && (
+                <div className="form-group">
+                  <div className="alert alert-danger mt-3" role="alert">
+                    {message}
+                  </div>
                 </div>
-              </div>
-            ) && (
+              ) && (
                 <div className="form-group">
                   <div className="alert alert-danger mt-3" role="alert">
                     {message}

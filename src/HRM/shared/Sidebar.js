@@ -75,7 +75,7 @@ const Sidebar = () => {
           >
             <Link to="/emp-details" className="text-decoration-none">
               <button type="button">
-                <i className="fa-solid fa-user"></i>
+              <i class="fa-solid fa-people-roof"></i>
                 <span
                   style={{ animationDelay: ".2s" }}
                   title="Details"
@@ -103,7 +103,7 @@ const Sidebar = () => {
           <div className={`nav-links ${active == "inventory" ? `active` : ""}`}>
             <Link to="/inventory-control" className="text-decoration-none">
               <button type="button">
-                <i className="fa-solid fa-user"></i>
+              <i className="fa-solid fa-file-invoice"></i>
                 <span
                   style={{ animationDelay: ".2s" }}
                   title="Inventory"
@@ -119,7 +119,7 @@ const Sidebar = () => {
           >
             <Link to="/vacancy-hiring" className="text-decoration-none">
               <button type="button">
-                <i className="fa-solid fa-gear"></i>
+              <i className="fa-sharp fa-solid fa-rectangle-ad"></i>
                 <span
                   style={{ animationDelay: ".3s" }}
                   title="Vacancy"
@@ -149,7 +149,7 @@ const Sidebar = () => {
           >
             <Link to="/alumni-detail" className="text-decoration-none">
               <button type="button">
-                <i className="fa-solid fa-gear"></i>
+              <i class="fa-solid fa-graduation-cap"></i>
                 <span
                   style={{ animationDelay: ".3s" }}
                   title="Settings"

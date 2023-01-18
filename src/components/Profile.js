@@ -204,7 +204,7 @@ const Profile = () => {
         <div className="main-body">
           <div className="col-10 col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-12 profile-badge bg-white p-2 mt-3">
             <h3 className="text-center mb-2">
-              Welcome User : {userField.name}{" "}
+              Welcome User : {userField.name}
             </h3>
           </div>
           <div className="row gutters-sm mt-3">
@@ -364,7 +364,7 @@ const Profile = () => {
                       </svg>
                       Website
                     </h6>
-                    <span className="text-secondary">https://bootdey.com</span>
+                    <span className="text-secondary"><a href="https://www.ameotech.com">Go to Website</a></span>
                   </li>
                   <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                     <h6 className="mb-0">
@@ -384,7 +384,7 @@ const Profile = () => {
                       </svg>
                       Github
                     </h6>
-                    <span className="text-secondary">bootdey</span>
+                    <span className="text-secondary"><a href="https://github.com/ameotech-informatics">Go to Github</a></span>
                   </li>
                   <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                     <h6 className="mb-0">
@@ -404,7 +404,7 @@ const Profile = () => {
                       </svg>
                       Twitter
                     </h6>
-                    <span className="text-secondary">@bootdey</span>
+                    <span className="text-secondary"><a href="https://twitter.com/theameotech">Go to Twitter page</a></span>
                   </li>
                   <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                     <h6 className="mb-0">
@@ -433,7 +433,7 @@ const Profile = () => {
                       </svg>
                       Instagram
                     </h6>
-                    <span className="text-secondary">bootdey</span>
+                    <span className="text-secondary"><a href="https://www.instagram.com/p/CmV7RbmBNTM/">Go to Instagram page</a></span>
                   </li>
                   <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                     <h6 className="mb-0">
@@ -453,7 +453,7 @@ const Profile = () => {
                       </svg>
                       Facebook
                     </h6>
-                    <span className="text-secondary">bootdey</span>
+                    <span className="text-secondary"><a href="https://www.facebook.com/theameotech/">Go to Facebook page</a></span>
                   </li>
                 </ul>
               </div>
@@ -501,7 +501,7 @@ const Profile = () => {
                     <div className="col-sm-3">
                       <h6 className="mb-0">DOB</h6>
                     </div>
-                    <div className="col-sm-9 text-secondary">04/07/1998</div>
+                    <div className="col-sm-9 text-secondary">{userField.dateofbirth}</div>
                   </div>
                   <hr />
                   <div className="row">

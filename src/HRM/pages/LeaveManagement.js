@@ -3,11 +3,13 @@ import Sidebar from '../Shared/Sidebar'
 import leaveicon from '../../assets/images/leave-request.png'
 import { Modal, Button } from "react-bootstrap";
 import moment from "moment";
+import Toast from "../Shared/Toast";
 import userService from "../../services/user.service";
 
 const LeaveManagement = () => {
   const [content, setContent] = useState([]);
   const [addShow, setAddShow] = useState(false);
+  const [message , setMessage] = useState(false)
 
   const [rejectReason, setRejectReason] = useState();
 
@@ -21,28 +23,29 @@ const LeaveManagement = () => {
     username: "",
     rejectReason: "",
   });
-  const [showRejectBox, setShowRejectBox] = useState(false);
 
+  const [showRejectBox, setShowRejectBox] = useState(false);
+  const [hideRejectBox , setHideRejectBox] = useState(false);
   const handleRejectReason = (e) => {
     let rejectReason = e.target.value;
     setRejectReason(rejectReason);
-  }
+  };
 
   const handleAddShow = (items) => {
     setOpenLeave({
       name: items.name, id: items.id, department: items.department, username: items.username, rejectReason: items.rejectReason,
       fromDate: items.fromDate, toDate: items.toDate, reason: items.reason, halfDay: items.halfDay,
-    })
-    setAddShow(true)
+    });
+    setAddShow(true);
   };
   const handleHideShow = () => setAddShow(false);
 
   const handleRejectShow = () => {
-    setShowRejectBox(!showRejectBox.true)
-  }
+    setShowRejectBox(!showRejectBox.true);
+  };
 
-  /////get leave detail/////
-
+// get leave detail //
+ 
   useEffect(() => {
     userService
       .getLeaveDetail()
@@ -73,8 +76,10 @@ const LeaveManagement = () => {
     userService
       .leaveReply(data)
       .then((response) => {
-        console.log(response)
-        setContent(response.data.data);
+        console.log(response) ;
+        setAddShow(false)
+         Toast.success(response.data.message);
+       
       })
       .catch((error) => {
         const resMessage =
@@ -86,9 +91,9 @@ const LeaveManagement = () => {
       });
   };
 
-  ///////leave reject///////
-
+  ///////leave reject//////
   const handleRejected = (items) => {
+    setHideRejectBox(!hideRejectBox.true)
     const data = {
       name: items.name,
       username: items.username,
@@ -96,12 +101,13 @@ const LeaveManagement = () => {
       leaveStatus: "Rejected",
       rejectReason: rejectReason,
     }
-
     userService
       .leaveReply(data)
       .then((response) => {
         console.log(response)
-        setContent(response.data.data);
+        setMessage(response.data.message)
+        setAddShow(false)
+        Toast.success(response.data.message)
       })
       .catch((error) => {
         const resMessage =
@@ -110,9 +116,9 @@ const LeaveManagement = () => {
             error.response.data.message) ||
           error.message ||
           error.toString();
+          setMessage(resMessage.message);
       });
   };
-
   return (
     <div className="custom-grid h-100vh">
       <Sidebar />
@@ -130,7 +136,7 @@ const LeaveManagement = () => {
             </tr>
           </thead>
           <tbody>
-            {content &&
+            {content != null &&
               content.map((items, i) =>
               (
                 <tr key={i} >
@@ -175,13 +181,27 @@ const LeaveManagement = () => {
               </div>
               <div className="mt-2 border-top" id="" style={{ display: showRejectBox ? 'block' : 'none' }}>
                 <textarea className="form-control mb-3 mt-3" value={rejectReason} onChange={handleRejectReason} id="exampleFormControlTextarea1" rows="3" placeholder="Reason"></textarea>
-                <Button className="btn border-0 bg-dark-primary py-1 px-4" onClick={() => { handleRejected(openLeave) }}>Submit</Button>
+                <Button className="btn border-0 bg-danger" onClick={() => { handleRejected(openLeave) }}>Reject</Button>
               </div>
+              {message && (
+              <div className="form-group">
+                <div className="alert alert-danger mt-3" role="alert">
+                  {message}
+                </div>
+              </div>
+            ) && (
+                <div className="form-group">
+                  <div className="alert alert-danger mt-3" role="alert">
+                    {message}
+                  </div>
+                </div>
+              )
+            }
             </div>
           </Modal.Body>
           <Modal.Footer>
-            <Button className="btn border-0 bg-danger " onClick={handleRejectShow}>Reject</Button>
-            <Button className="btn border-0 bg-dark-primary py-1 px-4" onClick={() => { handleApproved(openLeave) }}>Approve</Button>
+            <Button style={{ display: hideRejectBox ? 'none' : 'block' }}  className="btn border-0 bg-danger " onClick={handleRejectShow}>Reject</Button>
+            <Button  style={{ display: hideRejectBox ? 'none' : 'block' }} className="btn border-0 bg-dark-primary py-1 px-4" onClick={() => { handleApproved(openLeave) }}>Approve</Button>
           </Modal.Footer>
         </Modal>
       </div>
