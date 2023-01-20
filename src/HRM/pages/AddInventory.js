@@ -21,10 +21,10 @@ const validationSchema = Yup.object().shape({
 //   totalItems: req.body.totalItems,
 //     itemName: req.body.itemName,
 const optionList = [
-  { value: "keyboard", label: "keyboard" },
-  { value: "mouse", label: "mouse" },
-  { value: "headphone", label: "headphone" },
-  { value: "window10", label: "window10" },
+  { value: "keyboard", label: "Keyboard" },
+  { value: "mouse", label: "Mouse" },
+  { value: "headphone", label: "Headphone" },
+  { value: "window10", label: "Window10" },
 ];
 const AddInventory = () => {
   const navigate = useNavigate();

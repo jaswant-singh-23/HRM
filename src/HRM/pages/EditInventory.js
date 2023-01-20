@@ -1,11 +1,12 @@
 import React, { useRef, useState, useEffect } from "react";
-
 import Sidebar from '../Shared/Sidebar';
 import { useFormik } from "formik";
 import { useNavigate, useParams } from "react-router-dom";
 import * as Yup from 'yup';
 import userService from "../../services/user.service";
 import { Chip, Stack } from "@mui/material";
+import Select from "react-select";
+
 
 const validationSchema = Yup.object().shape({
   username: Yup.string()
@@ -28,6 +29,7 @@ const EditInventory = () => {
   const [message, setMessage] = useState("");
   const { id } = useParams();
   const form = useRef();
+  
   const [itemName, setItemName] = useState([
     { keyboard: '' },
     { mouse: '' },
@@ -94,6 +96,18 @@ const EditInventory = () => {
       }
     );
   }
+
+  const optionList = [
+    { value: "keyboard", label: "Keyboard" },
+    { value: "mouse", label: "Mouse" },
+    { value: "headphone", label: "Headphone" },
+    { value: "window10", label: "Window10" },
+  ];
+
+  const handleSelect = (data) => {
+    setItemName(data);
+  }
+
   return (
     <div className="bg-grey-color d-flex align-items-center  ">
       <Sidebar />
@@ -164,7 +178,7 @@ const EditInventory = () => {
                   </div>
 
                   <label htmlFor="password">Items Name</label>
-                  <div className="d-flex justify-content-between">
+               {/*   <div className="d-flex justify-content-between">
                     <div className="form-check">
                       <input
                         className={"form-check-input"}
@@ -202,7 +216,18 @@ const EditInventory = () => {
                         type="checkbox" id="window10" name="itemName" />
                       <label className="form-check-label" htmlFor="window10">Window10</label>
                     </div>
-                  </div>
+                  </div>  */}
+                  <div className="dropdown-container">
+                  <Select
+                    options={optionList}
+                    placeholder="Select Items"
+                    // value={items.itemName}
+                    defaultValue={items.itemName}
+                    onChange={handleSelect}
+                    isSearchable={true}
+                    isMulti
+                  />
+                </div>
 
                   <div className="form-group">
                     <button type="sumbit" onClick={() => handleUpdate(items.username)} className="btn bg-dark-primary text-white btn-block mt-2">
