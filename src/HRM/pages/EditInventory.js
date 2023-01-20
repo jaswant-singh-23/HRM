@@ -22,29 +22,40 @@ const validationSchema = Yup.object().shape({
     .required(" "),
 });
 
+
 const EditInventory = () => {
+  const formik = useFormik({
+    initialValues: {
+
+    },
+    validationSchema,
+    // validateOnChange: false,
+    // validateOnBlur: false,
+    onUpdate: (data) => {
+      console.log(JSON.stringify(data, null, 2));
+    },
+  });
+  const optionList = [
+    { value: "keyboard", label: "Keyboard" },
+    { value: "mouse", label: "Mouse" },
+    { value: "headphone", label: "Headphone" },
+    { value: "window10", label: "Window10" },
+  ];
   const navigate = useNavigate()
 
   const [content, setContent] = useState([]);
   const [message, setMessage] = useState("");
   const { id } = useParams();
   const form = useRef();
-  
-  const [itemName, setItemName] = useState([
-    { keyboard: '' },
-    { mouse: '' },
-    { headphone: '' },
-    { window10: '' }
-  ])
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [totalItems, setTotalItems] = useState("");
+  const [itemName, setItemName] = useState("");
+
 
   // const handleChange = (e) => {
-  // //   const value = e.target.value;
-  // //   const checked = e.target.checked;
-  // //   console.log(value, checked)
-  // //   if (checked) {
-  // //     setItemName([...itemName, value])
-  // //   }
-  // // }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+  //   setContent(({ ...content, [e.target.name]: e.target.value }))
+  // }
 
   //////get inventory by id/////
 
@@ -66,26 +77,36 @@ const EditInventory = () => {
     formik.values.id = id;
   }, []);
 
-  ///////////On Update//////////////
-  const formik = useFormik({
-    initialValues: {
-      username: "",
-      email: "",
-      totalItems: "",
-      itemName: [],
-    },
-    validationSchema,
-  });
+  const handleUsername = (e) => {
+    const username = e.target.value;
+    setUsername(username)
+  }
+  const handleEmail = (e) => {
+    const email = e.target.value;
+    setEmail(email)
+  }
+  const handleTotalItems = (e) => {
+    const totalItems = e.target.value;
+    setTotalItems(totalItems)
+  }
+  const handleSelect = (data) => {
+    setItemName(data);
+  }
+ /  On Update /
 
-  const handleUpdate = async () => {
-    const data = formik.values;
-    data.username = content[0].username;
-    data.email = content[0].email;
-    data.totalItems = formik.values.totalItems ? formik.values.totalItems : content[0].totalItems;
-    console.log(formik.values.itemName, "fhgfdc");
+  const handleUpdate = (e) => {
+    const data = {
+      username: username? username :content[0].username,
+      email: email? email : content[0].email,
+      totalItems: totalItems,
+      itemName: itemName
+    }
+    console.log(data)
     userService.UpdateInventory(data).then(
       (response) => {
-        setMessage(response.data.data);
+        // setMessage(response.data.message);
+        navigate("/inventory-control")
+        console.log(response)
       },
       (error) => {
         const _content =
@@ -96,25 +117,14 @@ const EditInventory = () => {
       }
     );
   }
-
-  const optionList = [
-    { value: "keyboard", label: "Keyboard" },
-    { value: "mouse", label: "Mouse" },
-    { value: "headphone", label: "Headphone" },
-    { value: "window10", label: "Window10" },
-  ];
-
-  const handleSelect = (data) => {
-    setItemName(data);
-  }
-
   return (
     <div className="bg-grey-color d-flex align-items-center  ">
       <Sidebar />
       <div className="inventory-page">
         <div className="p-4">
-          <form onSubmit={formik.handleSubmit} ref={form}>
-            <h1 className="text-center">Edit Inventory</h1>
+
+          <h1 className="text-center">Edit Inventory</h1>
+          <form ref={form}>
             {content != null &&
               content.map((items, i) => (
                 <div key={i}>
@@ -128,13 +138,8 @@ const EditInventory = () => {
                       {'form-control'
                       }
                       defaultValue={items.username}
-                      onChange={formik.handleChange}
+                      onChange={handleUsername}
                     />
-                    <div className="invalid-feedback">
-                      {formik.errors.username && formik.touched.username
-                        ? formik.errors.username
-                        : null}
-                    </div>
                   </div>
 
                   <div className="form-group mb-3">
@@ -147,13 +152,9 @@ const EditInventory = () => {
                       {'form-control'
                       }
                       defaultValue={items.email}
-                      onChange={formik.handleChange}
+                      onChange={handleEmail}
                     />
-                    <div className="invalid-feedback">
-                      {formik.errors.email && formik.touched.email
-                        ? formik.errors.email
-                        : null}
-                    </div>
+
                   </div>
 
                   <div className="form-group mb-3">
@@ -162,81 +163,34 @@ const EditInventory = () => {
                       type="number"
                       name="totalItems"
                       className=
-                      {'form-control' +
-                        (formik.errors.totalItems && formik.touched.totalItems
-                          ? ' is-invalid'
-                          : '')
+                      {'form-control'
                       }
                       defaultValue={items.totalItems}
-                      onChange={formik.handleChange}
+                      onChange={handleTotalItems}
                     />
-                    <div className="invalid-feedback">
-                      {formik.errors.totalItems && formik.touched.totalItems
-                        ? formik.errors.totalItems
-                        : null}
-                    </div>
                   </div>
 
                   <label htmlFor="password">Items Name</label>
-               {/*   <div className="d-flex justify-content-between">
-                    <div className="form-check">
-                      <input
-                        className={"form-check-input"}
-                        defaultChecked={items.itemName[0] ? true : false}
-                        value="keyboard"
-                        onChange={formik.handleChange}
-                        type="checkbox" id="keyboard" name="itemName" />
-                      <label className="form-check-label" htmlFor="keyboard">Keyboard</label>
-                    </div>
-
-                    <div className="form-check">
-                      <input className={"form-check-input"}
-                        defaultChecked={items.itemName[1] ? true : false}
-                        value="mouse"
-                        onChange={formik.handleChange}
-                        type="checkbox" id="mouse" name="itemName" />
-                      <label className="form-check-label" htmlFor="mouse">Mouse</label>
-                    </div>
-
-                    <div className="form-check">
-                      <input
-                        className={"form-check-input"}
-                        defaultChecked={items.itemName[2] ? true : false}
-                        value="headphone"
-                        onChange={formik.handleChange}
-                        type="checkbox" id="headphone" name="itemName" />
-                      <label className="form-check-label" htmlFor="headphone">Headphone</label>
-                    </div>
-
-                    <div className="form-check">
-                      <input className={"form-check-input"}
-                        defaultChecked={items.itemName[3] ? true : false}
-                        value="window10"
-                        onChange={formik.handleChange}
-                        type="checkbox" id="window10" name="itemName" />
-                      <label className="form-check-label" htmlFor="window10">Window10</label>
-                    </div>
-                  </div>  */}
                   <div className="dropdown-container">
-                  <Select
-                    options={optionList}
-                    placeholder="Select Items"
-                    // value={items.itemName}
-                    defaultValue={items.itemName}
-                    onChange={handleSelect}
-                    isSearchable={true}
-                    isMulti
-                  />
-                </div>
-
-                  <div className="form-group">
-                    <button type="sumbit" onClick={() => handleUpdate(items.username)} className="btn bg-dark-primary text-white btn-block mt-2">
-                      <span>Update</span>
-                    </button>
+                    <Select
+                      options={optionList}
+                      placeholder="Select Items"
+                      // value={items.itemName}
+                      defaultValue={items.itemName}
+                      onChange={handleSelect}
+                      isSearchable={true}
+                      isMulti
+                    />
                   </div>
                 </div>
+
               ))
             }
+            <div className="form-group">
+              <button onClick={handleUpdate} className="btn bg-dark-primary text-white btn-block mt-2">
+                Update
+              </button>
+            </div>
           </form>
         </div>
       </div>

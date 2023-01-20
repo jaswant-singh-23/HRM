@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams, useLocation } from "react-router-dom";
 import Sidebar from "../Shared/Sidebar";
+import { useFormik } from "formik";
 import EditIcon from "../../assets/images/edit-icon.png";
 import TrashIcon from "../../assets/images/trash.png";
 import { Link } from "react-router-dom";
@@ -9,10 +10,20 @@ import swal from "sweetalert";
 
 const InventoryControl = () => {
   const { data } = useParams();
+  const { id } = useParams();
+  const formik = useFormik({
+    initialValues: {
+
+    },
+    onUpdate: (data) => {
+      console.log(JSON.stringify(data, null, 2));
+    },
+  });
 
   const navigate = useNavigate();
   const location = useLocation();
   const [content, setContent] = useState([]);
+
   useEffect(() => {
     userService
       .GetInventory()
@@ -29,6 +40,27 @@ const InventoryControl = () => {
           error.toString();
       });
   }, []);
+
+  / getinventory by id /
+  
+  // useEffect(() => {
+  //   var getId = { id: id };
+  //   userService
+  //     . GetInventoryById (getId)
+  //     .then((response) => {
+  //       console.log(response);
+  //       setContent(response.data.data);
+  //     })
+  //     .catch((error) => {
+  //       const resMessage =
+  //         (error.response &&
+  //           error.response.data &&
+  //           error.response.data.message) ||
+  //         error.message ||
+  //         error.toString();
+  //     });
+  //     formik.values.id=id
+  // }, []);
 
   // On Delete////
 
@@ -122,7 +154,7 @@ const InventoryControl = () => {
                       </th>
                       <td className="border-end-1 border-1 text-center">
                         {data.itemName.map((x) => (
-                          <span>{x.label},</span>
+                          <span key={x.value}>{x.label},</span>
                         ))}
                       </td>
                       <td className="border-end-1 border-1 text-center">

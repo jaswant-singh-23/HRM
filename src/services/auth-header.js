@@ -3,7 +3,11 @@ export default function authHeader() {
 
   if (user && user.accessToken) {
     // for Node.js Express back-end
-    return { "x-access-token": user.accessToken, slug: user.username };
+    return {
+      "x-access-token": user.accessToken,
+      slug: user.username,
+      department: user.department,
+    };
   } else {
     return {};
   }

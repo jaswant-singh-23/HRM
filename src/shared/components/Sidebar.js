@@ -18,8 +18,8 @@ const Sidebar = () => {
     if (pathname) {
       if (pathname == "/leave") {
         setActive("leave");
-      } else if (pathname == "/leave-management") {
-        setActive("leaveManagement");
+      } else if (pathname == "/leave-manage") {
+        setActive("leaveManage");
       } else if (pathname == "/profile") {
         setActive("profile");
       } else if (pathname == "/home") {
@@ -61,8 +61,8 @@ const Sidebar = () => {
           {
             userField.teamleader == true ? (
 
-              <div className={`nav-links ${active == "leaveManagement" ? `active` : ""}`}>
-                <Link to="/leave-management" className="text-decoration-none">
+              <div className={`nav-links ${active == "leaveManage" ? `active` : ""}`}>
+                <Link to="/leave-manage" className="text-decoration-none">
                   <button type="button">
                     <i className="fa-solid fa-layer-group"></i>
                     <span

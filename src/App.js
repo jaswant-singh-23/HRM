@@ -20,7 +20,9 @@ import Leave from "./components/Leave";
 import logo from "./assets/images/logo-horizontal-white.png";
 import { ToastContainer } from "react-toastify";
 import EditProfile from "./components/EditProfile";
+import LeaveManagementLeader from "./components/LeaveManagementLeader";
 import {
+  PrivateLeaderRoute,
   PrivateModeratorRoute,
   PrivateRoute,
 } from "./shared/components/PrivateRoute";
@@ -34,7 +36,7 @@ import EditEmployee from "./HRM/Pages/EditEmployee";
 import AddInventory from "./HRM/Pages/AddInventory";
 import EditInventory from "./HRM/Pages/EditInventory";
 import VacancyHiring from "./HRM/Pages/VacancyHiring";
-import UpdateVacancy from "./HRM/Pages/UpdateVacancy"
+import UpdateVacancy from "./HRM/Pages/UpdateVacancy";
 
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
@@ -199,6 +201,14 @@ const App = () => {
               <PrivateModeratorRoute>
                 <LeaveManagement />
               </PrivateModeratorRoute>
+            }
+          />
+          <Route
+            path="/leave-manage"
+            element={
+              <PrivateLeaderRoute>
+                <LeaveManagementLeader />
+              </PrivateLeaderRoute>
             }
           />
           <Route

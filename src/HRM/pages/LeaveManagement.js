@@ -6,7 +6,7 @@ import moment from "moment";
 import Toast from "../Shared/Toast";
 import userService from "../../services/user.service";
 
-const LeaveManagement = () => {
+const LeaveManagementLeader = () => {
   const [content, setContent] = useState([]);
   const [addShow, setAddShow] = useState(false);
   const [message, setMessage] = useState(false);
@@ -274,4 +274,4 @@ const LeaveManagement = () => {
     </div>
   );
 };
-export default LeaveManagement;
+export default LeaveManagementLeader;
