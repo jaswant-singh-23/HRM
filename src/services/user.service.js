@@ -47,12 +47,18 @@ const deleteEmployeeAccount = (data) => {
 const getLeaveDetail = () => {
   return axios.get(API_URL + "leave-details", { headers: authHeader() });
 };
+const teamLeadLeaveDetails = () => {
+  return axios.get(API_URL + "leave-details-for-team-lead", { headers: authHeader() });
+};
 const leaveApply = (data) => {
   return axios.post(API_URL + "leave-apply", data, { headers: authHeader() });
 };
 
 const leaveReply = (data) => {
   return axios.post(API_URL + "leave-reply", data, { headers: authHeader() });
+};
+const leaveReplyByTeamLeader = (data) => {
+  return axios.post(API_URL + "leave-reply-by-teamleader", data, { headers: authHeader() });
 };
 
 const getEmpDetail = () => {
@@ -141,6 +147,8 @@ export default {
   getAllProfileDetail,
   getProfileById,
   getLeaveDetail,
+  teamLeadLeaveDetails,
+  leaveReplyByTeamLeader,
   leaveApply,
   getEmpDetail,
   getParticularProfile,

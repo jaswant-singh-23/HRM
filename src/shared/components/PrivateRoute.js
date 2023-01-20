@@ -13,13 +13,13 @@ function PrivateRoute({ children }) {
   }
   // authorized so return child components
   if (user) {
-    return children
+    return children;
   }
-   if (!user) {
-    return <Navigate to="/general" />
+  if (!user) {
+    return <Navigate to="/general" />;
   }
   if (user) {
-    return children
+    return children;
   }
 }
 
@@ -35,6 +35,19 @@ function PrivateModeratorRoute({ children }) {
   }
 }
 export { PrivateModeratorRoute };
+
+function PrivateLeaderRoute({ children }) {
+  const { user: authUser } = useSelector((x) => x.auth);
+
+  const leader = authUser.teamleader;
+
+  if (leader == true) {
+    return children;
+  } else {
+    return <Navigate to="/profile" />;
+  }
+}
+export { PrivateLeaderRoute };
 
 // function PrivateAdminRoute({ children }) {
 //   const { user: authUser } = useSelector((x) => x.auth);
