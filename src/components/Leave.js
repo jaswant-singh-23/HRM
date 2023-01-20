@@ -267,6 +267,7 @@ const Leave = () => {
                                 </p>
                                 <p>Thanks🙏</p>
                                 <p>With Best Regards</p>
+                                <p>{userField.name}</p>
                               </div>
                             </Modal.Body>
                             <Modal.Footer>

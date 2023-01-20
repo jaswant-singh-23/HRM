@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import AuthService from "../../services/auth.service";
+import userService from "../../services/user.service";
 
 const Sidebar = () => {
+  const [userField, setUserField] = useState({});
   const toggleSidebar = () => document.body.classList.toggle("open");
   const router = useLocation();
   const pathname = router.pathname;
@@ -12,11 +14,12 @@ const Sidebar = () => {
   useEffect(() => {
     const user = AuthService.getCurrentUser();
   }, []);
-
   useEffect(() => {
     if (pathname) {
       if (pathname == "/leave") {
         setActive("leave");
+      } else if (pathname == "/leave-management") {
+        setActive("leaveManagement");
       } else if (pathname == "/profile") {
         setActive("profile");
       } else if (pathname == "/home") {
@@ -26,6 +29,21 @@ const Sidebar = () => {
       }
     }
   }, [pathname]);
+  useEffect(() => {
+    userService
+      .getProfileById()
+      .then((response) => {
+        setUserField(response.data.data);
+      })
+      .catch((error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+      });
+  }, [])
   return (
     <aside className="sidebar">
       <div className="sidebar_inner">
@@ -40,16 +58,36 @@ const Sidebar = () => {
           <span className="text-white cursor-pointer">Menu</span>
         </header>
         <nav className="sidebar_nav">
-          <div className={`nav-links ${active == "home" ? `active` : ""}`}>
-            <Link to="/home" className="text-decoration-none">
-              <button type="button">
-                <i className="fa-solid fa-house" />
-                <span style={{ animationDelay: ".5s" }} title="Home">
-                  Home
-                </span>
-              </button>
-            </Link>
-          </div>
+          {
+            userField.teamleader == true ? (
+
+              <div className={`nav-links ${active == "leaveManagement" ? `active` : ""}`}>
+                <Link to="/leave-management" className="text-decoration-none">
+                  <button type="button">
+                    <i className="fa-solid fa-layer-group"></i>
+                    <span
+                      style={{ animationDelay: ".4s" }}
+                      title="Leave Management"
+                      className="text-nowrap"
+                    >
+                      Leave Management
+                    </span>
+                  </button>
+                </Link>
+              </div>
+            ) : (
+              <div className={`nav-links ${active == "home" ? `active` : ""}`}>
+                <Link to="/home" className="text-decoration-none">
+                  <button type="button">
+                    <i className="fa-solid fa-house" />
+                    <span style={{ animationDelay: ".5s" }} title="Home">
+                      Home
+                    </span>
+                  </button>
+                </Link>
+              </div>
+            )
+          }
           <div className={`nav-links ${active == "profile" ? `active` : ""}`}>
             <Link to="/profile" className="text-decoration-none">
               <button type="button">
@@ -60,6 +98,7 @@ const Sidebar = () => {
               </button>
             </Link>
           </div>
+
           <div className={`nav-links ${active == "leave" ? `active` : ""}`}>
             <Link to="/leave" className="text-decoration-none">
               <button type="button">
@@ -74,6 +113,7 @@ const Sidebar = () => {
               </button>
             </Link>
           </div>
+
           <div>
             {" "}
             <Link className="text-decoration-none">

@@ -21,6 +21,7 @@ const ExcelJsonData = () => {
             "address": " ",
             "dateofbirth": " ",
             "bankDetail": " ",
+            "teamleader": " ",
 
         }
     ]
