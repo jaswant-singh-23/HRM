@@ -41,7 +41,7 @@ const InventoryControl = () => {
       });
   }, []);
 
-  / getinventory by id /
+  // getinventory by id //
   
   // useEffect(() => {
   //   var getId = { id: id };

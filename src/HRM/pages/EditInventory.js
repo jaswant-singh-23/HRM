@@ -92,7 +92,9 @@ const EditInventory = () => {
   const handleSelect = (data) => {
     setItemName(data);
   }
- /  On Update /
+
+  
+ //  On Update //
 
   const handleUpdate = (e) => {
     const data = {
