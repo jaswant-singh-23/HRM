@@ -75,7 +75,7 @@ const AddInventory = () => {
     userService.AddInventory(data).then((response) => {
       console.log(response)
       setMessage(response.data.data)
-      navigate("/inventory-control")
+      // navigate("/inventory-control")
     },
       (error) => {
         const resMessage =
