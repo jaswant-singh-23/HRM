@@ -138,8 +138,13 @@ const updateVacancy = (data) => {
 const GetVacancy = () => {
   return axios.get(API_URL + "vacancy-details", { headers: authHeader() });
 };
+/* token */
+const expireToken = () => {
+  return axios.get(API_URL + "auth/verify-token",{ headers: authHeader() });
+};
 
 export default {
+  expireToken,
   getPublicContent,
   getUserBoard,
   getModeratorBoard,
