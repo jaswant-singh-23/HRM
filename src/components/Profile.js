@@ -271,7 +271,7 @@ const Profile = () => {
                       </div> */}
                     </div>
                     <div className="profile-setting position-absolute  d-flex align-items-center justify-content-center" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" >
-                      <i class="fa-solid fa-ellipsis-vertical text-white fw-5 rounded-circle"></i>
+                      <i className="fa-solid fa-ellipsis-vertical text-white fw-5 rounded-circle"></i>
                     </div>
                     {/* <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
                       <a className="dropdown-item" href="#"> <i className="fa-solid fa-gear"></i> Setting</a>

@@ -59,7 +59,7 @@ const General = () => {
                       <tbody>
                         {
                           content.map((item, i) => (
-                            <tr>
+                            <tr key={i}>
                               <th className="border-end-1 border-1 text-center"> {i + 1}</th>
                               <td className="border-end-1 border-1 text-center">{item._id.department}</td>
                               <td className="border-end-1 border-1 text-center">{item.totalCount}</td>

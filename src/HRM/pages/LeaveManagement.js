@@ -157,6 +157,9 @@ const LeaveManagementLeader = () => {
               <th className="border-end-1 border-1 border-start-0 border-top-0 text-center">
                 View Leave
               </th>
+              <th className="border-end-1 border-1 border-start-0 border-top-0 text-center">
+                TL Response
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -186,6 +189,15 @@ const LeaveManagementLeader = () => {
                       alt="leaveicon"
                     />
                   </td>
+                  <td className="border-end-1 border-1 text-center">
+                  {(items == null || items.length <= 0) && (
+                    <tr><td colSpan={4}>
+                      <div><p>Response not yet</p></div>
+                    </td>
+                    </tr>
+                  )}
+                  {items.leaderResponse}
+                </td>
                 </tr>
               ))}
           </tbody>
