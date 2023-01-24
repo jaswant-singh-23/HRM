@@ -1,6 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Routes, Route, Link, useLocation } from "react-router-dom";
+import {
+  Routes,
+  Route,
+  Link,
+  useLocation,
+  Navigate,
+  useNavigate,
+} from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
@@ -48,6 +55,8 @@ const App = () => {
   const dispatch = useDispatch();
 
   let location = useLocation();
+  let navigate = useNavigate();
+
   useEffect(() => {
     if (["/login", "/register"].includes(location.pathname)) {
       dispatch(clearMessage()); // clear message when changing location
@@ -57,6 +66,7 @@ const App = () => {
   const logOut = useCallback(() => {
     dispatch(logout());
   }, [dispatch]);
+
   useEffect(() => {
     if (currentUser) {
       setShowModeratorBoard(currentUser.roles.includes("ROLE_MODERATOR"));
@@ -68,23 +78,28 @@ const App = () => {
   }, [currentUser]);
 
   useEffect(() => {
-    UserService.expireToken().then(
-      (response) => {
-        console.log(response);
-        // setContent(response.data.data);
-      },
-      (error) => {
-        const _content =
-          (error.response && error.response.data) ||
-          error.message ||
-          error.toString();
-        setContent(_content);
-        if (error.err.message && error.err.TokenExpiredError) {
-          logOut();
+    if (currentUser) {
+      UserService.expireToken().then(
+        (response) => {},
+        (error) => {
+          const _content =
+            (error.response && error.response.data) ||
+            error.message ||
+            error.toString();
+          setContent(_content);
+          const errResponse = error.response.data.err;
+          if (
+            errResponse.message == "jwt expired" &&
+            errResponse.name == "TokenExpiredError"
+          ) {
+            logOut();
+            navigate("/login");
+            window.location.reload();
+          }
         }
-      }
-    );
-  }, []);
+      );
+    }
+  }, [currentUser]);
 
   return (
     <div>
@@ -128,7 +143,7 @@ const App = () => {
         <div className="d-flex align-items-center">
           {currentUser && (
             <div className="mx-2">
-              <i class="fa-solid fa-bell text-white cursor-pointer fs-5 "></i>
+              <i className="fa-solid fa-bell text-white cursor-pointer fs-5 "></i>
             </div>
           )}
           {currentUser ? (

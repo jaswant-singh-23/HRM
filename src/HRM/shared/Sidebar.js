@@ -75,7 +75,7 @@ const Sidebar = () => {
           >
             <Link to="/emp-details" className="text-decoration-none">
               <button type="button">
-              <i class="fa-solid fa-people-roof"></i>
+              <i className="fa-solid fa-people-roof"></i>
                 <span
                   style={{ animationDelay: ".2s" }}
                   title="Details"
@@ -149,7 +149,7 @@ const Sidebar = () => {
           >
             <Link to="/alumni-detail" className="text-decoration-none">
               <button type="button">
-              <i class="fa-solid fa-graduation-cap"></i>
+              <i className="fa-solid fa-graduation-cap"></i>
                 <span
                   style={{ animationDelay: ".3s" }}
                   title="Settings"
