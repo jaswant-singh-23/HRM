@@ -37,10 +37,12 @@ import AddInventory from "./HRM/Pages/AddInventory";
 import EditInventory from "./HRM/Pages/EditInventory";
 import VacancyHiring from "./HRM/Pages/VacancyHiring";
 import UpdateVacancy from "./HRM/Pages/UpdateVacancy";
+import UserService from "./services/user.service";
 
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
   const [showAdminBoard, setShowAdminBoard] = useState(false);
+  const [content, setContent] = useState([]);
 
   const { user: currentUser } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
@@ -64,6 +66,25 @@ const App = () => {
       setShowAdminBoard(false);
     }
   }, [currentUser]);
+
+  useEffect(() => {
+    UserService.expireToken().then(
+      (response) => {
+        console.log(response);
+        // setContent(response.data.data);
+      },
+      (error) => {
+        const _content =
+          (error.response && error.response.data) ||
+          error.message ||
+          error.toString();
+        setContent(_content);
+        if (error.err.message && error.err.TokenExpiredError) {
+          logOut();
+        }
+      }
+    );
+  }, []);
 
   return (
     <div>
