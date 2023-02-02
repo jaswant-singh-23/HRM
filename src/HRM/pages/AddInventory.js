@@ -52,7 +52,6 @@ const AddInventory = () => {
   const handleSelect = (data) => {
     setItemName(data);
   }
-
   const handleUpload = (e) => {
     e.preventDefault();
 
@@ -71,7 +70,7 @@ const AddInventory = () => {
       totalItems:totalItems,
       itemName:itemName,
     };
-    console.log(username, email, totalItems, itemName);
+    console.log(data);
     userService.AddInventory(data).then((response) => {
       console.log(response)
       setMessage(response.data.data)

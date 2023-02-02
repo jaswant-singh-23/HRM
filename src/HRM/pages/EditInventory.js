@@ -41,6 +41,7 @@ const EditInventory = () => {
     { value: "headphone", label: "Headphone" },
     { value: "window10", label: "Window10" },
   ];
+
   const navigate = useNavigate()
 
   const [content, setContent] = useState([]);
@@ -57,7 +58,7 @@ const EditInventory = () => {
   //   setContent(({ ...content, [e.target.name]: e.target.value }))
   // }
 
-  //////get inventory by id/////
+  /* get inventory by id */
 
   useEffect(() => {
     var getId = { id: id };
@@ -93,13 +94,12 @@ const EditInventory = () => {
     setItemName(data);
   }
 
-  
- //  On Update //
 
+  //  On Update //
   const handleUpdate = (e) => {
     const data = {
-      username: username? username :content[0].username,
-      email: email? email : content[0].email,
+      username: username ? username : content[0].username,
+      email: email ? email : content[0].email,
       totalItems: totalItems,
       itemName: itemName
     }
@@ -156,9 +156,8 @@ const EditInventory = () => {
                       defaultValue={items.email}
                       onChange={handleEmail}
                     />
-
                   </div>
-
+                  
                   <div className="form-group mb-3">
                     <label htmlFor="password">No of Items</label>
                     <input
@@ -171,7 +170,6 @@ const EditInventory = () => {
                       onChange={handleTotalItems}
                     />
                   </div>
-
                   <label htmlFor="password">Items Name</label>
                   <div className="dropdown-container">
                     <Select
@@ -185,15 +183,14 @@ const EditInventory = () => {
                     />
                   </div>
                 </div>
-
               ))
             }
-            <div className="form-group">
-              <button onClick={handleUpdate} className="btn bg-dark-primary text-white btn-block mt-2">
-                Update
-              </button>
-            </div>
           </form>
+          <div className="form-group">
+            <button onClick={handleUpdate} className="btn bg-dark-primary text-white btn-block mt-2">
+              Update
+            </button>
+          </div>
         </div>
       </div>
     </div>
