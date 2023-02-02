@@ -98,6 +98,7 @@ const AlumniRestoreAccount = (data) => {
 };
 
 ////// Inventory ////////
+
 const AddInventory = (data) => {
   return axios.post(API_URL + "inventory-add", data, { headers: authHeader() });
 };
@@ -142,8 +143,12 @@ const GetVacancy = () => {
 const expireToken = () => {
   return axios.get(API_URL + "auth/verify-token",{ headers: authHeader() });
 };
+const upComingBirthday = () => {
+  return axios.get(API_URL + "upcoming-birthday",{ headers: authHeader() });
+};
 
 export default {
+  upComingBirthday,
   expireToken,
   getPublicContent,
   getUserBoard,

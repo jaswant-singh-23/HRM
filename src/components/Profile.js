@@ -10,9 +10,11 @@ import userService from "../services/user.service";
 import { useSelector } from "react-redux";
 import { Modal, Form, Button } from "react-bootstrap";
 import { logout } from "../actions/auth";
+import moment from "moment";
 
 const Profile = () => {
   const [userField, setUserField] = useState({});
+  const [content, setContent] = useState([]);
   const [imgName, setImgName] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -31,20 +33,20 @@ const Profile = () => {
 
   const handleCurrentPassword = (e) => {
     const currentPassword = e.target.value;
-    setCurrentPassword(currentPassword)
-  }
+    setCurrentPassword(currentPassword);
+  };
   const handleNewPassword = (e) => {
     const newPassword = e.target.value;
-    setnewPassword(newPassword)
-  }
+    setnewPassword(newPassword);
+  };
   const handleConfirmNewPasword = (e) => {
     const confirmNewPassword = e.target.value;
-    setConfirmNewpassword(confirmNewPassword)
-  }
+    setConfirmNewpassword(confirmNewPassword);
+  };
 
   const uploadButton = () => {
-    setUpload(!upload.true)
-  }
+    setUpload(!upload.true);
+  };
   const { user: currentUser } = useSelector((state) => state.auth);
 
   const validationSchema = Yup.object().shape({
@@ -82,7 +84,6 @@ const Profile = () => {
     },
   });
 
-
   const [image, setImage] = useState({ preview: "", raw: "" });
 
   const dispatch = useDispatch();
@@ -105,7 +106,7 @@ const Profile = () => {
   };
 
   const handleSubmit = () => {
-    setUpload(!upload)
+    setUpload(!upload);
     const formData = new FormData();
     formData.append("image", image.raw);
     userService
@@ -167,11 +168,11 @@ const Profile = () => {
     });
   };
   const handlePassword = () => {
-    setAddShow(true)
-  }
+    setAddShow(true);
+  };
   const handleAddClose = () => {
-    setAddShow(false)
-  }
+    setAddShow(false);
+  };
   /////Update Password///
 
   const UpdatePassword = () => {
@@ -180,11 +181,12 @@ const Profile = () => {
       oldPass: currentPassword,
       newPass: newPassword,
       confirmNewPassword: confirmNewPassword,
-    }
+    };
     console.log(data);
-    userService.updatePassword(data)
+    userService
+      .updatePassword(data)
       .then((response) => {
-        setMessage(response.data.message)
+        setMessage(response.data.message);
       })
       .catch((error) => {
         const resMessage =
@@ -196,6 +198,60 @@ const Profile = () => {
       });
   };
 
+  /* upcoming Birthday */
+  useEffect(() => {
+    userService
+      .upComingBirthday()
+      .then((response) => {
+        console.log(response, "-----------------")
+        setContent(response.data.upcomingBirthdays
+        );
+      })
+      .catch((error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+      });
+  }, []);
+
+
+  ////////////// Personal Info Modal ////////////////////
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  //////////////////////// Emergency Contact Modal /////////////////////////
+
+  const [emergencyShow, setEmergencyShow] = useState(false);
+
+  const emergencyhandleAdd = () => setEmergencyShow(false);
+  const emergencyhandleShow = () => setEmergencyShow(true);
+
+  //////////////// Family Info Modal //////////////////
+
+  const [familyInfoShow, setFamilyInfoShow] = useState(false);
+
+  const familyInfohandleAdd = () => setFamilyInfoShow(false);
+  const familyInfohandleShow = () => setFamilyInfoShow(true);
+
+  //////////////////// Education Modal ////////////////////
+
+  const [educationInfoShow, setEducationInfoShow] = useState(false);
+
+  const educationInfohandleAdd = () => setEducationInfoShow(false);
+  const educationInfohandleShow = () => setEducationInfoShow(true);
+
+  /////////////// Experience Modal /////////////////////
+
+  const [experienceShow, setExperienceShow] = useState(false);
+
+  const experiencehandleAdd = () => setExperienceShow(false);
+  const experiencehandleShow = () => setExperienceShow(true);
 
   return (
     <div className="bg-grey-color custom-grid h-100">
@@ -235,7 +291,10 @@ const Profile = () => {
                               <img src={userField.avatar} />
                               <div className="profileImage">{imgName}</div>
                             </div>
-                            <div className="position-absolute upload-img-inner " onClick={uploadButton}>
+                            <div
+                              className="position-absolute upload-img-inner "
+                              onClick={uploadButton}
+                            >
                               <i className="fas fa-camera text-white fw-5 rounded-circle d-flex align-items-center justify-content-center"></i>
                             </div>
                             <h5 className="text-center"></h5>
@@ -256,7 +315,10 @@ const Profile = () => {
                       {/* <p className="text-muted font-size-sm">
                         {userField.address}
                       </p> */}
-                      <div className="text-center" style={{ display: upload ? "block" : "none" }}>
+                      <div
+                        className="text-center"
+                        style={{ display: upload ? "block" : "none" }}
+                      >
                         <input
                           type="Button"
                           className="btn bg-dark-primary"
@@ -270,22 +332,41 @@ const Profile = () => {
                         </Link>
                       </div> */}
                     </div>
-                    <div className="profile-setting position-absolute  d-flex align-items-center justify-content-center" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" >
+                    <div
+                      className="profile-setting position-absolute  d-flex align-items-center justify-content-center"
+                      id="dropdownMenuButton"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                    >
                       <i className="fa-solid fa-ellipsis-vertical text-white fw-5 rounded-circle"></i>
                     </div>
                     {/* <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
                       <a className="dropdown-item" href="#"> <i className="fa-solid fa-gear"></i> Setting</a>
                     </div> */}
-                    <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                      <a className="dropdown-item" href="#" onClick={handlePassword}><i className="fa-solid fa-key"></i> Change Password</a>
-                      <a className="dropdown-item" href="#"><i className="fa-solid fa-user"></i> Edit profile</a>
-                      <a className="dropdown-item" href="/login" onClick={logOut}><i className="fa-solid fa-right-from-bracket"></i> Logout</a>
-                    </div>
-                    <Modal
-                      centered
-                      show={addShow}
-                      onHide={handleAddClose}
+                    <div
+                      className="dropdown-menu"
+                      aria-labelledby="dropdownMenuLink"
                     >
+                      <a
+                        className="dropdown-item"
+                        href="#"
+                        onClick={handlePassword}
+                      >
+                        <i className="fa-solid fa-key"></i> Change Password
+                      </a>
+                      <a className="dropdown-item" href="#">
+                        <i className="fa-solid fa-user"></i> Edit profile
+                      </a>
+                      <a
+                        className="dropdown-item"
+                        href="/login"
+                        onClick={logOut}
+                      >
+                        <i className="fa-solid fa-right-from-bracket"></i>{" "}
+                        Logout
+                      </a>
+                    </div>
+                    <Modal centered show={addShow} onHide={handleAddClose}>
                       <Modal.Header closeButton>
                         <Modal.Title>Update Password</Modal.Title>
                       </Modal.Header>
@@ -295,9 +376,7 @@ const Profile = () => {
                           <input
                             type="password"
                             name="currentPassword"
-                            className={
-                              'form-control'
-                            }
+                            className={"form-control"}
                             onChange={handleCurrentPassword}
                             value={currentPassword}
                           />
@@ -308,9 +387,7 @@ const Profile = () => {
                           <input
                             type="password"
                             name="newPassword"
-                            className={
-                              'form-control'
-                            }
+                            className={"form-control"}
                             onChange={handleNewPassword}
                             value={newPassword}
                           />
@@ -321,9 +398,7 @@ const Profile = () => {
                           <input
                             type="password"
                             name="confirmNewPassword"
-                            className={
-                              'form-control'
-                            }
+                            className={"form-control"}
                             onChange={handleConfirmNewPasword}
                             value={confirmNewPassword}
                           />
@@ -343,119 +418,26 @@ const Profile = () => {
               </div>
 
               <div className="card mt-3">
-                <ul className="list-group list-group-flush">
-                  <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <h6 className="mb-0">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        className="feather feather-globe mr-2 icon-inline"
-                      >
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <line x1="2" y1="12" x2="22" y2="12"></line>
-                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-                      </svg>
-                      Website
-                    </h6>
-                    <span className="text-secondary"><a href="https://www.ameotech.com">Go to Website</a></span>
-                  </li>
-                  <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <h6 className="mb-0">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        className="feather feather-github mr-2 icon-inline"
-                      >
-                        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                      </svg>
-                      Github
-                    </h6>
-                    <span className="text-secondary"><a href="https://github.com/ameotech-informatics">Go to Github</a></span>
-                  </li>
-                  <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <h6 className="mb-0">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        className="feather feather-twitter mr-2 icon-inline text-info"
-                      >
-                        <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
-                      </svg>
-                      Twitter
-                    </h6>
-                    <span className="text-secondary"><a href="https://twitter.com/theameotech">Go to Twitter page</a></span>
-                  </li>
-                  <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <h6 className="mb-0">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        className="feather feather-instagram mr-2 icon-inline text-danger"
-                      >
-                        <rect
-                          x="2"
-                          y="2"
-                          width="20"
-                          height="20"
-                          rx="5"
-                          ry="5"
-                        ></rect>
-                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                      </svg>
-                      Instagram
-                    </h6>
-                    <span className="text-secondary"><a href="https://www.instagram.com/p/CmV7RbmBNTM/">Go to Instagram page</a></span>
-                  </li>
-                  <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                    <h6 className="mb-0">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="24"
-                        height="24"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        stroke-linecap="round"
-                        strokeLinejoin="round"
-                        className="feather feather-facebook mr-2 icon-inline text-primary"
-                      >
-                        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-                      </svg>
-                      Facebook
-                    </h6>
-                    <span className="text-secondary"><a href="https://www.facebook.com/theameotech/">Go to Facebook page</a></span>
-                  </li>
-                </ul>
+                <div className="col-10 col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-12 profile-badge bg-white p-2 mt-3">
+                  <h3 className="text-center mb-2">
+                    🍨Upcoming Birthdays🍨
+                  </h3>
+                </div>
+                {
+                  content.map((data, i) => (
+                    <div key={i} className="card mt-3">
+                      <ul className="list-group list-group-flush">
+                        <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                          <h6 className="mb-0">
+                            {data.user.name} ({data.user.designation})
+                          </h6>
+
+                          <span className="text-secondary">{data.user.birthDay}{(moment().month(data.user.birthMonth - 1).format("-MMMM"))}</span>
+                        </li>
+                      </ul>
+                    </div>
+                  ))
+                }
               </div>
             </div>
             <div className="col-md-8">
@@ -501,7 +483,9 @@ const Profile = () => {
                     <div className="col-sm-3">
                       <h6 className="mb-0">DOB</h6>
                     </div>
-                    <div className="col-sm-9 text-secondary">{userField.dateofbirth}</div>
+                    <div className="col-sm-9 text-secondary">
+                      {userField.dateofbirth}
+                    </div>
                   </div>
                   <hr />
                   <div className="row">
@@ -596,74 +580,641 @@ const Profile = () => {
                     </div>
                   </div>
                 </div>
-                {/* <div className="col-sm-6 mb-3">
-                  <div className="card h-100">
-                    <div className="card-body">
-                      <h6 className="d-flex align-items-center mb-3">
-                        <i className="material-icons text-info mr-2">
-                          assignment
-                        </i>
-                        Project Status
-                      </h6>
-                      <small>Web Design</small>
-                      <div className="progress height5 mb-3">
-                        <div
-                          className="progress-bar bg-primary"
-                          role="progressbar"
-                          aria-valuenow="80"
-                          aria-valuemin="0"
-                          aria-valuemax="100"
-                        ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="col-10 col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-12 profile-badge bg-gray p-2 mt-3">
+          <div
+            id="emp_profile"
+            className="pro-overview tab-pane fade show active"
+          >
+            <div className="row mt-3 px-3">
+              <div className="col-md-6 d-flex mb-20">
+                <div className="card profile-box flex-fill">
+                  <div className="card-body">
+                    <h3 className="card-title">
+                      Personal Informations
+                      <Button
+                        href="javascript:;"
+                        className="edit-icon"
+                        data-bs-toggle="modal"
+                        data-bs-target="#personal_info_modal"
+                        variant="primary"
+                        onClick={handleShow}
+                      >
+                        <i className="fa fa-pencil"></i>
+                      </Button>
+                      <Modal show={show} onHide={handleClose}>
+                        <Modal.Header closeButton>
+                          <Modal.Title>Personal Informations</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          <Form>
+                            <Form.Group controlId="exampleForm.ControlInput1">
+                              <div className="px-2 mb-3 w-50 d-inline-block">
+                                <Form.Label>Passport No</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  // placeholder="name@example.com"
+                                  autoFocus
+                                />
+                              </div>
+                              <div className="px-2 mb-3 w-50 d-inline-block">
+                                <Form.Label>Passport Expiry Date</Form.Label>
+                                <Form.Control
+                                  type="date"
+                                  // placeholder="name@example.com"
+                                  autoFocus
+                                />
+                              </div>
+                              <div className="px-2 mb-3 w-50 d-inline-block">
+                                <Form.Label>Mobile No.</Form.Label>
+                                <Form.Control
+                                  type="number"
+                                  // placeholder="name@example.com"
+                                  autoFocus
+                                />
+                              </div>
+                              <div className="px-2 mb-3 w-50 d-inline-block">
+                                <Form.Label>Nationality *</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  // placeholder="name@example.com"
+                                  autoFocus
+                                />
+                              </div>
+                              <div className="px-2 mb-3 w-50 d-inline-block">
+                                <Form.Label>Religion</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  // placeholder="name@example.com"
+                                  autoFocus
+                                />
+                              </div>
+                              <div className="px-2 mb-3 w-50 d-inline-block">
+                                <Form.Label>Marital status *</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  // placeholder="name@example.com"
+                                  autoFocus
+                                />
+                              </div>
+                              <div className="px-2 mb-3 w-50 d-inline-block">
+                                <Form.Label>Employment of spouse</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  // placeholder="name@example.com"
+                                  autoFocus
+                                />
+                              </div>
+                              <div className="px-2 mb-3 w-50 d-inline-block">
+                                <Form.Label>No. of children</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  // placeholder="name@example.com"
+                                  autoFocus
+                                />
+                              </div>
+                            </Form.Group>
+                          </Form>
+                        </Modal.Body>
+                        <Modal.Footer>
+                          <Button variant="primary" onClick={handleClose}>
+                            Save Changes
+                          </Button>
+                        </Modal.Footer>
+                      </Modal>
+                    </h3>
+                    <div className="personal-info">
+                      <li>
+                        <div className="title mb-1">Passport No.</div>
+                        <div className="text mb-1">9876543210</div>
+                      </li>
+                      <li>
+                        <div className="title mb-1">Passport Exp Date.</div>
+                        <div className="text mb-1">9876543210</div>
+                      </li>
+                      <li>
+                        <div className="title mb-1">Tel</div>
+                        <div className="text mb-1">
+                          <a href="">9876543210</a>
+                        </div>
+                      </li>
+                      <li>
+                        <div className="title mb-1">Nationality</div>
+                        <div className="text mb-1">Indian</div>
+                      </li>
+                      <li>
+                        <div className="title mb-1">Religion</div>
+                        <div className="text mb-1">Christian</div>
+                      </li>
+                      <li>
+                        <div className="title mb-1">Marital status</div>
+                        <div className="text mb-1">Married</div>
+                      </li>
+                      <li>
+                        <div className="title mb-1">Employment of spouse</div>
+                        <div className="text mb-1">No</div>
+                      </li>
+                      <li>
+                        <div className="title mb-1">No. of children</div>
+                        <div className="text mb-1">2</div>
+                      </li>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-6 d-flex">
+                <div className="card profile-box flex-fill">
+                  <div className="card-body">
+                    <h3 className="card-title">
+                      Emergency Contact
+                      <Button
+                        href="javascript:;"
+                        className="edit-icon"
+                        data-bs-toggle="modal"
+                        data-bs-target="#emergency_contact_modal"
+                        variant="primary"
+                        onClick={emergencyhandleShow}
+                      >
+                        <i className="fa fa-pencil"></i>
+                      </Button>
+                      <Modal show={emergencyShow} onHide={emergencyhandleAdd}>
+                        <Modal.Header closeButton>
+                          <Modal.Title>Emergency Contact</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          <Form>
+                            <Form.Group controlId="exampleForm.ControlInput1">
+                              <h5>Primary Contact</h5>
+                              <div className="px-2 mb-3 w-50 d-inline-block">
+                                <Form.Label>Name *</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  // placeholder="name@example.com"
+                                  autoFocus
+                                />
+                              </div>
+                              <div className="px-2 mb-3 w-50 d-inline-block">
+                                <Form.Label>Relationship *</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  // placeholder="name@example.com"
+                                  autoFocus
+                                />
+                              </div>
+                              <div className="px-2 mb-3 w-50 d-inline-block">
+                                <Form.Label>Phone No *</Form.Label>
+                                <Form.Control
+                                  type="number"
+                                  // placeholder="name@example.com"
+                                  autoFocus
+                                />
+                              </div>
+                              <div className="px-2 mb-3 w-50 d-inline-block">
+                                <Form.Label>Alternate No</Form.Label>
+                                <Form.Control
+                                  type="number"
+                                  // placeholder="name@example.com"
+                                  autoFocus
+                                />
+                              </div>
+                            </Form.Group>
+                            <Form.Group controlId="exampleForm.ControlInput1">
+                              <h5>Secondary Contact</h5>
+                              <div className="px-2 mb-3 w-50 d-inline-block">
+                                <Form.Label>Name *</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  // placeholder="name@example.com"
+                                  autoFocus
+                                />
+                              </div>
+                              <div className="px-2 mb-3 w-50 d-inline-block">
+                                <Form.Label>Relationship *</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  // placeholder="name@example.com"
+                                  autoFocus
+                                />
+                              </div>
+                              <div className="px-2 mb-3 w-50 d-inline-block">
+                                <Form.Label>Phone No *</Form.Label>
+                                <Form.Control
+                                  type="number"
+                                  // placeholder="name@example.com"
+                                  autoFocus
+                                />
+                              </div>
+                              <div className="px-2 mb-3 w-50 d-inline-block">
+                                <Form.Label>Alternate No</Form.Label>
+                                <Form.Control
+                                  type="number"
+                                  // placeholder="name@example.com"
+                                  autoFocus
+                                />
+                              </div>
+                            </Form.Group>
+                          </Form>
+                        </Modal.Body>
+                        <Modal.Footer>
+                          <Button variant="primary" onClick={handleClose}>
+                            Save Changes
+                          </Button>
+                        </Modal.Footer>
+                      </Modal>
+                    </h3>
+                    <div>
+                      <h5 className="section-title">Primary</h5>
+                      <div className="personal-info">
+                        <li>
+                          <div className="title mb-1">Name</div>
+                          <div className="text mb-1">John Doe</div>
+                        </li>
+                        <li>
+                          <div className="title mb-1">Relationship</div>
+                          <div className="text mb-1">Father</div>
+                        </li>
+                        <li>
+                          <div className="title mb-1">Phone </div>
+                          <div className="text mb-1">
+                            9876543210, 9876543210
+                          </div>
+                        </li>
                       </div>
-                      <small>Website Markup</small>
-                      <div className="progress height5 mb-3">
-                        <div
-                          className="progress-bar bg-primary"
-                          role="progressbar"
-                          aria-valuenow="72"
-                          aria-valuemin="0"
-                          aria-valuemax="100"
-                        ></div>
-                      </div>
-                      <small>One Page</small>
-                      <div className="progress height5 mb-3">
-                        <div
-                          className="progress-bar bg-primary"
-                          role="progressbar"
-                          aria-valuenow="89"
-                          aria-valuemin="0"
-                          aria-valuemax="100"
-                        ></div>
-                      </div>
-                      <small>Mobile Template</small>
-                      <div className="progress height5 mb-3">
-                        <div
-                          className="progress-bar bg-primary"
-                          role="progressbar"
-                          aria-valuenow="55"
-                          aria-valuemin="0"
-                          aria-valuemax="100"
-                        ></div>
-                      </div>
-                      <small>Backend API</small>
-                      <div className="progress height5 mb-3">
-                        <div
-                          className="progress-bar bg-primary"
-                          role="progressbar"
-                          aria-valuenow="66"
-                          aria-valuemin="0"
-                          aria-valuemax="100"
-                        ></div>
+                    </div>
+                    <div>
+                      <h5 className="section-title border-top-1">Secondary</h5>
+                      <div className="personal-info">
+                        <li>
+                          <div className="title mb-1">Name</div>
+                          <div className="text mb-1">Karen Wills</div>
+                        </li>
+                        <li>
+                          <div className="title mb-1">Relationship</div>
+                          <div className="text mb-1">Brother</div>
+                        </li>
+                        <li>
+                          <div className="title mb-1">Phone </div>
+                          <div className="text mb-1">
+                            9876543210, 9876543210
+                          </div>
+                        </li>
                       </div>
                     </div>
                   </div>
-                </div> */}
+                </div>
+              </div>
+            </div>
+            <div className="row mt-4 px-3">
+              <div className="col-md-6 d-flex">
+                <div className="card profile-box flex-fill">
+                  <div className="card-body">
+                    <h3 className="card-title">Bank information</h3>
+                    <div className="personal-info">
+                      <li>
+                        <div className="title mb-1">Bank name</div>
+                        <div className="text mb-1">ICICI Bank</div>
+                      </li>
+                      <li>
+                        <div className="title mb-1">Bank account No.</div>
+                        <div className="text mb-1">159843014641</div>
+                      </li>
+                      <li>
+                        <div className="title mb-1">IFSC Code</div>
+                        <div className="text mb-1">ICI24504</div>
+                      </li>
+                      <li>
+                        <div className="title mb-1">PAN No</div>
+                        <div className="text mb-1">TC000Y56</div>
+                      </li>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-6 d-flex">
+                <div className="card profile-box flex-fill famliy_info">
+                  <div className="card-body">
+                    <h3 className="card-title">
+                      Family Informations
+                      <Button
+                        href="javascript:;"
+                        className="edit-icon"
+                        data-bs-toggle="modal"
+                        data-bs-target="#family_info_modal"
+                        variant="primary"
+                        onClick={familyInfohandleShow}
+                      >
+                        <i className="fa fa-pencil"></i>
+                      </Button>
+                      <Modal show={familyInfoShow} onHide={familyInfohandleAdd}>
+                        <Modal.Header closeButton>
+                          <Modal.Title>Family Informations</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          <Form>
+                            <Form.Group
+                              className="mb-3"
+                              controlId="exampleForm.ControlInput1"
+                            >
+                              <div className="px-2 mb-3 w-50 d-inline-block">
+                                <Form.Label>Name *</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  // placeholder="name@example.com"
+                                  autoFocus
+                                />
+                              </div>
+                              <div className="px-2 mb-3 w-50 d-inline-block">
+                                <Form.Label>Relationship *</Form.Label>
+                                <Form.Control
+                                  type="text"
+                                  // placeholder="name@example.com"
+                                  autoFocus
+                                />
+                              </div>
+                              <div className="px-2 mb-3 w-50 d-inline-block">
+                                <Form.Label>Date of birth *</Form.Label>
+                                <Form.Control
+                                  type="date"
+                                  // placeholder="name@example.com"
+                                  autoFocus
+                                />
+                              </div>
+                              <div className="px-2 mb-3 w-50 d-inline-block">
+                                <Form.Label>Phone No *</Form.Label>
+                                <Form.Control
+                                  type="number"
+                                  // placeholder="name@example.com"
+                                  autoFocus
+                                />
+                              </div>
+                            </Form.Group>
+                          </Form>
+                        </Modal.Body>
+                        <Modal.Footer>
+                          <Button variant="primary" onClick={handleClose}>
+                            Save Changes
+                          </Button>
+                        </Modal.Footer>
+                      </Modal>
+                    </h3>
+                    <div className="table-responsive">
+                      <table className="table table-nowrap">
+                        <thead>
+                          <tr className="text-nowrap">
+                            <th>Name</th>
+                            <th>Relationship</th>
+                            <th>Date of Birth</th>
+                            <th>Phone</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Leo</td>
+                            <td>Brother</td>
+                            <td>Feb 16th, 2019</td>
+                            <td>9876543210</td>
+                            <td className="text-end">
+                              <div
+                                className="profile-setting position-absolute  d-flex align-items-center justify-content-center"
+                                id="dropdownMenuButton"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                              >
+                                <i className="fa-solid fa-ellipsis-vertical text-white fw-5 rounded-circle"></i>
+                              </div>
+                              {/* <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                      <a className="dropdown-item" href="#"> <i className="fa-solid fa-gear"></i> Setting</a>
+                    </div> */}
+                              <div
+                                className="dropdown-menu"
+                                aria-labelledby="dropdownMenuLink"
+                              >
+                                <a
+                                  className="dropdown-item"
+                                  href="#"
+                                  onClick={handlePassword}
+                                >
+                                  <i className="fa-solid fa-key"></i> Change
+                                  Password
+                                </a>
+                                <a className="dropdown-item" href="#">
+                                  <i className="fa-solid fa-user"></i> Edit
+                                  profile
+                                </a>
+                                <a
+                                  className="dropdown-item"
+                                  href="/login"
+                                  onClick={logOut}
+                                >
+                                  <i className="fa-solid fa-right-from-bracket"></i>{" "}
+                                  Logout
+                                </a>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="row my-4 px-3">
+              <div className="col-md-6 d-flex">
+                <div className="card profile-box flex-fill">
+                  <div className="card-body">
+                    <h3 className="card-title">
+                      Education Informations
+                      <Button
+                        href="javascript:;"
+                        className="edit-icon"
+                        data-bs-toggle="modal"
+                        data-bs-target="#education_info"
+                        variant="primary"
+                        onClick={educationInfohandleShow}
+                      >
+                        <i className="fa fa-pencil"></i>
+                      </Button>
+                      <Modal
+                        show={educationInfoShow}
+                        onHide={educationInfohandleAdd}
+                      >
+                        <Modal.Header closeButton>
+                          <Modal.Title>Education Informations</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          <Form>
+                            <Form.Group
+                              className="mb-3"
+                              controlId="exampleForm.ControlInput1"
+                            >
+                              <Form.Label>Email address</Form.Label>
+                              <Form.Control
+                                type="email"
+                                placeholder="name@example.com"
+                                autoFocus
+                              />
+                            </Form.Group>
+                            <Form.Group
+                              className="mb-3"
+                              controlId="exampleForm.ControlTextarea1"
+                            >
+                              <Form.Label>Example textarea</Form.Label>
+                              <Form.Control as="textarea" rows={3} />
+                            </Form.Group>
+                          </Form>
+                        </Modal.Body>
+                        <Modal.Footer>
+                          <Button variant="primary" onClick={handleClose}>
+                            Save Changes
+                          </Button>
+                        </Modal.Footer>
+                      </Modal>
+                    </h3>
+                    <div className="experience-box">
+                      <ul className="experience-list position-relative p-0">
+                        <li className="position-relative ps-4">
+                          <div className="experience-user">
+                            <div className="before-circle"></div>
+                          </div>
+                          <div className="experience-content mb-3">
+                            <div className="timeline-content">
+                              <a href="#/" className="name">
+                                International College of Arts and Science (UG)
+                              </a>
+                              <div>Bsc Computer Science</div>
+                              <span className="time">2000 - 2003</span>
+                            </div>
+                          </div>
+                        </li>
+                        <li className="position-relative ps-4">
+                          <div className="experience-user">
+                            <div className="before-circle"></div>
+                          </div>
+                          <div className="experience-content">
+                            <div className="timeline-content">
+                              <a href="#/" className="name">
+                                International College of Arts and Science (PG)
+                              </a>
+                              <div>Msc Computer Science</div>
+                              <span className="time">2000 - 2003</span>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col-md-6 d-flex">
+                <div className="card profile-box flex-fill">
+                  <div className="card-body">
+                    <h3 className="card-title">
+                      Experience
+                      <Button
+                        href="javascript:;"
+                        className="edit-icon"
+                        data-bs-toggle="modal"
+                        data-bs-target="#experience_info"
+                        variant="primary"
+                        onClick={experiencehandleShow}
+                      >
+                        <i className="fa fa-pencil"></i>
+                      </Button>
+                      <Modal show={experienceShow} onHide={experiencehandleAdd}>
+                        <Modal.Header closeButton>
+                          <Modal.Title>Experience</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          <Form>
+                            <Form.Group
+                              className="mb-3"
+                              controlId="exampleForm.ControlInput1"
+                            >
+                              <Form.Label>Email address</Form.Label>
+                              <Form.Control
+                                type="email"
+                                placeholder="name@example.com"
+                                autoFocus
+                              />
+                            </Form.Group>
+                            <Form.Group
+                              className="mb-3"
+                              controlId="exampleForm.ControlTextarea1"
+                            >
+                              <Form.Label>Example textarea</Form.Label>
+                              <Form.Control as="textarea" rows={3} />
+                            </Form.Group>
+                          </Form>
+                        </Modal.Body>
+                        <Modal.Footer>
+                          <Button variant="primary" onClick={handleClose}>
+                            Save Changes
+                          </Button>
+                        </Modal.Footer>
+                      </Modal>
+                    </h3>
+                    <div className="experience-box">
+                      <ul className="experience-list position-relative p-0">
+                        <li className="position-relative ps-4">
+                          <div className="experience-user">
+                            <div className="before-circle"></div>
+                          </div>
+                          <div className="experience-content mb-3">
+                            <div className="timeline-content">
+                              <a href="#/" className="name">
+                                Web Designer at Zen Corporation
+                              </a>
+                              <p className="time fs-6">
+                                Jan 2013 - Present (5 years 2 months)
+                              </p>
+                            </div>
+                          </div>
+                        </li>
+                        <li className="position-relative ps-4">
+                          <div className="experience-user">
+                            <div className="before-circle"></div>
+                          </div>
+                          <div className="experience-content mb-3">
+                            <div className="timeline-content">
+                              <a href="#/" className="name">
+                                Web Designer at Ron-tech
+                              </a>
+                              <p className="time fs-6">
+                                Jan 2013 - Present (5 years 2 months)
+                              </p>
+                            </div>
+                          </div>
+                        </li>
+                        <li className="position-relative ps-4">
+                          <div className="experience-user">
+                            <div className="before-circle"></div>
+                          </div>
+                          <div className="experience-content mb-3">
+                            <div className="timeline-content">
+                              <a href="#/" className="name">
+                                Web Designer at Dalt Technology
+                              </a>
+                              <p className="time fs-6">
+                                Jan 2013 - Present (5 years 2 months)
+                              </p>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

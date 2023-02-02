@@ -39,6 +39,10 @@ const Sidebar = () => {
         setActive("vacancyHiring");
       } else if (pathname == "/alumni-detail") {
         setActive("alumniDetail");
+      } else if (pathname == "/attendance-management") {
+        setActive("attendanceManagement");
+      } else if (pathname == "/welfare") {
+        setActive("welfare");
       } else {
         setActive("general");
       }
@@ -114,6 +118,20 @@ const Sidebar = () => {
               </button>
             </Link>
           </div>
+          <div className={`nav-links ${active == "attendanceManagement" ? `active` : ""}`}>
+            <Link to="/attendance-management" className="text-decoration-none">
+              <button type="button">
+                <i className="fa-solid fa-gear"></i>
+                <span
+                  style={{ animationDelay: ".3s" }}
+                  title="Settings"
+                  className="text-nowrap"
+                >
+                  Attendance Mangement
+                </span>
+              </button>
+            </Link>
+          </div>
           <div
             className={`nav-links ${active == "vacancyHiring" ? `active` : ""}`}
           >
@@ -130,7 +148,7 @@ const Sidebar = () => {
               </button>
             </Link>
           </div>
-          {/*<div className={`nav-links ${active == "vacancy" ? `active` : ""}`}>
+          <div className={`nav-links ${active == "welfare" ? `active` : ""}`}>
             <Link to="/welfare" className="text-decoration-none">
               <button type="button">
                 <i className="fa-solid fa-gear"></i>
@@ -143,7 +161,7 @@ const Sidebar = () => {
                 </span>
               </button>
             </Link>
-          </div>*/}
+          </div>
           <div
             className={`nav-links ${active == "alumniDetail" ? `active` : ""}`}
           >

@@ -74,7 +74,7 @@ const EditEmployee = (props) => {
     },
   });
 
-  //   /////// Get Emp ///////
+  /////// Get Emp ///////
   // 	useEffect(() => {
   // 		var empId = { "id": id }
   // 		AuthService.getEmpById(empId).then(
@@ -127,20 +127,20 @@ const EditEmployee = (props) => {
 
   /////// Get Profile ///////
   useEffect(() => {
-      var profileId = { id: id };
-      UserService.getParticularProfile(profileId).then(
-        (response) => {
-          setContent(response.data.data);
-        },
-        (error) => {
-          const _content =
-            (error.response && error.response.data) ||
-            error.message ||
-            error.toString();
-          setContent(_content);
-        }
-      );
-      formik.values.id = id;
+    var profileId = { id: id };
+    UserService.getParticularProfile(profileId).then(
+      (response) => {
+        setContent(response.data.data);
+      },
+      (error) => {
+        const _content =
+          (error.response && error.response.data) ||
+          error.message ||
+          error.toString();
+        setContent(_content);
+      }
+    );
+    formik.values.id = id;
   }, []);
 
   useEffect(() => {

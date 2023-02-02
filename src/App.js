@@ -45,6 +45,11 @@ import EditInventory from "./HRM/Pages/EditInventory";
 import VacancyHiring from "./HRM/Pages/VacancyHiring";
 import UpdateVacancy from "./HRM/Pages/UpdateVacancy";
 import UserService from "./services/user.service";
+import ChatBox from "./components/ChatBox";
+import Chats from "./components/Chats";
+import Welfare from "./HRM/Pages/Welfare";
+import AttandanceMangement from "./HRM/Pages/AttandanceMangement";
+import Attendance from "./components/Attendance";
 
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
@@ -80,7 +85,7 @@ const App = () => {
   useEffect(() => {
     if (currentUser) {
       UserService.expireToken().then(
-        (response) => {},
+        (response) => { },
         (error) => {
           const _content =
             (error.response && error.response.data) ||
@@ -190,6 +195,24 @@ const App = () => {
             }
           />
           <Route path="/login" element={<Login />} />
+          <Route path="/chat-box" element={<PrivateRoute><ChatBox /></PrivateRoute>} />
+          <Route path="/chat" element={<PrivateRoute><Chats /></PrivateRoute>} />
+          <Route
+            path="/welfare"
+            element={
+              <PrivateModeratorRoute>
+                <Welfare />
+              </PrivateModeratorRoute>
+            }
+          />
+          <Route
+            path="/attendance-management"
+            element={
+              <PrivateModeratorRoute>
+                <AttandanceMangement />
+              </PrivateModeratorRoute>
+            }
+          />
           <Route
             path="/profile"
             element={
@@ -203,6 +226,14 @@ const App = () => {
             element={
               <PrivateRoute>
                 <EditProfile />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/attendance"
+            element={
+              <PrivateRoute>
+                <Attendance />
               </PrivateRoute>
             }
           />

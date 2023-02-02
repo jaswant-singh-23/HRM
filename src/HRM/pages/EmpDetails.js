@@ -38,7 +38,13 @@ const EmpDetails = ({ excelData, fileName }) => {
   const [currentCTC, setCurrentCTC] = useState("");
   const [address, setAddress] = useState("");
   const [departmentName, setDepartmentName] = useState("");
+  const [showOther, setShowOther] = useState(false);
+  const [other, setOther] = useState("");
 
+  const handleChangeOther = (e) => {
+    const other = e.target.value;
+    setOther(other)
+  };
   const handleName = (e) => {
     const name = e.target.value;
     setName(name);
@@ -114,7 +120,7 @@ const EmpDetails = ({ excelData, fileName }) => {
       });
   };
 
-  /////////////////////////////// Get Department Names //////////////////////////////////
+ /* Get Department Names */
 
   useEffect(() => {
     userService
@@ -139,7 +145,7 @@ const EmpDetails = ({ excelData, fileName }) => {
     userService
       .getParticularDepartment(department)
       .then((response) => {
-        console.log(response);
+        console.log(response, "----------------");
         setContent(response.data.data);
       })
       .catch((error) => {
@@ -233,7 +239,6 @@ const EmpDetails = ({ excelData, fileName }) => {
   //////////////// Excel Sheet handle ///////////////
 
   const [file, setFile] = useState({ preview: "", raw: "" });
-
   const handleSheet = (e) => {
     console.log("------------------", e.target);
     const data = e.target.files[0];
@@ -246,7 +251,16 @@ const EmpDetails = ({ excelData, fileName }) => {
       });
     }
   };
-
+  const handleOther = () => {
+    setShowOther(!showOther.true)
+  }
+  const handleSubmit = (deptname) => {
+    const data = {
+      other: other,
+      department: depNames,
+    }
+    console.log(data)
+  }
   return (
     <div className="custom-grid h-100vh">
       <Sidebar />
@@ -279,7 +293,6 @@ const EmpDetails = ({ excelData, fileName }) => {
                       >
                         Department
                       </a>
-
                       <div
                         className="dropdown-menu"
                         aria-labelledby="dropdownMenuLink"
@@ -296,6 +309,7 @@ const EmpDetails = ({ excelData, fileName }) => {
                             {dep._id.department}
                           </a>
                         ))}
+                        <ul><li className="cursor-pointer" onClick={handleOther}>others</li></ul>
                       </div>
                     </div>
                     <p className="">
@@ -374,6 +388,7 @@ const EmpDetails = ({ excelData, fileName }) => {
                                     autoComplete="off"
                                   />
                                 </div>
+
                                 <div className="px-2 mb-3 w-50 d-inline-block">
                                   <Form.Label className="fw-h7 mb-1">
                                     Username
@@ -388,6 +403,7 @@ const EmpDetails = ({ excelData, fileName }) => {
                                     autoComplete="off"
                                   />
                                 </div>
+                               
                                 <div className="px-2 mb-3 w-50 d-inline-block">
                                   <Form.Label className="fw-h7 mb-1">
                                     Password
@@ -402,6 +418,7 @@ const EmpDetails = ({ excelData, fileName }) => {
                                     autoComplete="off"
                                   />
                                 </div>
+
                                 <div className="px-2 mb-3 w-50 d-inline-block">
                                   <Form.Label className="fw-h7 mb-1">
                                     Phone
@@ -577,8 +594,31 @@ const EmpDetails = ({ excelData, fileName }) => {
               </tbody>
             </table>
           </div>
+
+          <div className="col-10 col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-9 profile-badge bg-white p-4 mt-5" style={{ display: showOther ? "block" : "none" }}>
+            <div className="form-group mb-3">
+              {/* <label htmlFor="password">Others</label> */}
+              <input
+                type="text"
+                placeholder="Others"
+                name="other"
+                value={other}
+                onChange={handleChangeOther}
+                className={
+                  'form-control'
+                }
+              />
+            </div>
+            <div className="form-group">
+              <button type="sumbit" onClick={handleSubmit} className="btn bg-dark-primary text-white btn-block">
+                <span>Submit</span>
+              </button>
+            </div>
+          </div>
+
         </div>
-        <form>
+      </div>
+      <form>
         <Modal
           show={bulkShow}
           onHide={bulkhandleAddUpload}
@@ -615,9 +655,7 @@ const EmpDetails = ({ excelData, fileName }) => {
           </Modal.Footer>
         </Modal>
       </form>
-      </div>  
     </div>
   );
 };
-
 export default EmpDetails;
