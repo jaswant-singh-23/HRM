@@ -1,21 +1,52 @@
 import React, { useState } from "react";
 import Sidebar from "../Shared/Sidebar";
 import Img from "../../assets/images/rahul.png";
+import Button from "react-bootstrap/Button";
+import AuthService from "../../services/auth.service";
+
 
 
 function AttandanceMangement() {
-  const itemList = [  ];
 
-  const [filteredList, setFilteredList] = new useState(itemList);
+  const [content, setContent] = useState([]);
 
-  const filterBySearch = (event) => {
-    const query = event.target.value;
-    var updatedList = [...itemList];
-    updatedList = updatedList.filter((item) => {
-      return item.toLowerCase().indexOf(query.toLowerCase()) !== -1;
-    });
-    setFilteredList(updatedList);
+
+  // const itemList = [  ];
+
+  // const [filteredList, setFilteredList] = new useState(itemList);
+
+  // const filterBySearch = (event) => {
+  //   const query = event.target.value;
+  //   var updatedList = [...itemList];
+  //   updatedList = updatedList.filter((item) => {
+  //     return item.toLowerCase().indexOf(query.toLowerCase()) !== -1;
+  //   });
+  //   setFilteredList(updatedList);
+  // };
+
+  const handleUpload = () => {
+    console.log("========================", file);
+    const formData = new FormData();
+    formData.append("file", file.raw);
   };
+
+
+  const [file, setFile] = useState({ preview: "", raw: "" });
+
+  const handleSheet = (e) => {
+    console.log("------------------", e.target);
+    const data = e.target.files[0];
+    setFile(data);
+
+    if (e.target.files.length) {
+      setFile({
+        preview: URL.createObjectURL(e.target.files[0]),
+        raw: e.target.files[0],
+      });
+    }
+  };
+  console.log("------------------", file);
+
   return (
 
     <div>
@@ -34,27 +65,36 @@ function AttandanceMangement() {
                 className="ng-untouched ng-pristine ng-valid"
               >
                 <div _ngcontent-mcl-c407="" className="row mb-3">
-                  <div _ngcontent-mcl-c407="" className="col-4">
+                  <div _ngcontent-mcl-c407="" className="col-3">
                     <div className="search-text">Choose start date:</div>
-                    <input className="w-100 custom_input" type="date" />
+                    <input className="w-100 custom_input form-control" type="date" />
                   </div>
-                  <div _ngcontent-mcl-c407="" className="col-4">
+                  <div _ngcontent-mcl-c407="" className="col-3">
                     <div className="search-text">Choose end date:</div>
-                    <input className="w-100 custom_input" type="date" />
+                    <input className="w-100 custom_input form-control" type="date" />
                   </div>
-                  <div _ngcontent-mcl-c407="" className="col-4">
-                    <div className="search-header">
+                  <div _ngcontent-mcl-c407="" className="col-3">
                       <div className="search-text">Search:</div>
-                      <input className="w-100 custom_input" id="search-box" onChange={filterBySearch} />
-                    </div>
-                    <div id="item-list">
-                      <ol>
-                        {filteredList.map((item, index) => (
-                          <li key={index}>{item}</li>
-                        ))}
-                      </ol>
-                    </div>
+                      <Button
+                      className="btn bg-dark-primary"
+                      type="Button"
+                    >
+                      Search
+                    </Button>
+                    
                   </div>
+                  <div _ngcontent-mcl-c407="" className="col-3">
+                  <div className="search-text">Choose File</div>
+                  <input className="w-100 custom_input form-control" id="excel-file-id"
+                  accept=".xls,.xlsx" type="file" onChange={handleSheet} />
+                  <Button
+                  className="btn bg-dark-primary"
+                  type="Button"
+                  onClick={handleUpload}
+                >
+                  Sheet Upload
+                </Button>
+                </div>
                 </div>
               </form>
             </div>

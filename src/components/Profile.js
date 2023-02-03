@@ -253,17 +253,45 @@ const Profile = () => {
   const experiencehandleAdd = () => setExperienceShow(false);
   const experiencehandleShow = () => setExperienceShow(true);
 
+
+
+
+
+
+  const [inputList, setInputList] = useState([{ firstName: "", lastName: "" }]);
+ 
+  // handle input change
+  const handleInputChange = (e, index) => {
+    const { name, value } = e.target;
+    const list = [...inputList];
+    list[index][name] = value;
+    setInputList(list);
+  };
+ 
+  // handle click event of the Remove button
+  const handleRemoveClick = index => {
+    const list = [...inputList];
+    list.splice(index, 1);
+    setInputList(list);
+  };
+ 
+  // handle click event of the Add button
+  const handleAddClick = () => {
+    setInputList([...inputList, { firstName: "", lastName: "" }]);
+  };
+
+
   return (
     <div className="bg-grey-color custom-grid h-100">
       <Sidebar />
-      <div className="container-fluid">
+      <div className="container-fluid p-4 overflow-auto">
         <div className="main-body">
-          <div className="col-10 col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-12 profile-badge bg-white p-2 mt-3">
+          <div className="col-12 profile-badge bg-white p-2">
             <h3 className="text-center mb-2">
               Welcome User : {userField.name}
             </h3>
           </div>
-          <div className="row gutters-sm mt-3">
+          <div className="row gutters-sm mt-4">
             <div className="col-md-4 mb-3">
               <div className="card">
                 <div className="card-body">
@@ -417,8 +445,8 @@ const Profile = () => {
                 </div>
               </div>
 
-              <div className="card mt-3">
-                <div className="col-10 col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-12 profile-badge bg-white p-2 mt-3">
+              <div className="card mt-4">
+                <div className="col-12 profile-badge bg-white p-2 mt-3">
                   <h3 className="text-center mb-2">
                     🍨Upcoming Birthdays🍨
                   </h3>
@@ -426,16 +454,16 @@ const Profile = () => {
                 {
                   content.map((data, i) => (
                     <div key={i} className="card mt-3">
-                      <ul className="list-group list-group-flush">
-                        <li className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                      <div className="list-group list-group-flush">
+                        <div className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                           <h6 className="mb-0">
                             {data.user.name} ({data.user.designation})
                           </h6>
-
                           <span className="text-secondary">{data.user.birthDay}{(moment().month(data.user.birthMonth - 1).format("-MMMM"))}</span>
-                        </li>
-                      </ul>
+                        </div>
+                      </div>
                     </div>
+                    
                   ))
                 }
               </div>
@@ -583,14 +611,13 @@ const Profile = () => {
               </div>
             </div>
           </div>
-        </div>
-        <div className="col-10 col-xs-10 col-sm-10 col-md-10 col-lg-10 col-xl-12 profile-badge bg-gray p-2 mt-3">
+          <div className="col-12 profile-badge bg-gray pt-2">
           <div
             id="emp_profile"
             className="pro-overview tab-pane fade show active"
           >
-            <div className="row mt-3 px-3">
-              <div className="col-md-6 d-flex mb-20">
+            {/*<div className="row">
+              <div className="col-12 col-lg-6 d-flex mb-4 mb-lg-0">
                 <div className="card profile-box flex-fill">
                   <div className="card-body">
                     <h3 className="card-title">
@@ -725,7 +752,7 @@ const Profile = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-md-6 d-flex">
+              <div className="col-12 col-lg-6 d-flex mb-4 mb-lg-0">
                 <div className="card profile-box flex-fill">
                   <div className="card-body">
                     <h3 className="card-title">
@@ -866,9 +893,263 @@ const Profile = () => {
                   </div>
                 </div>
               </div>
+              </div> */}
+              <div className="row ">
+              <div className="col-12 col-lg-6 d-flex mb-4 mb-lg-0">
+                <div className="card profile-box flex-fill">
+                  <div className="card-body">
+                    <h3 className="card-title">
+                      Education Informations
+                      <Button
+                        href="javascript:;"
+                        className="edit-icon"
+                        data-bs-toggle="modal"
+                        data-bs-target="#education_info"
+                        variant="primary"
+                        onClick={educationInfohandleShow}
+                      >
+                        <i className="fa fa-pencil"></i>
+                      </Button>
+                      <Modal
+                        show={educationInfoShow}
+                        onHide={educationInfohandleAdd}
+                      >
+                        <Modal.Header closeButton>
+                          <Modal.Title>Education Informations</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          <Form>
+                            <Form.Group
+                              className="mb-3"
+                              controlId="exampleForm.ControlInput1"
+                            >
+                          <div className="App">
+                          {inputList.map((x, i) => {
+                            return (
+                              <div className="box px-2 mb-3 w-100 d-inline-block">
+                              <div className="d-flex justify-content-between " >
+                              <div >
+                                <Form.Label>College</Form.Label>
+                                  <Form.Control
+                                  type='Form.Control'
+                                    name="firstName"
+                                    placeholder="Enter First Name"
+                                    value={x.firstName}
+                                    onChange={e => handleInputChange(e, i)}
+                                  />
+                              </div>
+                               <div>
+                               <Form.Label>Class</Form.Label>
+                                <Form.Control
+                                type='Form.Control'
+                                  className="ml10"
+                                 placeholder="Enter Last Name"
+                                  onChange={e => handleInputChange(e, i)}
+                                />
+                               </div></div> 
+                              <div className="d-flex justify-content-between " >
+                              <div >
+                                <Form.Label>Department</Form.Label>
+                                  <Form.Control
+                                  type='text'
+                                    placeholder="Enter First Name"
+                                    onChange={e => handleInputChange(e, i)}
+                                  />
+                              </div>
+                               <div>
+                               <Form.Label>Grade</Form.Label>
+                                <Form.Control
+                                type='text'
+                                  className="ml10"
+                                  name="lastName"
+                                 placeholder="Enter Last Name"
+                                  onChange={e => handleInputChange(e, i)}
+                                />
+                               </div></div> 
+                              <div className="d-flex justify-content-between " >
+                              <div >
+                                <Form.Label>From</Form.Label>
+                                  <Form.Control
+                                  type='date'
+                                    name="firstName"
+                                    placeholder="Enter First Name"
+                                    value={x.firstName}
+                                    onChange={e => handleInputChange(e, i)}
+                                  />
+                              </div>
+                               <div>
+                               <Form.Label>To</Form.Label>
+                                <Form.Control
+                                type='date'
+                                  className="ml10"
+                                  name="lastName"
+                                 placeholder="Enter Last Name"
+                                  value={x.lastName}
+                                  onChange={e => handleInputChange(e, i)}
+                                />
+                               </div></div> 
+                               <div className="btn-box">
+                               {inputList.length !== 1 && <button
+                                 className="bg-dark-primary me-2 mt-2"
+                                 onClick={() => handleRemoveClick(i)}>Remove</button>}
+                               {inputList.length - 1 === i && <button className="bg-dark-primary mt-2" onClick={handleAddClick}>➕ Add More</button>}
+                             </div>
+                              </div>
+                              
+                            );
+                          })}
+                         
+                        </div>
+                    
+                            </Form.Group>
+                          </Form>
+                        </Modal.Body>
+                        <Modal.Footer>
+                          <Button variant="primary" onClick={handleClose}>
+                            Save Changes
+                          </Button>
+                        </Modal.Footer>
+                      </Modal>
+                      <hr/>
+                    </h3>
+                    <div className="experience-box">
+                      <ul className="experience-list position-relative p-0">
+                        <li className="position-relative ps-4">
+                          <div className="experience-user">
+                            <div className="before-circle"></div>
+                          </div>
+                          <div className="experience-content mb-3">
+                            <div className="timeline-content">
+                              <a href="#/" className="name">
+                                International College of Arts and Science (UG)
+                              </a>
+                              <div>Bsc Computer Science</div>
+                              <span className="time">2000 - 2003</span>
+                            </div>
+                          </div>
+                        </li>
+                        <li className="position-relative ps-4">
+                          <div className="experience-user">
+                            <div className="before-circle"></div>
+                          </div>
+                          <div className="experience-content">
+                            <div className="timeline-content">
+                              <a href="#/" className="name">
+                                International College of Arts and Science (PG)
+                              </a>
+                              <div>Msc Computer Science</div>
+                              <span className="time">2000 - 2003</span>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="col-12 col-lg-6 d-flex mb-4 mb-lg-0">
+                <div className="card profile-box flex-fill">
+                  <div className="card-body">
+                    <h3 className="card-title">
+                      Experience
+                      <Button
+                        href="javascript:;"
+                        className="edit-icon"
+                        data-bs-toggle="modal"
+                        data-bs-target="#experience_info"
+                        variant="primary"
+                        onClick={experiencehandleShow}
+                      >
+                        <i className="fa fa-pencil"></i>
+                      </Button>
+                      <Modal show={experienceShow} onHide={experiencehandleAdd}>
+                        <Modal.Header closeButton>
+                          <Modal.Title>Experience</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          <Form>
+                            <Form.Group
+                              className="mb-3"
+                              controlId="exampleForm.ControlInput1"
+                            >
+                              <Form.Label>Email address</Form.Label>
+                              <Form.Control
+                                type="email"
+                                placeholder="name@example.com"
+                                autoFocus
+                              />
+                            </Form.Group>
+                            <Form.Group
+                              className="mb-3"
+                              controlId="exampleForm.ControlTextarea1"
+                            >
+                              <Form.Label>Example textarea</Form.Label>
+                              <Form.Control as="textarea" rows={3} />
+                            </Form.Group>
+                          </Form>
+                        </Modal.Body>
+                        <Modal.Footer>
+                          <Button variant="primary" onClick={handleClose}>
+                            Save Changes
+                          </Button>
+                        </Modal.Footer>
+                      </Modal>
+                    </h3>
+                    <div className="experience-box">
+                      <ul className="experience-list position-relative p-0">
+                        <li className="position-relative ps-4">
+                          <div className="experience-user">
+                            <div className="before-circle"></div>
+                          </div>
+                          <div className="experience-content mb-3">
+                            <div className="timeline-content">
+                              <a href="#/" className="name">
+                                Web Designer at Zen Corporation
+                              </a>
+                              <p className="time fs-6">
+                                Jan 2013 - Present (5 years 2 months)
+                              </p>
+                            </div>
+                          </div>
+                        </li>
+                        <li className="position-relative ps-4">
+                          <div className="experience-user">
+                            <div className="before-circle"></div>
+                          </div>
+                          <div className="experience-content mb-3">
+                            <div className="timeline-content">
+                              <a href="#/" className="name">
+                                Web Designer at Ron-tech
+                              </a>
+                              <p className="time fs-6">
+                                Jan 2013 - Present (5 years 2 months)
+                              </p>
+                            </div>
+                          </div>
+                        </li>
+                        <li className="position-relative ps-4">
+                          <div className="experience-user">
+                            <div className="before-circle"></div>
+                          </div>
+                          <div className="experience-content mb-3">
+                            <div className="timeline-content">
+                              <a href="#/" className="name">
+                                Web Designer at Dalt Technology
+                              </a>
+                              <p className="time fs-6">
+                                Jan 2013 - Present (5 years 2 months)
+                              </p>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="row mt-4 px-3">
-              <div className="col-md-6 d-flex">
+            <div className="row mt-lg-4">
+              <div className="col-12 col-lg-6 d-flex mb-4 mb-lg-0">
                 <div className="card profile-box flex-fill">
                   <div className="card-body">
                     <h3 className="card-title">Bank information</h3>
@@ -893,7 +1174,7 @@ const Profile = () => {
                   </div>
                 </div>
               </div>
-              <div className="col-md-6 d-flex">
+              <div className="col-12 col-lg-6 d-flex mb-4 mb-lg-0">
                 <div className="card profile-box flex-fill famliy_info">
                   <div className="card-body">
                     <h3 className="card-title">
@@ -1023,196 +1304,10 @@ const Profile = () => {
                 </div>
               </div>
             </div>
-            <div className="row my-4 px-3">
-              <div className="col-md-6 d-flex">
-                <div className="card profile-box flex-fill">
-                  <div className="card-body">
-                    <h3 className="card-title">
-                      Education Informations
-                      <Button
-                        href="javascript:;"
-                        className="edit-icon"
-                        data-bs-toggle="modal"
-                        data-bs-target="#education_info"
-                        variant="primary"
-                        onClick={educationInfohandleShow}
-                      >
-                        <i className="fa fa-pencil"></i>
-                      </Button>
-                      <Modal
-                        show={educationInfoShow}
-                        onHide={educationInfohandleAdd}
-                      >
-                        <Modal.Header closeButton>
-                          <Modal.Title>Education Informations</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                          <Form>
-                            <Form.Group
-                              className="mb-3"
-                              controlId="exampleForm.ControlInput1"
-                            >
-                              <Form.Label>Email address</Form.Label>
-                              <Form.Control
-                                type="email"
-                                placeholder="name@example.com"
-                                autoFocus
-                              />
-                            </Form.Group>
-                            <Form.Group
-                              className="mb-3"
-                              controlId="exampleForm.ControlTextarea1"
-                            >
-                              <Form.Label>Example textarea</Form.Label>
-                              <Form.Control as="textarea" rows={3} />
-                            </Form.Group>
-                          </Form>
-                        </Modal.Body>
-                        <Modal.Footer>
-                          <Button variant="primary" onClick={handleClose}>
-                            Save Changes
-                          </Button>
-                        </Modal.Footer>
-                      </Modal>
-                    </h3>
-                    <div className="experience-box">
-                      <ul className="experience-list position-relative p-0">
-                        <li className="position-relative ps-4">
-                          <div className="experience-user">
-                            <div className="before-circle"></div>
-                          </div>
-                          <div className="experience-content mb-3">
-                            <div className="timeline-content">
-                              <a href="#/" className="name">
-                                International College of Arts and Science (UG)
-                              </a>
-                              <div>Bsc Computer Science</div>
-                              <span className="time">2000 - 2003</span>
-                            </div>
-                          </div>
-                        </li>
-                        <li className="position-relative ps-4">
-                          <div className="experience-user">
-                            <div className="before-circle"></div>
-                          </div>
-                          <div className="experience-content">
-                            <div className="timeline-content">
-                              <a href="#/" className="name">
-                                International College of Arts and Science (PG)
-                              </a>
-                              <div>Msc Computer Science</div>
-                              <span className="time">2000 - 2003</span>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-6 d-flex">
-                <div className="card profile-box flex-fill">
-                  <div className="card-body">
-                    <h3 className="card-title">
-                      Experience
-                      <Button
-                        href="javascript:;"
-                        className="edit-icon"
-                        data-bs-toggle="modal"
-                        data-bs-target="#experience_info"
-                        variant="primary"
-                        onClick={experiencehandleShow}
-                      >
-                        <i className="fa fa-pencil"></i>
-                      </Button>
-                      <Modal show={experienceShow} onHide={experiencehandleAdd}>
-                        <Modal.Header closeButton>
-                          <Modal.Title>Experience</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                          <Form>
-                            <Form.Group
-                              className="mb-3"
-                              controlId="exampleForm.ControlInput1"
-                            >
-                              <Form.Label>Email address</Form.Label>
-                              <Form.Control
-                                type="email"
-                                placeholder="name@example.com"
-                                autoFocus
-                              />
-                            </Form.Group>
-                            <Form.Group
-                              className="mb-3"
-                              controlId="exampleForm.ControlTextarea1"
-                            >
-                              <Form.Label>Example textarea</Form.Label>
-                              <Form.Control as="textarea" rows={3} />
-                            </Form.Group>
-                          </Form>
-                        </Modal.Body>
-                        <Modal.Footer>
-                          <Button variant="primary" onClick={handleClose}>
-                            Save Changes
-                          </Button>
-                        </Modal.Footer>
-                      </Modal>
-                    </h3>
-                    <div className="experience-box">
-                      <ul className="experience-list position-relative p-0">
-                        <li className="position-relative ps-4">
-                          <div className="experience-user">
-                            <div className="before-circle"></div>
-                          </div>
-                          <div className="experience-content mb-3">
-                            <div className="timeline-content">
-                              <a href="#/" className="name">
-                                Web Designer at Zen Corporation
-                              </a>
-                              <p className="time fs-6">
-                                Jan 2013 - Present (5 years 2 months)
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                        <li className="position-relative ps-4">
-                          <div className="experience-user">
-                            <div className="before-circle"></div>
-                          </div>
-                          <div className="experience-content mb-3">
-                            <div className="timeline-content">
-                              <a href="#/" className="name">
-                                Web Designer at Ron-tech
-                              </a>
-                              <p className="time fs-6">
-                                Jan 2013 - Present (5 years 2 months)
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                        <li className="position-relative ps-4">
-                          <div className="experience-user">
-                            <div className="before-circle"></div>
-                          </div>
-                          <div className="experience-content mb-3">
-                            <div className="timeline-content">
-                              <a href="#/" className="name">
-                                Web Designer at Dalt Technology
-                              </a>
-                              <p className="time fs-6">
-                                Jan 2013 - Present (5 years 2 months)
-                              </p>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
+        </div>
+        
       </div>
     </div >
   );
