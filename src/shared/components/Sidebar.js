@@ -24,6 +24,8 @@ const Sidebar = () => {
         setActive("profile");
       } else if (pathname == "/home") {
         setActive("home");
+      } else if (pathname == "/attendance") {
+        setActive("attendance");
       } else {
         setActive("home");
       }
@@ -109,6 +111,20 @@ const Sidebar = () => {
                   className="text-nowrap"
                 >
                   Leave
+                </span>
+              </button>
+            </Link>
+          </div>
+          <div className={`nav-links ${active == "attendance" ? `active` : ""}`}>
+            <Link to="/attendance" className="text-decoration-none">
+              <button type="button">
+                <i className="fa-solid fa-layer-group"></i>
+                <span
+                  style={{ animationDelay: ".4s" }}
+                  title="Attendance Calendar"
+                  className="text-nowrap"
+                >
+                 Attendance Calendar
                 </span>
               </button>
             </Link>
