@@ -3,12 +3,14 @@ import Sidebar from "../Shared/Sidebar";
 import Img from "../../assets/images/rahul.png";
 import Button from "react-bootstrap/Button";
 import AuthService from "../../services/auth.service";
+import userService from "../../services/user.service";
 
 
 
 function AttandanceMangement() {
 
   const [content, setContent] = useState([]);
+  const [err, setErr] = useState('');
 
 
   // const itemList = [  ];
@@ -25,9 +27,15 @@ function AttandanceMangement() {
   // };
 
   const handleUpload = () => {
-    console.log("========================", file);
     const formData = new FormData();
     formData.append("file", file.raw);
+
+    userService.attendanceUpload(formData).then((response)=>{
+      console.log("========================",response);
+    }).catch((error)=>{
+      setErr(error);
+    })
+
   };
 
 
@@ -45,7 +53,6 @@ function AttandanceMangement() {
       });
     }
   };
-  console.log("------------------", file);
 
   return (
 

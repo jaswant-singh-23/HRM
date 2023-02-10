@@ -4,7 +4,8 @@ import authHeader from "./auth-header";
 const API_URL = "http://localhost:4000/api/";
 
 const user = JSON.parse(localStorage.getItem("user"));
-const username = user ? { username: user.username } : "";
+
+// const username = user ? { username: user.username } : "";
 const getPublicContent = () => {
   return axios.get(API_URL + "all");
 };
@@ -74,6 +75,7 @@ const getParticularDepartment = (data) => {
     headers: authHeader(),
   });
 };
+
 ////upload image//////
 const uploadImage = (data) => {
   return axios.post(API_URL + "upload-user-avatar", data, {
@@ -102,6 +104,7 @@ const AlumniRestoreAccount = (data) => {
 const AddInventory = (data) => {
   return axios.post(API_URL + "inventory-add", data, { headers: authHeader() });
 };
+
 const GetInventory = () => {
   return axios.get(API_URL + "inventory-view", { headers: authHeader() });
 };
@@ -111,11 +114,13 @@ const GetInventoryById = (id) => {
     headers: authHeader(),
   });
 };
+
 const UpdateInventory = (data) => {
   return axios.post(API_URL + "inventory-edit", data, {
     headers: authHeader(),
   });
 };
+
 const DeleteInventory = (data) => {
   return axios.post(API_URL + "inventory-delete", data, {
     headers: authHeader(),
@@ -129,22 +134,27 @@ const generalDepartment = () => {
 };
 
 /////update password/////
+
 const updatePassword = (data) => {
-  return axios.post(API_URL + "user-password-update",data, { headers: authHeader() });
+  return axios.post(API_URL + "user-password-update", data, { headers: authHeader() });
 };
+
 //////vacancy & hiring//////
 const updateVacancy = (data) => {
-  return axios.post(API_URL + "new-vacancy-hiring",data, { headers: authHeader() });
+  return axios.post(API_URL + "new-vacancy-hiring", data, { headers: authHeader() });
 };
 const GetVacancy = () => {
   return axios.get(API_URL + "vacancy-details", { headers: authHeader() });
 };
 /* token */
 const expireToken = () => {
-  return axios.get(API_URL + "auth/verify-token",{ headers: authHeader() });
+  return axios.get(API_URL + "auth/verify-token", { headers: authHeader() });
 };
 const upComingBirthday = () => {
-  return axios.get(API_URL + "upcoming-birthday",{ headers: authHeader() });
+  return axios.get(API_URL + "upcoming-birthday", { headers: authHeader() });
+};
+const attendanceUpload = (data) => {
+  return axios.post(API_URL + "attendance-upload", data, { headers: authHeader() });
 };
 
 export default {
@@ -180,4 +190,5 @@ export default {
   AlumniView,
   updateVacancy,
   GetVacancy,
+  attendanceUpload
 };

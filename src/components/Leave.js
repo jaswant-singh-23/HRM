@@ -238,6 +238,7 @@ const Leave = () => {
                             type="Button"
                             className="btn bg-dark-primary"
                             onClick={handleAddShow}
+                            disabled={ reason && fromLeave && toLeave ? false : true}
                           >
                             Continue
                           </button>

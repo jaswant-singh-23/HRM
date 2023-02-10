@@ -9,7 +9,7 @@ function ChatBox() {
   const [inputField, setInputField] = useState({
     username: '',
     room: ''
-  })
+  });
 
   const handleInput = (e) => {
     setInputField({ ...inputField, [e.target.name]: e.target.value })
@@ -17,20 +17,19 @@ function ChatBox() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    debugger;
     localStorage.setItem("userName", JSON.stringify(inputField))
     socket.emit("newUser", { inputField, socketID: socket.id });
     console.log(socket)
     navigate("/chat")
   }
-
+  
   return (
-    <div className='container'>
+    <div className='container mt-5'>
       <div className="row">
         <div className='col-md-3' />
-        <div className='col-md-6' >
+        <div className='col-md-6 -box-shadow p-3 rounded'  >
           <form className='home__container' onSubmit={handleSubmit}>
-            <h2 className='home__header'>Sign in to Open Chat</h2>
+            <h2 className='home__header text-center'>Sign in to Open Chat</h2>
             <div className='form-group mt-3'>
               <label htmlFor="username">Username</label>
               <input type="text"
@@ -51,7 +50,7 @@ function ChatBox() {
                 onChange={handleInput}
               />
             </div>
-            <button className='mt-4 btn bg-dark-color'>SIGN IN</button>
+            <button className='mt-4 btn bg-dark-color'>Sign in</button>
           </form>
         </div>
         <div className='col-md-3' />
