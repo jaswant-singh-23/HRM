@@ -153,11 +153,22 @@ const expireToken = () => {
 const upComingBirthday = () => {
   return axios.get(API_URL + "upcoming-birthday", { headers: authHeader() });
 };
+
+/* Attendence */
+
 const attendanceUpload = (data) => {
   return axios.post(API_URL + "attendance-upload", data, { headers: authHeader() });
 };
+const getAttendanceAllUser = () => {
+  return axios.get(API_URL + "attendance-of-all-user",  { headers: authHeader() });
+};
+const getParticularUser = () => {
+  return axios.get(API_URL + "attendance-of-particular-user",  { headers: authHeader() });
+};
 
 export default {
+  getParticularUser,
+  getAttendanceAllUser,
   upComingBirthday,
   expireToken,
   getPublicContent,

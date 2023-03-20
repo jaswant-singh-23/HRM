@@ -111,6 +111,7 @@ const Profile = () => {
       .uploadImage(formData)
       .then((response) => {
         console.log(response);
+        Toast.success(response.data.message)
       })
       .catch((error) => {
         const resMessage =
@@ -252,11 +253,6 @@ const Profile = () => {
   const experiencehandleAdd = () => setExperienceShow(false);
   const experiencehandleShow = () => setExperienceShow(true);
 
-
-
-
-
-
   const [inputList, setInputList] = useState([{ firstName: "", lastName: "" }]);
 
   // handle input change
@@ -350,7 +346,7 @@ const Profile = () => {
                           type="Button"
                           className="btn bg-dark-primary"
                           value="Upload"
-                        // onClick={handleSubmit}
+                          onClick={handleSubmit}
                         />
                       </div>
                       {/* <div className="mb-3">
@@ -431,6 +427,7 @@ const Profile = () => {
                               value={confirmNewPassword}
                             />
                           </div>
+
                         </Form>
                       </Modal.Body>
                       <Modal.Footer>
@@ -445,29 +442,31 @@ const Profile = () => {
                   </div>
                 </div>
               </div>
+              {(content == null || content.length >= 1) && (
+                <div className="card mt-4">
+                  <div className="col-12 profile-badge bg-white p-2 mt-3">
+                    <h3 className="text-center mb-2">
+                      🍨Upcoming Birthdays🍨
+                    </h3>
+                  </div>
 
-              <div className="card mt-4">
-                <div className="col-12 profile-badge bg-white p-2 mt-3">
-                  <h3 className="text-center mb-2">
-                    🍨Upcoming Birthdays🍨
-                  </h3>
-                </div>
-                {
-                  content.map((data, i) => (
-                    <div key={i} className="card mt-3">
-                      <div className="list-group list-group-flush">
-                        <div className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                          <h6 className="mb-0">
-                            {data.user.name} ({data.user.designation})
-                          </h6>
-                          <span className="text-secondary">{data.user.birthDay}{(moment().month(data.user.birthMonth - 1).format("-MMMM"))}</span>
+                  {
+                    content.map((data, i) => (
+                      <div key={i} className="card mt-3">
+                        <div className="list-group list-group-flush">
+                          <div className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                            <h6 className="mb-0">
+                              {data.user.name} ({data.user.designation})
+                            </h6>
+                            <span className="text-secondary">{data.user.birthDay}{(moment().month(data.user.birthMonth - 1).format("-MMMM"))}</span>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    ))
+                  }
 
-                  ))
-                }
-              </div>
+                </div>
+              )}
             </div>
             <div className="col-md-8">
               <div className="card mb-3">
@@ -1310,13 +1309,7 @@ const Profile = () => {
                   </div>
                 </div>
                 <div className="position-relative text-align-right h-100 w-100 mt-4">
-                  <div class="gmap_canvas">
-                    <iframe
-                      width="770" height="510" className="overflow-hidden .bg-none h-51 w-100" src="https://maps.google.com/maps?q=ozi gym&t=&z=10&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0">
-                    </iframe>
-                    <a href="https://2yu.co">2yu</a>
-                    <a href="https://embedgooglemap.2yu.co">html embed google map</a>
-                  </div>
+                  <iframe style={{ width: "100%", height: "400px" }} src="https://maps.google.com/maps?q=ameotech &t=&z=10&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
                 </div>
               </div>
             </div>

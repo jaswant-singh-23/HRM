@@ -5,6 +5,7 @@ import { useFormik } from "formik";
 import * as Yup from 'yup';
 import userService from "../../services/user.service";
 import Select from "react-select";
+import swal from "sweetalert";
 
 const validationSchema = Yup.object().shape({
   username: Yup.string()
@@ -72,8 +73,13 @@ const AddInventory = () => {
     };
     console.log(data);
     userService.AddInventory(data).then((response) => {
-      console.log(response)
-      setMessage(response.data.data)
+      // setMessage(response.data.data)
+      const resMsg = response.message
+      swal({
+        title: "Success!",
+        text: resMsg,
+        icon: "success",
+      })
       // navigate("/inventory-control")
     },
       (error) => {
@@ -83,7 +89,12 @@ const AddInventory = () => {
             error.response.data.message) ||
           error.message ||
           error.toString();
-        setMessage(resMessage.message);
+        setMessage(resMessage);
+        swal({
+          title: "Error!",
+          text: resMessage,
+          icon: "error",
+        })
       }
     );
   };

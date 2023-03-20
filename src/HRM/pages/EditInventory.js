@@ -93,16 +93,15 @@ const EditInventory = () => {
   const handleSelect = (data) => {
     setItemName(data);
   }
-
-
   //  On Update //
+  
   const handleUpdate = (e) => {
     const data = {
       username: username ? username : content[0].username,
       email: email ? email : content[0].email,
       totalItems: totalItems,
       itemName: itemName
-    }
+    };
     console.log(data)
     userService.UpdateInventory(data).then(
       (response) => {
@@ -124,7 +123,6 @@ const EditInventory = () => {
       <Sidebar />
       <div className="inventory-page">
         <div className="p-4">
-
           <h1 className="text-center">Edit Inventory</h1>
           <form ref={form}>
             {content != null &&
@@ -157,7 +155,7 @@ const EditInventory = () => {
                       onChange={handleEmail}
                     />
                   </div>
-                  
+
                   <div className="form-group mb-3">
                     <label htmlFor="password">No of Items</label>
                     <input
