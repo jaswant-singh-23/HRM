@@ -1,14 +1,33 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Calendar from "calendar-reactjs";
 import Sidebar from "../shared/components/Sidebar";
 import DatePicker from "react-datepicker";
+import userService from "../services/user.service";
 
 const Attendance = () => {
   const [date, setDate] = useState(new Date());
   const [selectedMonth, setSelectedMonth] = useState("2023-01");
+  const [content, setContent] = useState([]);
 
   const handleCalendarClose = () => console.log("Calendar closed");
   const handleCalendarOpen = () => console.log("Calendar opened");
+
+  useEffect(() => {
+    userService
+      .getParticularUser()
+      .then((response) => {
+        console.log("user", response);
+        setContent(response.data.data);
+      })
+      .catch((error) => {
+        const resMessage =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+      });
+  }, []);
   return (
     <div className="bg-grey-color custom-grid h-100  ">
       <Sidebar />

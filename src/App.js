@@ -71,7 +71,7 @@ const App = () => {
   const logOut = useCallback(() => {
     dispatch(logout());
   }, [dispatch]);
-
+  
   useEffect(() => {
     if (currentUser) {
       setShowModeratorBoard(currentUser.roles.includes("ROLE_MODERATOR"));
@@ -91,8 +91,9 @@ const App = () => {
             (error.response && error.response.data) ||
             error.message ||
             error.toString();
-          setContent(_content);
-          const errResponse = error.response.data.err;
+          setContent(_content)
+          
+          const errResponse = error.response.err;
           if (
             errResponse.message == "jwt expired" &&
             errResponse.name == "TokenExpiredError"

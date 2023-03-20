@@ -23,7 +23,7 @@ function Chats() {
     })
   }, [socket, messages]);
 
-  useEffect(() => {
+  useEffect(() => {     
     const user = localStorage.getItem("userName");
     setUserName(JSON.parse(user).username);
     setRoom(JSON.parse(user).room);

@@ -12,9 +12,9 @@ function ChatBox() {
   });
 
   const handleInput = (e) => {
-    setInputField({ ...inputField, [e.target.name]: e.target.value })
-  }
-
+    setInputField({ ...inputField , [e.target.name]: e.target.value })
+  };
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     localStorage.setItem("userName", JSON.stringify(inputField))
