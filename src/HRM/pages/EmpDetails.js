@@ -17,7 +17,6 @@ import Button from "react-bootstrap/Button";
 import { deleteEmployeeAccount } from "../../services/user.service";
 import swal from "sweetalert";
 
-
 /////////////// Single Entry ////////////
 
 const EmpDetails = ({ excelData, fileName }) => {
@@ -114,7 +113,7 @@ const EmpDetails = ({ excelData, fileName }) => {
       });
   };
 
- /* Get Department Names */
+  /* Get Department Names */
 
   useEffect(() => {
     userService
@@ -181,7 +180,6 @@ const EmpDetails = ({ excelData, fileName }) => {
     bulkhandleAddUpload();
   };
 
-
   //////////////////////// Excel File Download ///////////////////////////
 
   const fileType =
@@ -246,7 +244,6 @@ const EmpDetails = ({ excelData, fileName }) => {
     }
   };
 
- 
   return (
     <div className="custom-grid h-100vh">
       <Sidebar />
@@ -268,34 +265,20 @@ const EmpDetails = ({ excelData, fileName }) => {
                 <div className="col-12 col-md-12 col-lg-8">
                   <div className="d-flex align-items-center justify-content-between">
                     <div className="dropdown show">
-                      <a
-                        className="btn bg-dark-primary dropdown-toggle"
-                        href="#"
-                        role="button"
-                        id="dropdownMenuLink"
-                        data-toggle="dropdown"
-                        aria-haspopup="true"
-                        aria-expanded="false"
+                      <select
+                        aria-label="Default select example"
+                        className="btn bg-dark-primary text-color-white"
+                        onChange={(event) => {
+                          handleDepartmentData(event.target.value);
+                        }}
                       >
-                        Department
-                      </a>
-                      <div
-                        className="dropdown-menu"
-                        aria-labelledby="dropdownMenuLink"
-                      >
+                        <option>Department</option>
                         {depNames.map((dep, i) => (
-                          <a
-                            key={i}
-                            className="dropdown-item"
-                            href="#"
-                            onClick={() => {
-                              handleDepartmentData(dep._id.department);
-                            }}
-                          >
+                          <option key={i} value={dep._id.department}>
                             {dep._id.department}
-                          </a>
+                          </option>
                         ))}
-                      </div>
+                      </select>
                     </div>
                     <p className="">
                       <button
@@ -388,7 +371,7 @@ const EmpDetails = ({ excelData, fileName }) => {
                                     autoComplete="off"
                                   />
                                 </div>
-                               
+
                                 <div className="px-2 mb-3 w-50 d-inline-block">
                                   <Form.Label className="fw-h7 mb-1">
                                     Password
@@ -579,7 +562,6 @@ const EmpDetails = ({ excelData, fileName }) => {
               </tbody>
             </table>
           </div>
-
         </div>
       </div>
       <form>
@@ -593,8 +575,13 @@ const EmpDetails = ({ excelData, fileName }) => {
             <Modal.Title>Add Excel Sheet</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <input type="file" name="file" id="excel-file-id"
-            accept=".xls,.xlsx" onChange={handleSheet} />
+            <input
+              type="file"
+              name="file"
+              id="excel-file-id"
+              accept=".xls,.xlsx"
+              onChange={handleSheet}
+            />
           </Modal.Body>
           <Modal.Footer>
             <Tooltip title="Excel Sheet">

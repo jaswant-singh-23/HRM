@@ -10,14 +10,15 @@ import { useSelector } from "react-redux";
 import { Modal, Form, Button } from "react-bootstrap";
 import { logout } from "../actions/auth";
 import moment from "moment";
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as Yup from 'yup';
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as Yup from "yup";
 import Toast from "../../src/shared/Toast";
 
 const Profile = () => {
   const [userField, setUserField] = useState({});
   const [content, setContent] = useState([]);
+  const [todayBirthDay, setTodayBirthDay] = useState([]);
   const [imgName, setImgName] = useState("");
   const [file, setFile] = useState("");
   const [upload, setUpload] = useState(false);
@@ -33,24 +34,23 @@ const Profile = () => {
   const [toDate, setToDate] = useState("");
   const [fromDate, setFromDate] = useState("");
 
-
   const validationSchema = Yup.object().shape({
     currentPassword: Yup.string()
-      .required('Password is required')
-      .min(6, 'Password must be at least 6 characters')
-      .max(40, 'Password must not exceed 40 characters'),
+      .required("Password is required")
+      .min(6, "Password must be at least 6 characters")
+      .max(40, "Password must not exceed 40 characters"),
     confirmPassword: Yup.string()
-      .required('Confirm Password is required')
-      .oneOf([Yup.ref('password'), null], 'Confirm Password does not match'),
-    acceptTerms: Yup.bool().oneOf([true], 'Accept Terms is required')
+      .required("Confirm Password is required")
+      .oneOf([Yup.ref("password"), null], "Confirm Password does not match"),
+    acceptTerms: Yup.bool().oneOf([true], "Accept Terms is required"),
   });
   const {
     register,
-    formState: { errors }
+    formState: { errors },
   } = useForm({
-    resolver: yupResolver(validationSchema)
+    resolver: yupResolver(validationSchema),
   });
-  const onSubmit = data => {
+  const onSubmit = (data) => {
     console.log(JSON.stringify(data, null, 2));
   };
 
@@ -59,11 +59,11 @@ const Profile = () => {
       college: college,
       class: classs,
       department: department,
-      grade: grade
-    }
-    console.log(data)
+      grade: grade,
+    };
+    console.log(data);
     setEducationInfoShow(false);
-  }
+  };
   const handleCurrentPassword = (e) => {
     const currentPassword = e.target.value;
     setCurrentPassword(currentPassword);
@@ -80,7 +80,6 @@ const Profile = () => {
     setUpload(!upload.true);
   };
   const { user: currentUser } = useSelector((state) => state.auth);
-
 
   const [image, setImage] = useState({ preview: "", raw: "" });
 
@@ -111,7 +110,7 @@ const Profile = () => {
       .uploadImage(formData)
       .then((response) => {
         console.log(response);
-        Toast.success(response.data.message)
+        Toast.success(response.data.message);
       })
       .catch((error) => {
         const resMessage =
@@ -203,9 +202,9 @@ const Profile = () => {
     userService
       .upComingBirthday()
       .then((response) => {
-        console.log(response, "-----------------")
-        setContent(response.data.upcomingBirthdays
-        );
+        console.log(response, "-----------------");
+        setContent(response.data.upcomingBirthdays);
+        setTodayBirthDay(response.data.todayBirthdays);
       })
       .catch((error) => {
         const resMessage =
@@ -216,7 +215,6 @@ const Profile = () => {
           error.toString();
       });
   }, []);
-
 
   ////////////// Personal Info Modal ////////////////////
 
@@ -264,7 +262,7 @@ const Profile = () => {
   // };
 
   // handle click event of the Remove button
-  const handleRemoveClick = index => {
+  const handleRemoveClick = (index) => {
     const list = [...inputList];
     list.splice(index, 1);
     setInputList(list);
@@ -389,17 +387,17 @@ const Profile = () => {
                         Logout
                       </a>
                     </div>
-                    <Modal centered show={addShow} onHide={handleAddClose} >
+                    <Modal centered show={addShow} onHide={handleAddClose}>
                       <Modal.Header closeButton>
                         <Modal.Title>Update Password</Modal.Title>
                       </Modal.Header>
                       <Modal.Body>
-                        <Form  >
+                        <Form>
                           <div className="form-group mb-3">
                             <label htmlFor="username">Current Password</label>
                             <input
                               type="password"
-                              className={'form-control'}
+                              className={"form-control"}
                               name="currentPassword"
                               onChange={handleCurrentPassword}
                               value={currentPassword}
@@ -411,29 +409,34 @@ const Profile = () => {
                             <input
                               type="password"
                               name="newPassword"
-                              className={'form-control'}
+                              className={"form-control"}
                               onChange={handleNewPassword}
                               value={newPassword}
                             />
                           </div>
 
                           <div className="form-group mb-3">
-                            <label htmlFor="username">Confirm New Password</label>
+                            <label htmlFor="username">
+                              Confirm New Password
+                            </label>
                             <input
                               type="password"
                               name="confirmNewPassword"
-                              className={'form-control'}
+                              className={"form-control"}
                               onChange={handleConfirmNewPasword}
                               value={confirmNewPassword}
                             />
                           </div>
-
                         </Form>
                       </Modal.Body>
                       <Modal.Footer>
                         <Button
                           className=" btn-primary bg-dark-primary py-1 px-4"
-                          disabled={currentPassword && newPassword == confirmNewPassword ? false : true}
+                          disabled={
+                            currentPassword && newPassword == confirmNewPassword
+                              ? false
+                              : true
+                          }
                         >
                           Submit
                         </Button>
@@ -442,29 +445,46 @@ const Profile = () => {
                   </div>
                 </div>
               </div>
-              {(content == null || content.length >= 1) && (
+              {(content != null ||
+                content.length >= 1 ||
+                todayBirthDay.length >= 1) && (
                 <div className="card mt-4">
                   <div className="col-12 profile-badge bg-white p-2 mt-3">
-                    <h3 className="text-center mb-2">
-                      🍨Upcoming Birthdays🍨
-                    </h3>
+                    <h3 className="text-center mb-2">🍨Upcoming Birthdays🍨</h3>
                   </div>
 
-                  {
-                    content.map((data, i) => (
+                  {todayBirthDay.length >= 1 &&
+                    todayBirthDay.map((data, i) => (
                       <div key={i} className="card mt-3">
                         <div className="list-group list-group-flush">
                           <div className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                             <h6 className="mb-0">
-                              {data.user.name} ({data.user.designation})
+                              {data.name} ({data.designation})
                             </h6>
-                            <span className="text-secondary">{data.user.birthDay}{(moment().month(data.user.birthMonth - 1).format("-MMMM"))}</span>
+                            <span className="text-secondary">
+                              Today
+                            </span>
                           </div>
                         </div>
                       </div>
-                    ))
-                  }
-
+                    ))}
+                  {content.map((data, i) => (
+                    <div key={i} className="card mt-3">
+                      <div className="list-group list-group-flush">
+                        <div className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                          <h6 className="mb-0">
+                            {data.user.name} ({data.user.designation})
+                          </h6>
+                          <span className="text-secondary">
+                            {data.user.birthDay}
+                            {moment()
+                              .month(data.user.birthMonth - 1)
+                              .format("-MMMM")}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               )}
             </div>
@@ -927,85 +947,111 @@ const Profile = () => {
                                   {inputList.map((x, i) => {
                                     return (
                                       <div className="box px-2 mb-3 w-100 d-inline-block">
-                                        <div className="d-flex justify-content-between " >
-                                          <div >
+                                        <div className="d-flex justify-content-between ">
+                                          <div>
                                             <Form.Label>College</Form.Label>
                                             <Form.Control
-                                              type='Form.Control'
+                                              type="Form.Control"
                                               name="college"
                                               placeholder="Enter College Name"
                                               value={college}
-                                              onChange={(e) => setCollege(e.target.value)}
+                                              onChange={(e) =>
+                                                setCollege(e.target.value)
+                                              }
                                             />
                                           </div>
                                           <div>
                                             <Form.Label>Class</Form.Label>
                                             <Form.Control
-                                              type='Form.Control'
+                                              type="Form.Control"
                                               name="class"
                                               className="ml10"
                                               placeholder="Enter Class Name"
                                               value={classs}
-                                              onChange={(e) => setClasss(e.target.value)}
+                                              onChange={(e) =>
+                                                setClasss(e.target.value)
+                                              }
                                             />
-                                          </div></div>
-                                        <div className="d-flex justify-content-between " >
-                                          <div >
+                                          </div>
+                                        </div>
+                                        <div className="d-flex justify-content-between ">
+                                          <div>
                                             <Form.Label>Department</Form.Label>
                                             <Form.Control
-                                              type='text'
+                                              type="text"
                                               name="department"
                                               placeholder="Enter Department Name"
                                               value={department}
-                                              onChange={(e) => setDepartment(e.target.value)}
+                                              onChange={(e) =>
+                                                setDepartment(e.target.value)
+                                              }
                                             />
                                           </div>
                                           <div>
                                             <Form.Label>Grade</Form.Label>
                                             <Form.Control
-                                              type='text'
+                                              type="text"
                                               className="ml10"
                                               name="grade"
                                               placeholder="Enter Grade Name"
                                               value={grade}
-                                              onChange={(e) => setGrade(e.target.value)}
+                                              onChange={(e) =>
+                                                setGrade(e.target.value)
+                                              }
                                             />
-                                          </div></div>
-                                        <div className="d-flex justify-content-between " >
-                                          <div >
+                                          </div>
+                                        </div>
+                                        <div className="d-flex justify-content-between ">
+                                          <div>
                                             <Form.Label>From</Form.Label>
                                             <Form.Control
-                                              type='date'
+                                              type="date"
                                               name="date"
                                               placeholder="Enter Date"
                                               value={fromDate}
-                                              onChange={(e) => setFromDate(e.target.value)}
+                                              onChange={(e) =>
+                                                setFromDate(e.target.value)
+                                              }
                                             />
                                           </div>
                                           <div>
                                             <Form.Label>To</Form.Label>
                                             <Form.Control
-                                              type='date'
+                                              type="date"
                                               className="ml10"
                                               name="date"
                                               placeholder="Enter Date"
                                               value={toDate}
-                                              onChange={(e) => setToDate(e.target.value)}
+                                              onChange={(e) =>
+                                                setToDate(e.target.value)
+                                              }
                                             />
-                                          </div></div>
+                                          </div>
+                                        </div>
                                         <div className="btn-box">
-                                          {inputList.length !== 1 && <button
-                                            className="bg-dark-primary me-2 mt-2"
-                                            onClick={() => handleRemoveClick(i)}>Remove</button>}
-                                          {inputList.length - 1 === i && <button className="bg-dark-primary mt-2" onClick={handleAddClick}>➕ Add More</button>}
+                                          {inputList.length !== 1 && (
+                                            <button
+                                              className="bg-dark-primary me-2 mt-2"
+                                              onClick={() =>
+                                                handleRemoveClick(i)
+                                              }
+                                            >
+                                              Remove
+                                            </button>
+                                          )}
+                                          {inputList.length - 1 === i && (
+                                            <button
+                                              className="bg-dark-primary mt-2"
+                                              onClick={handleAddClick}
+                                            >
+                                              ➕ Add More
+                                            </button>
+                                          )}
                                         </div>
                                       </div>
-
                                     );
                                   })}
-
                                 </div>
-
                               </Form.Group>
                             </Form>
                           </Modal.Body>
@@ -1067,7 +1113,10 @@ const Profile = () => {
                         >
                           <i className="fa fa-pencil"></i>
                         </Button>
-                        <Modal show={experienceShow} onHide={experiencehandleAdd}>
+                        <Modal
+                          show={experienceShow}
+                          onHide={experiencehandleAdd}
+                        >
                           <Modal.Header closeButton>
                             <Modal.Title>Experience</Modal.Title>
                           </Modal.Header>
@@ -1099,6 +1148,7 @@ const Profile = () => {
                             </Button>
                           </Modal.Footer>
                         </Modal>
+                        <hr />
                       </h3>
                       <div className="experience-box">
                         <ul className="experience-list position-relative p-0">
@@ -1159,6 +1209,7 @@ const Profile = () => {
                     <div className="card-body">
                       <h3 className="card-title">Bank information</h3>
                       <div className="personal-info">
+                        <hr />
                         <li>
                           <div className="title mb-1">Bank name</div>
                           <div className="text mb-1">ICICI Bank</div>
@@ -1194,7 +1245,10 @@ const Profile = () => {
                         >
                           <i className="fa fa-pencil"></i>
                         </Button>
-                        <Modal show={familyInfoShow} onHide={familyInfohandleAdd}>
+                        <Modal
+                          show={familyInfoShow}
+                          onHide={familyInfohandleAdd}
+                        >
                           <Modal.Header closeButton>
                             <Modal.Title>Family Informations</Modal.Title>
                           </Modal.Header>
@@ -1245,6 +1299,7 @@ const Profile = () => {
                             </Button>
                           </Modal.Footer>
                         </Modal>
+                        <hr />
                       </h3>
                       <div className="table-responsive">
                         <table className="table table-nowrap">
@@ -1259,7 +1314,7 @@ const Profile = () => {
                           </thead>
                           <tbody>
                             <tr>
-                              <td>Leo</td>
+                              <td>Ranvijay Hans</td>
                               <td>Brother</td>
                               <td>Feb 16th, 2019</td>
                               <td>9876543210</td>
@@ -1309,15 +1364,21 @@ const Profile = () => {
                   </div>
                 </div>
                 <div className="position-relative text-align-right h-100 w-100 mt-4">
-                  <iframe style={{ width: "100%", height: "400px" }} src="https://maps.google.com/maps?q=ameotech &t=&z=10&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                  <iframe
+                    style={{ width: "100%", height: "400px" }}
+                    src="https://maps.google.com/maps?q=ameotech &t=&z=10&ie=UTF8&iwloc=&output=embed"
+                    frameborder="0"
+                    scrolling="no"
+                    marginheight="0"
+                    marginwidth="0"
+                  ></iframe>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
       </div>
-    </div >
+    </div>
   );
 };
 
