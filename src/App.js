@@ -50,6 +50,7 @@ import Chats from "./components/Chats";
 import Welfare from "./HRM/Pages/Welfare";
 import AttandanceMangement from "./HRM/Pages/AttandanceMangement";
 import Attendance from "./components/Attendance";
+import { AnimatePresence } from 'framer-motion';
 
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
@@ -185,6 +186,7 @@ const App = () => {
 
       <div className="container-fluid p-0">
         <ToastContainer />
+        <AnimatePresence>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route
@@ -352,6 +354,7 @@ const App = () => {
             }
           />
         </Routes>
+        </AnimatePresence>
       </div>
     </div>
   );

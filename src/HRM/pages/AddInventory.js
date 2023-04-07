@@ -1,8 +1,8 @@
 import React, { useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import Sidebar from '../Shared/Sidebar';
+import Sidebar from "../Shared/Sidebar";
 import { useFormik } from "formik";
-import * as Yup from 'yup';
+import * as Yup from "yup";
 import userService from "../../services/user.service";
 import Select from "react-select";
 import swal from "sweetalert";
@@ -37,28 +37,27 @@ const AddInventory = () => {
   const [itemName, setItemName] = useState();
   // const [selectedOptions, setSelectedOptions] = useState();
 
-
   const handleUsername = (e) => {
     const username = e.target.value;
-    setUsername(username)
-  }
+    setUsername(username);
+  };
   const handleEmail = (e) => {
     const email = e.target.value;
-    setEmail(email)
-  }
+    setEmail(email);
+  };
   const handleTotalItems = (e) => {
     const totalItems = e.target.value;
-    setTotalItems(totalItems)
-  }
+    setTotalItems(totalItems);
+  };
   const handleSelect = (data) => {
     setItemName(data);
-  }
+  };
   const handleUpload = (e) => {
     e.preventDefault();
 
     // console.log(itemName);
     // if (
-    //   formik.values.username != " " && 
+    //   formik.values.username != " " &&
     //   formik.values.email != " " &&
     //   formik.values.totalItems != " "
     // ){
@@ -67,21 +66,32 @@ const AddInventory = () => {
     //   const totalItems = formik.values.number;
     const data = {
       username: username,
-      email :email,
-      totalItems:totalItems,
-      itemName:itemName,
+      email: email,
+      totalItems: totalItems,
+      itemName: itemName,
     };
     console.log(data);
-    userService.AddInventory(data).then((response) => {
-      // setMessage(response.data.data)
-      const resMsg = response.message
-      swal({
-        title: "Success!",
-        text: resMsg,
-        icon: "success",
-      })
-      // navigate("/inventory-control")
-    },
+    userService.AddInventory(data).then(
+      (response) => {
+        // setMessage(response.data.data)
+        if (response) {
+          const resMsg = response.data.message;
+          if (response.data.status.toUpperCase() == "SUCCESS") {
+            swal({
+              title: "Success!",
+              text: resMsg,
+              icon: "success",
+            });
+            navigate("/inventory-control");
+          } else {
+            swal({
+              title: "Error!",
+              text: resMsg,
+              icon: "error",
+            });
+          }
+        }
+      },
       (error) => {
         const resMessage =
           (error.response &&
@@ -89,12 +99,12 @@ const AddInventory = () => {
             error.response.data.message) ||
           error.message ||
           error.toString();
-        setMessage(resMessage);
+        // setMessage(resMessage);
         swal({
           title: "Error!",
           text: resMessage,
           icon: "error",
-        })
+        });
       }
     );
   };
@@ -111,13 +121,10 @@ const AddInventory = () => {
               <input
                 type="text"
                 name="username"
-                className={
-                  'form-control'
-                }
+                className={"form-control"}
                 onChange={handleUsername}
                 value={username}
               />
-
             </div>
 
             <div className="form-group mb-3">
@@ -125,9 +132,7 @@ const AddInventory = () => {
               <input
                 type="text"
                 name="email"
-                className={
-                  'form-control'
-                }
+                className={"form-control"}
                 onChange={handleEmail}
                 value={email}
               />
@@ -138,16 +143,14 @@ const AddInventory = () => {
               <input
                 type="number"
                 name="totalItems"
-                className={
-                  'form-control'
-                }
+                className={"form-control"}
                 onChange={handleTotalItems}
                 value={totalItems}
               />
             </div>
 
             <label htmlFor="password">Items Name</label>
-             {/* <div className="d-flex justify-content-between">
+            {/* <div className="d-flex justify-content-between">
               <div className="form-check">
                 <input
                   className=
@@ -213,15 +216,18 @@ const AddInventory = () => {
                 isMulti
               />
             </div>
-            
+
             <div className="form-group">
-              <button type="sumbit" onClick={handleUpload} className="btn bg-dark-primary text-white btn-block mt-2">
+              <button
+                type="sumbit"
+                onClick={handleUpload}
+                className="btn bg-dark-primary text-white btn-block mt-2"
+              >
                 <span>Upload</span>
               </button>
             </div>
-              
-            {
-              message && (
+
+            {message && (
                 <div className="form-group">
                   <div className="alert alert-danger mt-3" role="alert">
                     {message}
@@ -233,13 +239,11 @@ const AddInventory = () => {
                     {message}
                   </div>
                 </div>
-              )
-            }
+              )}
           </form>
         </div>
       </div>
-
     </div>
-  )
-}
+  );
+};
 export default AddInventory;

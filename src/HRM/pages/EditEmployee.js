@@ -335,7 +335,9 @@ const EditEmployee = (props) => {
                         onChange={(e) => {
                           setDateOfJoining(e.target.value);
                         }}
+                        
                         defaultValue={moment(content.dateofjoining).format("YYYY-MM-DD")}
+                        // defaultValue={"2010-03-12"}
                       />
                     </div>
                   </div>

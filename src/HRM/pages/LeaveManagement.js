@@ -81,7 +81,7 @@ const LeaveManagementLeader = () => {
       leaveStatus: "Approved",
       fromDate: items.fromDate,
       toDate: items.toDate,
-      rejectReason: " ",
+      rejectReason: "",
     };
     userService
       .leaveReply(data)
