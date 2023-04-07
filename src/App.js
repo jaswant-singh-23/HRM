@@ -51,6 +51,7 @@ import Welfare from "./HRM/Pages/Welfare";
 import AttandanceMangement from "./HRM/Pages/AttandanceMangement";
 import Attendance from "./components/Attendance";
 import { AnimatePresence } from 'framer-motion';
+import Map from "./components/Map";
 
 const App = () => {
   const [showModeratorBoard, setShowModeratorBoard] = useState(false);
@@ -254,6 +255,14 @@ const App = () => {
             element={
               <PrivateRoute>
                 <Leave />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/map"
+            element={
+              <PrivateRoute>
+                <Map />
               </PrivateRoute>
             }
           />

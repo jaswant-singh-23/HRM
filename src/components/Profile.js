@@ -14,6 +14,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import Toast from "../../src/shared/Toast";
+import LogoImg from "../assets/images/Ameo.Logo.jpg";
 
 const Profile = () => {
   const [userField, setUserField] = useState({});
@@ -285,42 +286,184 @@ const Profile = () => {
             </h3>
           </div>
           <div className="row gutters-sm mt-4">
+            <div className="col-md-8">
+              <div className="card mb-3">
+                <div className="card-body">
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <h6 className="mb-0">Name</h6>
+                    </div>
+                    <div className="col-sm-9 text-secondary">
+                      {userField.name ? userField.name : "Not Yet"}
+                    </div>
+                  </div>
+                  <hr />
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <h6 className="mb-0">Email</h6>
+                    </div>
+                    <div className="col-sm-9 text-secondary">
+                      {userField.email ? userField.email : "Not Yet"}
+                    </div>
+                  </div>
+                  <hr />
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <h6 className="mb-0">Username</h6>
+                    </div>
+                    <div className="col-sm-9 text-secondary">
+                      {userField.username ? userField.username : "Not Yet"}
+                    </div>
+                  </div>
+                  <hr />
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <h6 className="mb-0">Mobile</h6>
+                    </div>
+                    <div className="col-sm-9 text-secondary">
+                      {userField.phone ? userField.phone : "Not Yet"}
+                    </div>
+                  </div>
+                  <hr />
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <h6 className="mb-0">DOB</h6>
+                    </div>
+                    <div className="col-sm-9 text-secondary">
+                      {userField.dateofbirth
+                        ? moment(userField.dateofbirth).format("MM-DD-YYYY")
+                        : "Not Yet"}
+                    </div>
+                  </div>
+                  <hr />
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <h6 className="mb-0">Address</h6>
+                    </div>
+                    <div className="col-sm-9 text-secondary">
+                      {userField.address ? userField.address : "Not Yet"}
+                    </div>
+                  </div>
+                  <hr />
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <h6 className="mb-0">Department</h6>
+                    </div>
+                    <div className="col-sm-9 text-secondary">
+                      {userField.department ? userField.department : "Not Yet"}
+                    </div>
+                  </div>
+                  <hr />
+                  <div className="row">
+                    <div className="col-sm-3">
+                      <h6 className="mb-0">Date of Joining</h6>
+                    </div>
+                    <div className="col-sm-9 text-secondary">
+                      {userField.dateofjoining
+                        ? moment(userField.dateofjoining).format("MM-DD-YYYY")
+                        : "Not Yet"}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="row gutters-sm" style={{ display: "none" }}>
+                <div className="col-sm-12 mb-3">
+                  <div className="card h-100">
+                    <div className="card-body">
+                      <h6 className="d-flex align-items-center mb-3">
+                        <i className="material-icons text-info mr-2">
+                          assignment
+                        </i>
+                        Project Status
+                      </h6>
+                      <small>Web Design</small>
+                      <div className="progress height5 mb-3">
+                        <div
+                          className="progress-bar bg-primary"
+                          role="progressbar"
+                          aria-valuenow="80"
+                          aria-valuemin="0"
+                          aria-valuemax="100"
+                        ></div>
+                      </div>
+                      <small>Website Markup</small>
+                      <div className="progress height5 mb-3">
+                        <div
+                          className="progress-bar bg-primary"
+                          role="progressbar"
+                          aria-valuenow="72"
+                          aria-valuemin="0"
+                          aria-valuemax="100"
+                        ></div>
+                      </div>
+                      <small>One Page</small>
+                      <div className="progress height5 mb-3">
+                        <div
+                          className="progress-bar bg-primary"
+                          role="progressbar"
+                          aria-valuenow="89"
+                          aria-valuemin="0"
+                          aria-valuemax="100"
+                        ></div>
+                      </div>
+                      <small>Mobile Template</small>
+                      <div className="progress height5 mb-3">
+                        <div
+                          className="progress-bar bg-primary"
+                          role="progressbar"
+                          aria-valuenow="55"
+                          aria-valuemin="0"
+                          aria-valuemax="100"
+                        ></div>
+                      </div>
+                      <small>Backend API</small>
+                      <div className="progress height5 mb-3">
+                        <div
+                          className="progress-bar bg-primary"
+                          role="progressbar"
+                          aria-valuenow="66"
+                          aria-valuemin="0"
+                          aria-valuemax="100"
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
             <div className="col-md-4 mb-3">
               <div className="card">
                 <div className="card-body">
                   <div className="d-flex flex-column align-items-center text-center">
                     <div>
                       <label htmlFor="upload-button">
-                        {image.preview ? (
-                          <div className="position-relative upload-img-sec">
-                            <div className="upload-img-cover rounded-circle">
-                              <img
-                                src={image.preview}
-                                alt="dummy"
-                                width="100%"
-                                height="100%"
-                              />
+                        <div className="position-relative upload-img-sec">
+                          <div className="upload-img-cover rounded-circle">
+                            <img
+                              src={
+                                image.preview
+                                  ? image.preview
+                                  : userField.avatar
+                                  ? userField.avatar
+                                  : LogoImg
+                              }
+                              alt="Profile Pic"
+                              width="100%"
+                              height="100%"
+                            />
+                            <div className="profileImage">
+                              {imgName ? imgName : ""}
                             </div>
+                          </div>
 
-                            <div className="position-absolute upload-img-inner ">
-                              <i className="fas fa-camera text-white fw-5 rounded-circle d-flex align-items-center justify-content-center"></i>
-                            </div>
+                          <div
+                            className="position-absolute upload-img-inner "
+                            onClick={uploadButton}
+                          >
+                            <i className="fas fa-camera text-white fw-5 rounded-circle d-flex align-items-center justify-content-center"></i>
                           </div>
-                        ) : (
-                          <div className="position-relative upload-img-sec">
-                            <div className="upload-img-cover rounded-circle">
-                              <img src={userField.avatar} />
-                              <div className="profileImage">{imgName}</div>
-                            </div>
-                            <div
-                              className="position-absolute upload-img-inner "
-                              onClick={uploadButton}
-                            >
-                              <i className="fas fa-camera text-white fw-5 rounded-circle d-flex align-items-center justify-content-center"></i>
-                            </div>
-                            <h5 className="text-center"></h5>
-                          </div>
-                        )}
+                        </div>
                       </label>
                       <input
                         type="file"
@@ -333,9 +476,6 @@ const Profile = () => {
                       <p className="text-secondary mb-3">
                         {userField.designation}
                       </p>
-                      {/* <p className="text-muted font-size-sm">
-                        {userField.address}
-                      </p> */}
                       <div
                         className="text-center"
                         style={{ display: upload ? "block" : "none" }}
@@ -450,35 +590,35 @@ const Profile = () => {
                 todayBirthDay.length >= 1) && (
                 <div className="card mt-4">
                   <div className="col-12 profile-badge bg-white p-2 mt-3">
-                    <h3 className="text-center mb-2">🍨Upcoming Birthdays🍨</h3>
+                    <h3 className="text-center mb-2">🍨 Birthdays 🍨</h3>
                   </div>
-
                   {todayBirthDay.length >= 1 &&
                     todayBirthDay.map((data, i) => (
                       <div key={i} className="card mt-3">
                         <div className="list-group list-group-flush">
                           <div className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                            <h6 className="mb-0">
+                            <h6 className="mb-0 fw-bold">
                               {data.name} ({data.designation})
                             </h6>
-                            <span className="text-secondary">
+                            <span className="text-secondary fw-bold">
                               Today
                             </span>
                           </div>
                         </div>
                       </div>
                     ))}
+
                   {content.map((data, i) => (
                     <div key={i} className="card mt-3">
                       <div className="list-group list-group-flush">
                         <div className="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                           <h6 className="mb-0">
-                            {data.user.name} ({data.user.designation})
+                            {data.name} ({data.designation})
                           </h6>
                           <span className="text-secondary">
-                            {data.user.birthDay}
+                            {data.birthDay}
                             {moment()
-                              .month(data.user.birthMonth - 1)
+                              .month(data.birthMonth - 1)
                               .format("-MMMM")}
                           </span>
                         </div>
@@ -488,894 +628,467 @@ const Profile = () => {
                 </div>
               )}
             </div>
-            <div className="col-md-8">
-              <div className="card mb-3">
-                <div className="card-body">
-                  <div className="row">
-                    <div className="col-sm-3">
-                      <h6 className="mb-0">Name</h6>
-                    </div>
-                    <div className="col-sm-9 text-secondary">
-                      {userField.name}
-                    </div>
-                  </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col-sm-3">
-                      <h6 className="mb-0">Email</h6>
-                    </div>
-                    <div className="col-sm-9 text-secondary">
-                      {userField.email}
-                    </div>
-                  </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col-sm-3">
-                      <h6 className="mb-0">Username</h6>
-                    </div>
-                    <div className="col-sm-9 text-secondary">
-                      {userField.username}
-                    </div>
-                  </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col-sm-3">
-                      <h6 className="mb-0">Mobile</h6>
-                    </div>
-                    <div className="col-sm-9 text-secondary">
-                      {userField.phone}
-                    </div>
-                  </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col-sm-3">
-                      <h6 className="mb-0">DOB</h6>
-                    </div>
-                    <div className="col-sm-9 text-secondary">
-                      {moment(userField.dateofbirth).format("MM-DD-YYYY")}
-                    </div>
-                  </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col-sm-3">
-                      <h6 className="mb-0">Address</h6>
-                    </div>
-                    <div className="col-sm-9 text-secondary">
-                      {userField.address}
-                    </div>
-                  </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col-sm-3">
-                      <h6 className="mb-0">Department</h6>
-                    </div>
-                    <div className="col-sm-9 text-secondary">
-                      {userField.department}
-                    </div>
-                  </div>
-                  <hr />
-                  <div className="row">
-                    <div className="col-sm-3">
-                      <h6 className="mb-0">Date of Joining</h6>
-                    </div>
-                    <div className="col-sm-9 text-secondary">
-                      {moment(userField.dateofjoining).format("MM-DD-YYYY")}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="row gutters-sm" style={{ display: "none" }}>
-                <div className="col-sm-12 mb-3">
-                  <div className="card h-100">
-                    <div className="card-body">
-                      <h6 className="d-flex align-items-center mb-3">
-                        <i className="material-icons text-info mr-2">
-                          assignment
-                        </i>
-                        Project Status
-                      </h6>
-                      <small>Web Design</small>
-                      <div className="progress height5 mb-3">
-                        <div
-                          className="progress-bar bg-primary"
-                          role="progressbar"
-                          aria-valuenow="80"
-                          aria-valuemin="0"
-                          aria-valuemax="100"
-                        ></div>
-                      </div>
-                      <small>Website Markup</small>
-                      <div className="progress height5 mb-3">
-                        <div
-                          className="progress-bar bg-primary"
-                          role="progressbar"
-                          aria-valuenow="72"
-                          aria-valuemin="0"
-                          aria-valuemax="100"
-                        ></div>
-                      </div>
-                      <small>One Page</small>
-                      <div className="progress height5 mb-3">
-                        <div
-                          className="progress-bar bg-primary"
-                          role="progressbar"
-                          aria-valuenow="89"
-                          aria-valuemin="0"
-                          aria-valuemax="100"
-                        ></div>
-                      </div>
-                      <small>Mobile Template</small>
-                      <div className="progress height5 mb-3">
-                        <div
-                          className="progress-bar bg-primary"
-                          role="progressbar"
-                          aria-valuenow="55"
-                          aria-valuemin="0"
-                          aria-valuemax="100"
-                        ></div>
-                      </div>
-                      <small>Backend API</small>
-                      <div className="progress height5 mb-3">
-                        <div
-                          className="progress-bar bg-primary"
-                          role="progressbar"
-                          aria-valuenow="66"
-                          aria-valuemin="0"
-                          aria-valuemax="100"
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
-          <div className="col-12 profile-badge bg-gray pt-2">
-            <div
-              id="emp_profile"
-              className="pro-overview tab-pane fade show active"
-            >
-              {/*<div className="row">
-              <div className="col-12 col-lg-6 d-flex mb-4 mb-lg-0">
-                <div className="card profile-box flex-fill">
-                  <div className="card-body">
-                    <h3 className="card-title">
-                      Personal Informations
-                      <Button
-                        href="javascript:;"
-                        className="edit-icon"
-                        data-bs-toggle="modal"
-                        data-bs-target="#personal_info_modal"
-                        variant="primary"
-                        onClick={handleShow}
-                      >
-                        <i className="fa fa-pencil"></i>
-                      </Button>
-                      <Modal show={show} onHide={handleClose}>
-                        <Modal.Header closeButton>
-                          <Modal.Title>Personal Informations</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                          <Form>
-                            <Form.Group controlId="exampleForm.ControlInput1">
-                              <div className="px-2 mb-3 w-50 d-inline-block">
-                                <Form.Label>Passport No</Form.Label>
-                                <Form.Control
-                                  type="text"
-                                  // placeholder="name@example.com"
-                                  autoFocus
-                                />
-                              </div>
-                              <div className="px-2 mb-3 w-50 d-inline-block">
-                                <Form.Label>Passport Expiry Date</Form.Label>
-                                <Form.Control
-                                  type="date"
-                                  // placeholder="name@example.com"
-                                  autoFocus
-                                />
-                              </div>
-                              <div className="px-2 mb-3 w-50 d-inline-block">
-                                <Form.Label>Mobile No.</Form.Label>
-                                <Form.Control
-                                  type="number"
-                                  // placeholder="name@example.com"
-                                  autoFocus
-                                />
-                              </div>
-                              <div className="px-2 mb-3 w-50 d-inline-block">
-                                <Form.Label>Nationality *</Form.Label>
-                                <Form.Control
-                                  type="text"
-                                  // placeholder="name@example.com"
-                                  autoFocus
-                                />
-                              </div>
-                              <div className="px-2 mb-3 w-50 d-inline-block">
-                                <Form.Label>Religion</Form.Label>
-                                <Form.Control
-                                  type="text"
-                                  // placeholder="name@example.com"
-                                  autoFocus
-                                />
-                              </div>
-                              <div className="px-2 mb-3 w-50 d-inline-block">
-                                <Form.Label>Marital status *</Form.Label>
-                                <Form.Control
-                                  type="text"
-                                  // placeholder="name@example.com"
-                                  autoFocus
-                                />
-                              </div>
-                              <div className="px-2 mb-3 w-50 d-inline-block">
-                                <Form.Label>Employment of spouse</Form.Label>
-                                <Form.Control
-                                  type="text"
-                                  // placeholder="name@example.com"
-                                  autoFocus
-                                />
-                              </div>
-                              <div className="px-2 mb-3 w-50 d-inline-block">
-                                <Form.Label>No. of children</Form.Label>
-                                <Form.Control
-                                  type="text"
-                                  // placeholder="name@example.com"
-                                  autoFocus
-                                />
-                              </div>
-                            </Form.Group>
-                          </Form>
-                        </Modal.Body>
-                        <Modal.Footer>
-                          <Button variant="primary" onClick={handleClose}>
-                            Save Changes
+          {Object.keys(userField).length >= 1 && (
+            <div className="col-12 profile-badge bg-gray pt-2">
+              <div
+                id="emp_profile"
+                className="pro-overview tab-pane fade show active"
+              >
+                <div className="row ">
+                  <div className="col-12 col-lg-6 d-flex mb-4 mb-lg-0">
+                    <div className="card profile-box flex-fill">
+                      <div className="card-body">
+                        <h3 className="card-title">
+                          Education Informations
+                          <Button
+                            href="javascript:;"
+                            className="edit-icon"
+                            data-bs-toggle="modal"
+                            data-bs-target="#education_info"
+                            variant="primary"
+                            onClick={educationInfohandleShow}
+                          >
+                            <i className="fa fa-pencil"></i>
                           </Button>
-                        </Modal.Footer>
-                      </Modal>
-                    </h3>
-                    <div className="personal-info">
-                      <li>
-                        <div className="title mb-1">Passport No.</div>
-                        <div className="text mb-1">9876543210</div>
-                      </li>
-                      <li>
-                        <div className="title mb-1">Passport Exp Date.</div>
-                        <div className="text mb-1">9876543210</div>
-                      </li>
-                      <li>
-                        <div className="title mb-1">Tel</div>
-                        <div className="text mb-1">
-                          <a href="">9876543210</a>
-                        </div>
-                      </li>
-                      <li>
-                        <div className="title mb-1">Nationality</div>
-                        <div className="text mb-1">Indian</div>
-                      </li>
-                      <li>
-                        <div className="title mb-1">Religion</div>
-                        <div className="text mb-1">Christian</div>
-                      </li>
-                      <li>
-                        <div className="title mb-1">Marital status</div>
-                        <div className="text mb-1">Married</div>
-                      </li>
-                      <li>
-                        <div className="title mb-1">Employment of spouse</div>
-                        <div className="text mb-1">No</div>
-                      </li>
-                      <li>
-                        <div className="title mb-1">No. of children</div>
-                        <div className="text mb-1">2</div>
-                      </li>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-12 col-lg-6 d-flex mb-4 mb-lg-0">
-                <div className="card profile-box flex-fill">
-                  <div className="card-body">
-                    <h3 className="card-title">
-                      Emergency Contact
-                      <Button
-                        href="javascript:;"
-                        className="edit-icon"
-                        data-bs-toggle="modal"
-                        data-bs-target="#emergency_contact_modal"
-                        variant="primary"
-                        onClick={emergencyhandleShow}
-                      >
-                        <i className="fa fa-pencil"></i>
-                      </Button>
-                      <Modal show={emergencyShow} onHide={emergencyhandleAdd}>
-                        <Modal.Header closeButton>
-                          <Modal.Title>Emergency Contact</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                          <Form>
-                            <Form.Group controlId="exampleForm.ControlInput1">
-                              <h5>Primary Contact</h5>
-                              <div className="px-2 mb-3 w-50 d-inline-block">
-                                <Form.Label>Name *</Form.Label>
-                                <Form.Control
-                                  type="text"
-                                  // placeholder="name@example.com"
-                                  autoFocus
-                                />
-                              </div>
-                              <div className="px-2 mb-3 w-50 d-inline-block">
-                                <Form.Label>Relationship *</Form.Label>
-                                <Form.Control
-                                  type="text"
-                                  // placeholder="name@example.com"
-                                  autoFocus
-                                />
-                              </div>
-                              <div className="px-2 mb-3 w-50 d-inline-block">
-                                <Form.Label>Phone No *</Form.Label>
-                                <Form.Control
-                                  type="number"
-                                  // placeholder="name@example.com"
-                                  autoFocus
-                                />
-                              </div>
-                              <div className="px-2 mb-3 w-50 d-inline-block">
-                                <Form.Label>Alternate No</Form.Label>
-                                <Form.Control
-                                  type="number"
-                                  // placeholder="name@example.com"
-                                  autoFocus
-                                />
-                              </div>
-                            </Form.Group>
-                            <Form.Group controlId="exampleForm.ControlInput1">
-                              <h5>Secondary Contact</h5>
-                              <div className="px-2 mb-3 w-50 d-inline-block">
-                                <Form.Label>Name *</Form.Label>
-                                <Form.Control
-                                  type="text"
-                                  // placeholder="name@example.com"
-                                  autoFocus
-                                />
-                              </div>
-                              <div className="px-2 mb-3 w-50 d-inline-block">
-                                <Form.Label>Relationship *</Form.Label>
-                                <Form.Control
-                                  type="text"
-                                  // placeholder="name@example.com"
-                                  autoFocus
-                                />
-                              </div>
-                              <div className="px-2 mb-3 w-50 d-inline-block">
-                                <Form.Label>Phone No *</Form.Label>
-                                <Form.Control
-                                  type="number"
-                                  // placeholder="name@example.com"
-                                  autoFocus
-                                />
-                              </div>
-                              <div className="px-2 mb-3 w-50 d-inline-block">
-                                <Form.Label>Alternate No</Form.Label>
-                                <Form.Control
-                                  type="number"
-                                  // placeholder="name@example.com"
-                                  autoFocus
-                                />
-                              </div>
-                            </Form.Group>
-                          </Form>
-                        </Modal.Body>
-                        <Modal.Footer>
-                          <Button variant="primary" onClick={handleClose}>
-                            Save Changes
-                          </Button>
-                        </Modal.Footer>
-                      </Modal>
-                    </h3>
-                    <div>
-                      <h5 className="section-title">Primary</h5>
-                      <div className="personal-info">
-                        <li>
-                          <div className="title mb-1">Name</div>
-                          <div className="text mb-1">John Doe</div>
-                        </li>
-                        <li>
-                          <div className="title mb-1">Relationship</div>
-                          <div className="text mb-1">Father</div>
-                        </li>
-                        <li>
-                          <div className="title mb-1">Phone </div>
-                          <div className="text mb-1">
-                            9876543210, 9876543210
-                          </div>
-                        </li>
-                      </div>
-                    </div>
-                    <div>
-                      <h5 className="section-title border-top-1">Secondary</h5>
-                      <div className="personal-info">
-                        <li>
-                          <div className="title mb-1">Name</div>
-                          <div className="text mb-1">Karen Wills</div>
-                        </li>
-                        <li>
-                          <div className="title mb-1">Relationship</div>
-                          <div className="text mb-1">Brother</div>
-                        </li>
-                        <li>
-                          <div className="title mb-1">Phone </div>
-                          <div className="text mb-1">
-                            9876543210, 9876543210
-                          </div>
-                        </li>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              </div> */}
-              <div className="row ">
-                <div className="col-12 col-lg-6 d-flex mb-4 mb-lg-0">
-                  <div className="card profile-box flex-fill">
-                    <div className="card-body">
-                      <h3 className="card-title">
-                        Education Informations
-                        <Button
-                          href="javascript:;"
-                          className="edit-icon"
-                          data-bs-toggle="modal"
-                          data-bs-target="#education_info"
-                          variant="primary"
-                          onClick={educationInfohandleShow}
-                        >
-                          <i className="fa fa-pencil"></i>
-                        </Button>
-                        <Modal
-                          show={educationInfoShow}
-                          onHide={educationInfohandleAdd}
-                        >
-                          <Modal.Header closeButton>
-                            <Modal.Title>Education Informations</Modal.Title>
-                          </Modal.Header>
-                          <Modal.Body>
-                            <Form>
-                              <Form.Group
-                                className="mb-3"
-                                controlId="exampleForm.ControlInput1"
-                              >
-                                <div className="App">
-                                  {inputList.map((x, i) => {
-                                    return (
-                                      <div className="box px-2 mb-3 w-100 d-inline-block">
-                                        <div className="d-flex justify-content-between ">
-                                          <div>
-                                            <Form.Label>College</Form.Label>
-                                            <Form.Control
-                                              type="Form.Control"
-                                              name="college"
-                                              placeholder="Enter College Name"
-                                              value={college}
-                                              onChange={(e) =>
-                                                setCollege(e.target.value)
-                                              }
-                                            />
-                                          </div>
-                                          <div>
-                                            <Form.Label>Class</Form.Label>
-                                            <Form.Control
-                                              type="Form.Control"
-                                              name="class"
-                                              className="ml10"
-                                              placeholder="Enter Class Name"
-                                              value={classs}
-                                              onChange={(e) =>
-                                                setClasss(e.target.value)
-                                              }
-                                            />
-                                          </div>
-                                        </div>
-                                        <div className="d-flex justify-content-between ">
-                                          <div>
-                                            <Form.Label>Department</Form.Label>
-                                            <Form.Control
-                                              type="text"
-                                              name="department"
-                                              placeholder="Enter Department Name"
-                                              value={department}
-                                              onChange={(e) =>
-                                                setDepartment(e.target.value)
-                                              }
-                                            />
-                                          </div>
-                                          <div>
-                                            <Form.Label>Grade</Form.Label>
-                                            <Form.Control
-                                              type="text"
-                                              className="ml10"
-                                              name="grade"
-                                              placeholder="Enter Grade Name"
-                                              value={grade}
-                                              onChange={(e) =>
-                                                setGrade(e.target.value)
-                                              }
-                                            />
-                                          </div>
-                                        </div>
-                                        <div className="d-flex justify-content-between ">
-                                          <div>
-                                            <Form.Label>From</Form.Label>
-                                            <Form.Control
-                                              type="date"
-                                              name="date"
-                                              placeholder="Enter Date"
-                                              value={fromDate}
-                                              onChange={(e) =>
-                                                setFromDate(e.target.value)
-                                              }
-                                            />
-                                          </div>
-                                          <div>
-                                            <Form.Label>To</Form.Label>
-                                            <Form.Control
-                                              type="date"
-                                              className="ml10"
-                                              name="date"
-                                              placeholder="Enter Date"
-                                              value={toDate}
-                                              onChange={(e) =>
-                                                setToDate(e.target.value)
-                                              }
-                                            />
-                                          </div>
-                                        </div>
-                                        <div className="btn-box">
-                                          {inputList.length !== 1 && (
-                                            <button
-                                              className="bg-dark-primary me-2 mt-2"
-                                              onClick={() =>
-                                                handleRemoveClick(i)
-                                              }
-                                            >
-                                              Remove
-                                            </button>
-                                          )}
-                                          {inputList.length - 1 === i && (
-                                            <button
-                                              className="bg-dark-primary mt-2"
-                                              onClick={handleAddClick}
-                                            >
-                                              ➕ Add More
-                                            </button>
-                                          )}
-                                        </div>
-                                      </div>
-                                    );
-                                  })}
-                                </div>
-                              </Form.Group>
-                            </Form>
-                          </Modal.Body>
-                          <Modal.Footer>
-                            <Button variant="primary" onClick={handleInput}>
-                              Save Changes
-                            </Button>
-                          </Modal.Footer>
-                        </Modal>
-                        <hr />
-                      </h3>
-                      <div className="experience-box">
-                        <ul className="experience-list position-relative p-0">
-                          <li className="position-relative ps-4">
-                            <div className="experience-user">
-                              <div className="before-circle"></div>
-                            </div>
-                            <div className="experience-content mb-3">
-                              <div className="timeline-content">
-                                <a href="#/" className="name">
-                                  International College of Arts and Science (UG)
-                                </a>
-                                <div>Bsc Computer Science</div>
-                                <span className="time">2000 - 2003</span>
-                              </div>
-                            </div>
-                          </li>
-                          <li className="position-relative ps-4">
-                            <div className="experience-user">
-                              <div className="before-circle"></div>
-                            </div>
-                            <div className="experience-content">
-                              <div className="timeline-content">
-                                <a href="#/" className="name">
-                                  International College of Arts and Science (PG)
-                                </a>
-                                <div>Msc Computer Science</div>
-                                <span className="time">2000 - 2003</span>
-                              </div>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-12 col-lg-6 d-flex mb-4 mb-lg-0">
-                  <div className="card profile-box flex-fill">
-                    <div className="card-body">
-                      <h3 className="card-title">
-                        Experience
-                        <Button
-                          href="javascript:;"
-                          className="edit-icon"
-                          data-bs-toggle="modal"
-                          data-bs-target="#experience_info"
-                          variant="primary"
-                          onClick={experiencehandleShow}
-                        >
-                          <i className="fa fa-pencil"></i>
-                        </Button>
-                        <Modal
-                          show={experienceShow}
-                          onHide={experiencehandleAdd}
-                        >
-                          <Modal.Header closeButton>
-                            <Modal.Title>Experience</Modal.Title>
-                          </Modal.Header>
-                          <Modal.Body>
-                            <Form>
-                              <Form.Group
-                                className="mb-3"
-                                controlId="exampleForm.ControlInput1"
-                              >
-                                <Form.Label>Email address</Form.Label>
-                                <Form.Control
-                                  type="email"
-                                  placeholder="name@example.com"
-                                  autoFocus
-                                />
-                              </Form.Group>
-                              <Form.Group
-                                className="mb-3"
-                                controlId="exampleForm.ControlTextarea1"
-                              >
-                                <Form.Label>Example textarea</Form.Label>
-                                <Form.Control as="textarea" rows={3} />
-                              </Form.Group>
-                            </Form>
-                          </Modal.Body>
-                          <Modal.Footer>
-                            <Button variant="primary" onClick={handleClose}>
-                              Save Changes
-                            </Button>
-                          </Modal.Footer>
-                        </Modal>
-                        <hr />
-                      </h3>
-                      <div className="experience-box">
-                        <ul className="experience-list position-relative p-0">
-                          <li className="position-relative ps-4">
-                            <div className="experience-user">
-                              <div className="before-circle"></div>
-                            </div>
-                            <div className="experience-content mb-3">
-                              <div className="timeline-content">
-                                <a href="#/" className="name">
-                                  Web Designer at Zen Corporation
-                                </a>
-                                <p className="time fs-6">
-                                  Jan 2013 - Present (5 years 2 months)
-                                </p>
-                              </div>
-                            </div>
-                          </li>
-                          <li className="position-relative ps-4">
-                            <div className="experience-user">
-                              <div className="before-circle"></div>
-                            </div>
-                            <div className="experience-content mb-3">
-                              <div className="timeline-content">
-                                <a href="#/" className="name">
-                                  Web Designer at Ron-tech
-                                </a>
-                                <p className="time fs-6">
-                                  Jan 2013 - Present (5 years 2 months)
-                                </p>
-                              </div>
-                            </div>
-                          </li>
-                          <li className="position-relative ps-4">
-                            <div className="experience-user">
-                              <div className="before-circle"></div>
-                            </div>
-                            <div className="experience-content mb-3">
-                              <div className="timeline-content">
-                                <a href="#/" className="name">
-                                  Web Designer at Dalt Technology
-                                </a>
-                                <p className="time fs-6">
-                                  Jan 2013 - Present (5 years 2 months)
-                                </p>
-                              </div>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="row mt-lg-4">
-                <div className="col-12 col-lg-6 d-flex mb-4 mb-lg-0">
-                  <div className="card profile-box flex-fill">
-                    <div className="card-body">
-                      <h3 className="card-title">Bank information</h3>
-                      <div className="personal-info">
-                        <hr />
-                        <li>
-                          <div className="title mb-1">Bank name</div>
-                          <div className="text mb-1">ICICI Bank</div>
-                        </li>
-                        <li>
-                          <div className="title mb-1">Bank account No.</div>
-                          <div className="text mb-1">159843014641</div>
-                        </li>
-                        <li>
-                          <div className="title mb-1">IFSC Code</div>
-                          <div className="text mb-1">ICI24504</div>
-                        </li>
-                        <li>
-                          <div className="title mb-1">PAN No</div>
-                          <div className="text mb-1">TC000Y56</div>
-                        </li>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-12 col-lg-6 d-flex mb-4 mb-lg-0">
-                  <div className="card profile-box flex-fill famliy_info">
-                    <div className="card-body">
-                      <h3 className="card-title">
-                        Family Informations
-                        <Button
-                          href="javascript:;"
-                          className="edit-icon"
-                          data-bs-toggle="modal"
-                          data-bs-target="#family_info_modal"
-                          variant="primary"
-                          onClick={familyInfohandleShow}
-                        >
-                          <i className="fa fa-pencil"></i>
-                        </Button>
-                        <Modal
-                          show={familyInfoShow}
-                          onHide={familyInfohandleAdd}
-                        >
-                          <Modal.Header closeButton>
-                            <Modal.Title>Family Informations</Modal.Title>
-                          </Modal.Header>
-                          <Modal.Body>
-                            <Form>
-                              <Form.Group
-                                className="mb-3"
-                                controlId="exampleForm.ControlInput1"
-                              >
-                                <div className="px-2 mb-3 w-50 d-inline-block">
-                                  <Form.Label>Name *</Form.Label>
-                                  <Form.Control
-                                    type="text"
-                                    // placeholder="name@example.com"
-                                    autoFocus
-                                  />
-                                </div>
-                                <div className="px-2 mb-3 w-50 d-inline-block">
-                                  <Form.Label>Relationship *</Form.Label>
-                                  <Form.Control
-                                    type="text"
-                                    // placeholder="name@example.com"
-                                    autoFocus
-                                  />
-                                </div>
-                                <div className="px-2 mb-3 w-50 d-inline-block">
-                                  <Form.Label>Date of birth *</Form.Label>
-                                  <Form.Control
-                                    type="date"
-                                    // placeholder="name@example.com"
-                                    autoFocus
-                                  />
-                                </div>
-                                <div className="px-2 mb-3 w-50 d-inline-block">
-                                  <Form.Label>Phone No *</Form.Label>
-                                  <Form.Control
-                                    type="number"
-                                    // placeholder="name@example.com"
-                                    autoFocus
-                                  />
-                                </div>
-                              </Form.Group>
-                            </Form>
-                          </Modal.Body>
-                          <Modal.Footer>
-                            <Button variant="primary" onClick={handleClose}>
-                              Save Changes
-                            </Button>
-                          </Modal.Footer>
-                        </Modal>
-                        <hr />
-                      </h3>
-                      <div className="table-responsive">
-                        <table className="table table-nowrap">
-                          <thead>
-                            <tr className="text-nowrap">
-                              <th>Name</th>
-                              <th>Relationship</th>
-                              <th>Date of Birth</th>
-                              <th>Phone</th>
-                              <th></th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>Ranvijay Hans</td>
-                              <td>Brother</td>
-                              <td>Feb 16th, 2019</td>
-                              <td>9876543210</td>
-                              <td className="text-end">
-                                <div
-                                  className="profile-setting position-absolute  d-flex align-items-center justify-content-center"
-                                  id="dropdownMenuButton"
-                                  data-toggle="dropdown"
-                                  aria-haspopup="true"
+                          <Modal
+                            show={educationInfoShow}
+                            onHide={educationInfohandleAdd}
+                          >
+                            <Modal.Header closeButton>
+                              <Modal.Title>Education Informations</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                              <Form>
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="exampleForm.ControlInput1"
                                 >
-                                  <i className="fa-solid fa-ellipsis-vertical text-white fw-5 rounded-circle"></i>
+                                  <div className="App">
+                                    {inputList.map((x, i) => {
+                                      return (
+                                        <div className="box px-2 mb-3 w-100 d-inline-block">
+                                          <div className="d-flex justify-content-between ">
+                                            <div>
+                                              <Form.Label>College</Form.Label>
+                                              <Form.Control
+                                                type="Form.Control"
+                                                name="college"
+                                                placeholder="Enter College Name"
+                                                value={college}
+                                                onChange={(e) =>
+                                                  setCollege(e.target.value)
+                                                }
+                                              />
+                                            </div>
+                                            <div>
+                                              <Form.Label>Class</Form.Label>
+                                              <Form.Control
+                                                type="Form.Control"
+                                                name="class"
+                                                className="ml10"
+                                                placeholder="Enter Class Name"
+                                                value={classs}
+                                                onChange={(e) =>
+                                                  setClasss(e.target.value)
+                                                }
+                                              />
+                                            </div>
+                                          </div>
+                                          <div className="d-flex justify-content-between ">
+                                            <div>
+                                              <Form.Label>
+                                                Department
+                                              </Form.Label>
+                                              <Form.Control
+                                                type="text"
+                                                name="department"
+                                                placeholder="Enter Department Name"
+                                                value={department}
+                                                onChange={(e) =>
+                                                  setDepartment(e.target.value)
+                                                }
+                                              />
+                                            </div>
+                                            <div>
+                                              <Form.Label>Grade</Form.Label>
+                                              <Form.Control
+                                                type="text"
+                                                className="ml10"
+                                                name="grade"
+                                                placeholder="Enter Grade Name"
+                                                value={grade}
+                                                onChange={(e) =>
+                                                  setGrade(e.target.value)
+                                                }
+                                              />
+                                            </div>
+                                          </div>
+                                          <div className="d-flex justify-content-between ">
+                                            <div>
+                                              <Form.Label>From</Form.Label>
+                                              <Form.Control
+                                                type="date"
+                                                name="date"
+                                                placeholder="Enter Date"
+                                                value={fromDate}
+                                                onChange={(e) =>
+                                                  setFromDate(e.target.value)
+                                                }
+                                              />
+                                            </div>
+                                            <div>
+                                              <Form.Label>To</Form.Label>
+                                              <Form.Control
+                                                type="date"
+                                                className="ml10"
+                                                name="date"
+                                                placeholder="Enter Date"
+                                                value={toDate}
+                                                onChange={(e) =>
+                                                  setToDate(e.target.value)
+                                                }
+                                              />
+                                            </div>
+                                          </div>
+                                          <div className="btn-box">
+                                            {inputList.length !== 1 && (
+                                              <button
+                                                className="bg-dark-primary me-2 mt-2"
+                                                onClick={() =>
+                                                  handleRemoveClick(i)
+                                                }
+                                              >
+                                                Remove
+                                              </button>
+                                            )}
+                                            {inputList.length - 1 === i && (
+                                              <button
+                                                className="bg-dark-primary mt-2"
+                                                onClick={handleAddClick}
+                                              >
+                                                ➕ Add More
+                                              </button>
+                                            )}
+                                          </div>
+                                        </div>
+                                      );
+                                    })}
+                                  </div>
+                                </Form.Group>
+                              </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                              <Button variant="primary" onClick={handleInput}>
+                                Save Changes
+                              </Button>
+                            </Modal.Footer>
+                          </Modal>
+                          <hr />
+                        </h3>
+                        <div className="experience-box">
+                          <ul className="experience-list position-relative p-0">
+                            <li className="position-relative ps-4">
+                              <div className="experience-user">
+                                <div className="before-circle"></div>
+                              </div>
+                              <div className="experience-content mb-3">
+                                <div className="timeline-content">
+                                  <a href="#/" className="name">
+                                    International College of Arts and Science
+                                    (UG)
+                                  </a>
+                                  <div>Bsc Computer Science</div>
+                                  <span className="time">2000 - 2003</span>
                                 </div>
-                                {/* <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                              </div>
+                            </li>
+                            <li className="position-relative ps-4">
+                              <div className="experience-user">
+                                <div className="before-circle"></div>
+                              </div>
+                              <div className="experience-content">
+                                <div className="timeline-content">
+                                  <a href="#/" className="name">
+                                    International College of Arts and Science
+                                    (PG)
+                                  </a>
+                                  <div>Msc Computer Science</div>
+                                  <span className="time">2000 - 2003</span>
+                                </div>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-12 col-lg-6 d-flex mb-4 mb-lg-0">
+                    <div className="card profile-box flex-fill">
+                      <div className="card-body">
+                        <h3 className="card-title">
+                          Experience
+                          <Button
+                            href="javascript:;"
+                            className="edit-icon"
+                            data-bs-toggle="modal"
+                            data-bs-target="#experience_info"
+                            variant="primary"
+                            onClick={experiencehandleShow}
+                          >
+                            <i className="fa fa-pencil"></i>
+                          </Button>
+                          <Modal
+                            show={experienceShow}
+                            onHide={experiencehandleAdd}
+                          >
+                            <Modal.Header closeButton>
+                              <Modal.Title>Experience</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                              <Form>
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="exampleForm.ControlInput1"
+                                >
+                                  <Form.Label>Email address</Form.Label>
+                                  <Form.Control
+                                    type="email"
+                                    placeholder="name@example.com"
+                                    autoFocus
+                                  />
+                                </Form.Group>
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="exampleForm.ControlTextarea1"
+                                >
+                                  <Form.Label>Example textarea</Form.Label>
+                                  <Form.Control as="textarea" rows={3} />
+                                </Form.Group>
+                              </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                              <Button variant="primary" onClick={handleClose}>
+                                Save Changes
+                              </Button>
+                            </Modal.Footer>
+                          </Modal>
+                        </h3>
+                        <div className="experience-box">
+                          <ul className="experience-list position-relative p-0">
+                            <li className="position-relative ps-4">
+                              <div className="experience-user">
+                                <div className="before-circle"></div>
+                              </div>
+                              <div className="experience-content mb-3">
+                                <div className="timeline-content">
+                                  <a href="#/" className="name">
+                                    Web Designer at Zen Corporation
+                                  </a>
+                                  <p className="time fs-6">
+                                    Jan 2013 - Present (5 years 2 months)
+                                  </p>
+                                </div>
+                              </div>
+                            </li>
+                            <li className="position-relative ps-4">
+                              <div className="experience-user">
+                                <div className="before-circle"></div>
+                              </div>
+                              <div className="experience-content mb-3">
+                                <div className="timeline-content">
+                                  <a href="#/" className="name">
+                                    Web Designer at Ron-tech
+                                  </a>
+                                  <p className="time fs-6">
+                                    Jan 2013 - Present (5 years 2 months)
+                                  </p>
+                                </div>
+                              </div>
+                            </li>
+                            <li className="position-relative ps-4">
+                              <div className="experience-user">
+                                <div className="before-circle"></div>
+                              </div>
+                              <div className="experience-content mb-3">
+                                <div className="timeline-content">
+                                  <a href="#/" className="name">
+                                    Web Designer at Dalt Technology
+                                  </a>
+                                  <p className="time fs-6">
+                                    Jan 2013 - Present (5 years 2 months)
+                                  </p>
+                                </div>
+                              </div>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="row mt-lg-4" style={{ display: "none" }}>
+                  <div className="col-12 col-lg-6 d-flex mb-4 mb-lg-0">
+                    <div className="card profile-box flex-fill">
+                      <div className="card-body">
+                        <h3 className="card-title">Bank information</h3>
+                        <div className="personal-info">
+                          <li>
+                            <div className="title mb-1">Bank name</div>
+                            <div className="text mb-1">ICICI Bank</div>
+                          </li>
+                          <li>
+                            <div className="title mb-1">Bank account No.</div>
+                            <div className="text mb-1">159843014641</div>
+                          </li>
+                          <li>
+                            <div className="title mb-1">IFSC Code</div>
+                            <div className="text mb-1">ICI24504</div>
+                          </li>
+                          <li>
+                            <div className="title mb-1">PAN No</div>
+                            <div className="text mb-1">TC000Y56</div>
+                          </li>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-12 col-lg-6 d-flex mb-4 mb-lg-0">
+                    <div className="card profile-box flex-fill famliy_info">
+                      <div className="card-body">
+                        <h3 className="card-title">
+                          Family Informations
+                          <Button
+                            href="javascript:;"
+                            className="edit-icon"
+                            data-bs-toggle="modal"
+                            data-bs-target="#family_info_modal"
+                            variant="primary"
+                            onClick={familyInfohandleShow}
+                          >
+                            <i className="fa fa-pencil"></i>
+                          </Button>
+                          <Modal
+                            show={familyInfoShow}
+                            onHide={familyInfohandleAdd}
+                          >
+                            <Modal.Header closeButton>
+                              <Modal.Title>Family Informations</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                              <Form>
+                                <Form.Group
+                                  className="mb-3"
+                                  controlId="exampleForm.ControlInput1"
+                                >
+                                  <div className="px-2 mb-3 w-50 d-inline-block">
+                                    <Form.Label>Name *</Form.Label>
+                                    <Form.Control
+                                      type="text"
+                                      // placeholder="name@example.com"
+                                      autoFocus
+                                    />
+                                  </div>
+                                  <div className="px-2 mb-3 w-50 d-inline-block">
+                                    <Form.Label>Relationship *</Form.Label>
+                                    <Form.Control
+                                      type="text"
+                                      // placeholder="name@example.com"
+                                      autoFocus
+                                    />
+                                  </div>
+                                  <div className="px-2 mb-3 w-50 d-inline-block">
+                                    <Form.Label>Date of birth *</Form.Label>
+                                    <Form.Control
+                                      type="date"
+                                      // placeholder="name@example.com"
+                                      autoFocus
+                                    />
+                                  </div>
+                                  <div className="px-2 mb-3 w-50 d-inline-block">
+                                    <Form.Label>Phone No *</Form.Label>
+                                    <Form.Control
+                                      type="number"
+                                      // placeholder="name@example.com"
+                                      autoFocus
+                                    />
+                                  </div>
+                                </Form.Group>
+                              </Form>
+                            </Modal.Body>
+                            <Modal.Footer>
+                              <Button variant="primary" onClick={handleClose}>
+                                Save Changes
+                              </Button>
+                            </Modal.Footer>
+                          </Modal>
+                        </h3>
+                        <div className="table-responsive">
+                          <table className="table table-nowrap">
+                            <thead>
+                              <tr className="text-nowrap">
+                                <th>Name</th>
+                                <th>Relationship</th>
+                                <th>Date of Birth</th>
+                                <th>Phone</th>
+                                <th></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Leo</td>
+                                <td>Brother</td>
+                                <td>Feb 16th, 2019</td>
+                                <td>9876543210</td>
+                                <td className="text-end">
+                                  <div
+                                    className="profile-setting position-absolute  d-flex align-items-center justify-content-center"
+                                    id="dropdownMenuButton"
+                                    data-toggle="dropdown"
+                                    aria-haspopup="true"
+                                  >
+                                    <i className="fa-solid fa-ellipsis-vertical text-white fw-5 rounded-circle"></i>
+                                  </div>
+                                  {/* <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
                       <a className="dropdown-item" href="#"> <i className="fa-solid fa-gear"></i> Setting</a>
                     </div> */}
-                                <div
-                                  className="dropdown-menu"
-                                  aria-labelledby="dropdownMenuLink"
-                                >
-                                  <a
-                                    className="dropdown-item"
-                                    href="#"
-                                    onClick={handlePassword}
+                                  <div
+                                    className="dropdown-menu"
+                                    aria-labelledby="dropdownMenuLink"
                                   >
-                                    <i className="fa-solid fa-key"></i> Change
-                                    Password
-                                  </a>
-                                  <a className="dropdown-item" href="#">
-                                    <i className="fa-solid fa-user"></i> Edit
-                                    profile
-                                  </a>
-                                  <a
-                                    className="dropdown-item"
-                                    href="/login"
-                                    onClick={logOut}
-                                  >
-                                    <i className="fa-solid fa-right-from-bracket"></i>{" "}
-                                    Logout
-                                  </a>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
+                                    <a
+                                      className="dropdown-item"
+                                      href="#"
+                                      onClick={handlePassword}
+                                    >
+                                      <i className="fa-solid fa-key"></i> Change
+                                      Password
+                                    </a>
+                                    <a className="dropdown-item" href="#">
+                                      <i className="fa-solid fa-user"></i> Edit
+                                      profile
+                                    </a>
+                                    <a
+                                      className="dropdown-item"
+                                      href="/login"
+                                      onClick={logOut}
+                                    >
+                                      <i className="fa-solid fa-right-from-bracket"></i>{" "}
+                                      Logout
+                                    </a>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="position-relative text-align-right h-100 w-100 mt-4">
-                  <iframe
-                    style={{ width: "100%", height: "400px" }}
-                    src="https://maps.google.com/maps?q=ameotech &t=&z=10&ie=UTF8&iwloc=&output=embed"
-                    frameborder="0"
-                    scrolling="no"
-                    marginheight="0"
-                    marginwidth="0"
-                  ></iframe>
-                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </div>

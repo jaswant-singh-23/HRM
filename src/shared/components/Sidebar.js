@@ -26,6 +26,8 @@ const Sidebar = () => {
         setActive("home");
       } else if (pathname == "/attendance") {
         setActive("attendance");
+      } else if (pathname == "/map") {
+        setActive("map");
       } else {
         setActive("home");
       }
@@ -125,6 +127,20 @@ const Sidebar = () => {
                   className="text-nowrap"
                 >
                  Attendance Calendar
+                </span>
+              </button>
+            </Link>
+          </div>
+          <div className={`nav-links ${active == "map" ? `active` : ""}`}>
+            <Link to="/map" className="text-decoration-none">
+              <button type="button">
+                <i className="fa-solid fa-map"></i>
+                <span
+                  style={{ animationDelay: ".4s" }}
+                  title="Map"
+                  className="text-nowrap"
+                >
+                 Map
                 </span>
               </button>
             </Link>
