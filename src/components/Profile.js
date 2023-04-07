@@ -462,11 +462,7 @@ const Profile = () => {
                               {data.name} ({data.designation})
                             </h6>
                             <span className="text-secondary">
-                              Today 
-                              {/*{data.birthDay}
-                            {moment()
-                              .month(data.birthMonth - 1)
-                            .format("-MMMM")}*/}
+                              Today
                             </span>
                           </div>
                         </div>
