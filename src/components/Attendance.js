@@ -3,31 +3,34 @@ import Calendar from "calendar-reactjs";
 import Sidebar from "../shared/components/Sidebar";
 import DatePicker from "react-datepicker";
 import userService from "../services/user.service";
+import moment from "moment";
 
 const Attendance = () => {
   const [date, setDate] = useState(new Date());
   const [selectedMonth, setSelectedMonth] = useState("2023-01");
-  const [content, setContent] = useState([]);
+  const [content, setContent] = useState();
 
   const handleCalendarClose = () => console.log("Calendar closed");
   const handleCalendarOpen = () => console.log("Calendar opened");
 
   useEffect(() => {
-    userService
-      .getParticularUser()
-      .then((response) => {
-        console.log("user", response);
-        setContent(response.data.data);
-      })
-      .catch((error) => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-      });
+    setTimeout(() => {
+      userService
+        .getParticularUser()
+        .then((response) => {
+          setContent(response.data.data);
+        })
+        .catch((error) => {
+          const resMessage =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        });
+    }, 1000);
   }, []);
+
   return (
     <div className="bg-grey-color custom-grid h-100  ">
       <Sidebar />
@@ -42,88 +45,61 @@ const Attendance = () => {
         <input
           type={"date"}
           name="date"
-          defaultValue={date}
+          // defaultValue={date}
           onChange={(e) => {
             setDate(e.target.value);
           }}
         />
-        <Calendar
-          onCellClick={(val) => console.log(val)}
-          month={{
-            date: date,
-            days: [
-              { date: `${selectedMonth}-01`, status: "vacation" },
-              { date: `${selectedMonth}-02`, status: "vacation" },
-              { date: `${selectedMonth}-03`, status: "present" },
-              { date: `${selectedMonth}-04`, status: "present" },
-              { date: `${selectedMonth}-05`, status: "present" },
-              { date: `${selectedMonth}-06`, status: "present" },
-              { date: `${selectedMonth}-07`, status: "present" },
-              { date: `${selectedMonth}-08`, status: "vacation" },
-              { date: `${selectedMonth}-09`, status: "vacation" },
-              { date: `${selectedMonth}-10`, status: "present" },
-              { date: `${selectedMonth}-11`, status: "present" },
-              { date: `${selectedMonth}-12`, status: "present" },
-              { date: `${selectedMonth}-13`, status: "present" },
-              { date: `${selectedMonth}-14`, status: "present" },
-              { date: `${selectedMonth}-15`, status: "vacation" },
-              { date: `${selectedMonth}-16`, status: "vacation" },
-              { date: `${selectedMonth}-17`, status: "absent" },
-              { date: `${selectedMonth}-18`, status: "leave" },
-              { date: `${selectedMonth}-19`, status: "leave" },
-              { date: `${selectedMonth}-20`, status: "leave" },
-              { date: `${selectedMonth}-21`, status: "leave" },
-              { date: `${selectedMonth}-22`, status: "vacation" },
-              { date: `${selectedMonth}-23`, status: "vacation" },
-              { date: `${selectedMonth}-24`, status: "present" },
-              { date: `${selectedMonth}-25`, status: "present" },
-              { date: `${selectedMonth}-26`, status: "present" },
-              { date: `${selectedMonth}-27`, status: "present" },
-              { date: `${selectedMonth}-28`, status: "present" },
-              { date: `${selectedMonth}-29`, status: "vacation" },
-              { date: `${selectedMonth}-30`, status: "vacation" },
-              { date: `${selectedMonth}-31`, status: "present" },
-            ],
-          }}
-          emptyCellStyle={{ backgroundColor: "white" }}
-          status={{
-            present: {
-              labelStyle: {
-                backgroundColor: "#14c314",
-                color: "black",
-                borderRadius: "8px",
-                padding: "0px 0px 3px 0px",
+        <h3 className="text-white my-4">
+          {moment(selectedMonth).format("MMMM, YYYY")}
+        </h3>
+        {content && content.attendance.length >= 1 && (
+          <Calendar
+            onCellClick={(val) => console.log(val)}
+            month={{
+              date: date,
+              days: content.attendance,
+            }}
+            emptyCellStyle={{ backgroundColor: "white" }}
+            status={{
+              Present: {
+                labelStyle: {
+                  backgroundColor: "#14c314",
+                  color: "black",
+                  borderRadius: "8px",
+                  padding: "0px 0px 3px 0px",
+                },
               },
-            },
-            absent: {
-              labelStyle: {
-                backgroundColor: "red",
-                color: "black",
-                borderRadius: "8px",
-                padding: "0px 0px 3px 0px",
+              Absent: {
+                labelStyle: {
+                  backgroundColor: "red",
+                  color: "black",
+                  borderRadius: "8px",
+                  padding: "0px 0px 3px 0px",
+                },
               },
-            },
-            vacation: {
-              labelStyle: {
-                backgroundColor: "#78d6f1",
-                color: "black",
-                borderRadius: "8px",
-                padding: "0px 0px 3px 0px",
+              Vacation: {
+                labelStyle: {
+                  backgroundColor: "#78d6f1",
+                  color: "black",
+                  borderRadius: "8px",
+                  padding: "0px 0px 3px 0px",
+                },
               },
-            },
-            leave: {
-              labelStyle: {
-                backgroundColor: "orange",
-                color: "black",
-                borderRadius: "8px",
-                padding: "0px 0px 3px 0px",
+              Leave: {
+                labelStyle: {
+                  backgroundColor: "orange",
+                  color: "black",
+                  borderRadius: "8px",
+                  padding: "0px 0px 3px 0px",
+                },
               },
-            },
-          }}
-        />
+            }}
+          />
+        )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Attendance
+export default Attendance;
